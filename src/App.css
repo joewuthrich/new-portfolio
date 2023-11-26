@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "RobotoSlab-Regular";
+  src: local("RobotoSlab-Regular"),
+    url(./styles/fonts/RobotoSlab-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "RobotoSlab-Bold";
+  src: local("RobotoSlab-Bold"),
+    url(./styles/fonts/RobotoSlab-Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "RobotoSlab-Light";
+  src: local("RobotoSlab-Light"),
+    url(./styles/fonts/RobotoSlab-Light.ttf) format("truetype");
+}
+
+.container {
+  background-color: #fefefe;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  font-family: "RobotoSlab-Regular";
+}
+
+.bordered-frame {
+  margin: 71px;
+  flex-grow: 1;
+}

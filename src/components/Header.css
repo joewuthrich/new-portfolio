@@ -1,0 +1,92 @@
+.header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.name-container {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.name-header {
+  color: rgba(0, 0, 0, 0.9);
+  font-family: "RobotoSlab-Bold";
+  font-size: 115px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 23px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.background-box {
+  width: 1298px;
+  height: 35px;
+  flex-shrink: 0;
+  background: #c3eaff;
+  position: absolute;
+  left: 50%;
+  align-self: center;
+  transform: translate(-50%, 0);
+}
+
+.job-subtitle {
+  color: rgba(0, 0, 0, 0.9);
+
+  font-family: "RobotoSlab-Regular";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 5.4px;
+  text-align: center;
+  margin-top: 1px;
+}
+
+.description {
+  color: rgba(0, 0, 0, 0.9);
+
+  text-align: center;
+  font-family: "RobotoSlab-Light";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 3px;
+  max-width: 60%;
+  align-self: center;
+  margin-top: 18px;
+}
+
+.outer-link-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.link-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 18px;
+  margin-right: 18px;
+  cursor: pointer;
+}
+
+.link-item {
+  color: rgba(0, 0, 0, 0.9);
+
+  font-family: "RobotoSlab-Light";
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin-left: 14px;
+}
