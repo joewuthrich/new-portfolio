@@ -16,15 +16,61 @@
     url(./styles/fonts/RobotoSlab-Light.ttf) format("truetype");
 }
 
-.container {
+body {
+  overflow: hidden;
+}
+
+.background {
   background-color: #fefefe;
   width: 100vw;
   height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
   display: flex;
   font-family: "RobotoSlab-Regular";
+  overflow: hidden;
+}
+
+.screen {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.5s ease;
+}
+
+.screen.right {
+  transform: translateX(100vw);
+}
+
+.screen.left {
+  transform: translateX(-100vw);
+}
+
+.screen.top {
+  transform: translateY(-100vh);
+}
+
+.screen.bottom {
+  transform: translateY(100vh);
 }
 
 .bordered-frame {
   margin: 71px;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.content-container {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

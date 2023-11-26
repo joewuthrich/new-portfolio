@@ -1,0 +1,22 @@
+.arrow-container {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.9);
+
+  font-family: "RobotoSlab-Regular";
+  font-size: 20px;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 3px;
+
+  flex-shrink: 1;
+}
+
+.icon-container {
+  position: absolute;
+  transform: translateY(28px);
+}
