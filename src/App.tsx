@@ -19,11 +19,14 @@ const App = () => {
     },
   };
 
+  const charHeight = 132;
+  const charWidth = 69;
+
   const [collidedDOM, setCollidedDOM] = useState(null);
   const [currentScreen, setCurrentScreen] = useState("home");
   const [position, setPosition] = useState({
-    x: Math.floor(window.innerWidth / 2),
-    y: Math.floor(window.innerHeight / 2),
+    x: Math.floor(window.innerWidth / 2 - charWidth / 2),
+    y: Math.floor(window.innerHeight / 2 + charHeight / 2),
   });
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
@@ -39,8 +42,6 @@ const App = () => {
   ) => {
     // TODO: Pass these to Character.tsx
     const slowThreshold = 120;
-    const charHeight = 132;
-    const charWidth = 69;
 
     let newPosition;
     switch (direction) {
