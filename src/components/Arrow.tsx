@@ -7,8 +7,6 @@ type ArrowProps = {
 };
 
 const Arrow = (props: ArrowProps) => {
-  let rotation = 0;
-
   const alignment: {
     top?: number;
     bottom?: number;
@@ -21,24 +19,20 @@ const Arrow = (props: ArrowProps) => {
       alignment.bottom = 0;
       break;
     case "top":
-      rotation = 180;
       alignment.top = 0;
       break;
     case "left":
       alignment.left = 0;
-      rotation = 90;
       break;
     case "right":
       alignment.right = 0;
-      rotation = -90;
       break;
   }
 
   return (
     <div
-      className="arrow-container"
+      className={`arrow-container ${props.align}`}
       style={{
-        transform: "rotate(" + rotation + "deg)",
         ...alignment,
       }}
     >

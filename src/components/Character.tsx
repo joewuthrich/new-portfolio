@@ -59,6 +59,7 @@ const Character = ({
 
       let finalMoveSpeed = moveSpeed;
       let finalDiagonalSpeed = diagonalSpeed;
+      // TODO: Only do this if they can actually move across the edge
       if (nearLeftEdge || nearRightEdge || nearTopEdge || nearBottomEdge) {
         const maxDist = Math.max(window.innerWidth, window.innerHeight);
 
@@ -86,7 +87,7 @@ const Character = ({
           finalMoveSpeed *= minDistance / slowThreshold / 2;
           finalDiagonalSpeed *= minDistance / slowThreshold / 2;
         }
-      }
+      } else translateScreen(0, 0);
 
       // Determine the movement direction based on pressed keys
       if (keysPressed.ArrowUp) {
@@ -117,22 +118,23 @@ const Character = ({
       const atTopEdge = y <= edgeThreshold;
       const atBottomEdge = y + charHeight >= window.innerHeight - edgeThreshold;
 
+      // Logic for translating between screens
       if (atLeftEdge) {
         moveScreenAction("left", {
-          x: window.innerWidth - edgeThreshold - charWidth - 1,
+          x: window.innerWidth - slowThreshold - charWidth - 1,
           y: y,
         });
         return;
       }
 
       if (atRightEdge) {
-        moveScreenAction("right", { x: edgeThreshold + 1, y: y });
+        moveScreenAction("right", { x: slowThreshold + 1, y: y });
         return;
       }
 
-      if (atTopEdge) y = edgeThreshold + 1;
+      if (atTopEdge) y = slowThreshold + 1;
 
-      if (atBottomEdge) y = window.innerHeight - edgeThreshold - charHeight - 1;
+      if (atBottomEdge) y = window.innerHeight - slowThreshold - charHeight - 1;
 
       setPosition({ x, y });
     };

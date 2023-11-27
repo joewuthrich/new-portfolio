@@ -13,14 +13,24 @@ function Name() {
         photography, to basketball.
       </text>
       <div className="outer-link-container">
-        <div className="link-container">
+        <a
+          className="link-container"
+          href="mailto:joerwuthrich@gmail.com?body=Hi Joe,%0D%0A%0D%0A%0D%0A"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Icons.EmailIcon />
           <text className="link-item">joerwuthrich@gmail.com</text>
-        </div>
-        <div className="link-container">
+        </a>
+        <a
+          className="link-container"
+          href="https://www.linkedin.com/in/joewuthrich/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Icons.LinkedInIcon />
           <text className="link-item">/joewuthrich</text>
-        </div>
+        </a>
       </div>
     </div>
   );

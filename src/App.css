@@ -89,5 +89,5 @@ body {
 .interests-title-container {
   transform: rotate(-90deg);
   position: absolute;
-  right: calc(-25% + (80px));
+  right: calc(-25% + (70px));
 }

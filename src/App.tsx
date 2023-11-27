@@ -14,7 +14,9 @@ const App = () => {
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
 
-  const moveScreenAction = (
+  // TODO: Remove issue with body snapping back in place or to new translation when moving between screens
+  // Maybe have each screen shifted individually?
+  const moveScreenAction = async (
     direction: "left" | "right" | "up" | "down",
     position
   ) => {
@@ -23,14 +25,15 @@ const App = () => {
         if (currentScreen === "interests") {
           setCurrentScreen("home");
           setPosition(position);
-          // translateScreen(0, 0);
+          // TODO: Force animate character to be out of slow zone on new page
+          setTimeout(() => translateScreen(0, 0), 200);
         }
         break;
       case "right":
         if (currentScreen === "home") {
           setCurrentScreen("interests");
           setPosition(position);
-          // translateScreen(0, 0);
+          setTimeout(() => translateScreen(0, 0), 200);
         }
         break;
       case "up":
@@ -80,7 +83,7 @@ const App = () => {
                 <Title
                   title="MY INTERESTS"
                   width={`${window.innerHeight - 71 * 2}px`}
-                  size="80px"
+                  size="70px"
                 />
               </div>
             </div>
