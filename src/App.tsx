@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Character from "./components/Character";
@@ -27,6 +27,8 @@ const App = () => {
   });
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
+
+  const linkedInRef = useRef(null);
 
   const moveScreenAction = async (
     direction: "left" | "right" | "up" | "down",
@@ -77,6 +79,7 @@ const App = () => {
         setPosition={setPosition}
         translateScreen={translateScreen}
         screenInfo={screens[currentScreen]}
+        reactiveElements={[linkedInRef]}
       />
 
       <div
@@ -132,7 +135,7 @@ const App = () => {
                   "/images/interests-travel-london.jpg",
                 ]}
               />
-              <div className="interests-title-container">
+              <div className="interests-title-container" ref={linkedInRef}>
                 <Title
                   title="MY INTERESTS"
                   width={`${window.innerHeight - 71 * 2}px`}

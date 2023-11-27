@@ -6,6 +6,7 @@ const Character = ({
   position,
   translateScreen,
   screenInfo,
+  reactiveElements,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
     ArrowUp: false,
@@ -184,6 +185,50 @@ const Character = ({
       const atTopEdge = y <= edgeThreshold;
       const atBottomEdge = y + charHeight >= window.innerHeight - edgeThreshold;
 
+      let closestElement = null;
+      let closestDistance = Infinity;
+
+      // Iterate through reactiveElements to check for collisions
+      reactiveElements.forEach((element) => {
+        if (element != null) {
+          const elementRect = element.current.getBoundingClientRect(); // Get bounding rectangle of the element
+
+          // Calculate center of the character and the element
+          const characterCenter = {
+            x: x + charWidth / 2,
+            y: y + charHeight / 2,
+          };
+          const elementCenter = {
+            x: elementRect.left + elementRect.width / 2,
+            y: elementRect.top + elementRect.height / 2,
+          };
+
+          // Calculate the distance between the character and the element's center
+          const distance = Math.sqrt(
+            (characterCenter.x - elementCenter.x) ** 2 +
+              (characterCenter.y - elementCenter.y) ** 2
+          );
+
+          // Check for collision between character and element
+          if (
+            x < elementRect.right &&
+            x + charWidth > elementRect.x &&
+            y < elementRect.bottom &&
+            y + charHeight > elementRect.y
+          ) {
+            // Collision detected
+
+            // Check if it's the closest collision
+            if (distance < closestDistance) {
+              closestDistance = distance;
+              closestElement = element;
+            }
+          }
+        }
+      });
+
+      console.log(closestElement);
+
       if (!canMove) return;
 
       // TODO: Modify this so that the sprite can't be moved while the screens are transitioning
@@ -233,6 +278,7 @@ const Character = ({
     translateScreen,
     facing,
     screenInfo,
+    canMove,
   ]);
 
   useEffect(() => {
