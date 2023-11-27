@@ -259,31 +259,22 @@ const Character = ({
 
       // Logic for translating between screens
       if (atLeftEdge) {
-        moveScreenAction("left", {
-          x: window.innerWidth - slowThreshold - charWidth - 1,
-          y: y,
-        });
+        moveScreenAction("left");
         return;
       }
 
       if (atRightEdge) {
-        moveScreenAction("right", { x: slowThreshold + 1, y: y });
+        moveScreenAction("right");
         return;
       }
 
       if (atTopEdge) {
-        moveScreenAction("up", {
-          x: x,
-          y: window.innerHeight - slowThreshold - charHeight - 1,
-        });
+        moveScreenAction("up");
         return;
       }
 
       if (atBottomEdge) {
-        moveScreenAction("down", {
-          x: x,
-          y: slowThreshold + 1,
-        });
+        moveScreenAction("down");
         return;
       }
 

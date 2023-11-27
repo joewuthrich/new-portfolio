@@ -4,6 +4,7 @@ import Icons from "./Svg";
 type ArrowProps = {
   title: string;
   align: "top" | "bottom" | "left" | "right";
+  onClick: () => void;
 };
 
 const Arrow = (props: ArrowProps) => {
@@ -35,6 +36,7 @@ const Arrow = (props: ArrowProps) => {
       style={{
         ...alignment,
       }}
+      onClick={props.onClick}
     >
       <text className="">{props.title}</text>
       <div className="icon-container">

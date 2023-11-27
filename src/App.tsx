@@ -36,35 +36,53 @@ const App = () => {
   };
 
   const moveScreenAction = async (
-    direction: "left" | "right" | "up" | "down",
-    position
+    direction: "left" | "right" | "up" | "down"
   ) => {
+    // TODO: Pass these to Character.tsx
+    const slowThreshold = 120;
+    const charHeight = 132;
+    const charWidth = 69;
+
+    let newPosition;
     switch (direction) {
       case "left":
+        newPosition = {
+          x: window.innerWidth - slowThreshold - charWidth - 1,
+          y: position.y,
+        };
         if (currentScreen === "interests") {
           setCurrentScreen("home");
-          setPosition(position);
+          setPosition(newPosition);
           setTimeout(() => translateScreen(0, 0), 250);
         }
         break;
       case "right":
+        newPosition = { x: slowThreshold + 1, y: position.y };
         if (currentScreen === "home") {
           setCurrentScreen("interests");
-          setPosition(position);
+          setPosition(newPosition);
           setTimeout(() => translateScreen(0, 0), 250);
         }
         break;
       case "up":
+        newPosition = {
+          x: position.x,
+          y: window.innerHeight - slowThreshold - charHeight - 1,
+        };
         if (currentScreen === "journey") {
           setCurrentScreen("home");
-          setPosition(position);
+          setPosition(newPosition);
           setTimeout(() => translateScreen(0, 0), 250);
         }
         break;
       case "down":
+        newPosition = {
+          x: position.x,
+          y: slowThreshold + 1,
+        };
         if (currentScreen === "home") {
           setCurrentScreen("journey");
-          setPosition(position);
+          setPosition(newPosition);
           setTimeout(() => translateScreen(0, 0), 250);
         }
         break;
@@ -110,9 +128,21 @@ const App = () => {
           <div className="bordered-frame">
             <Header collidedDOM={collidedDOM} />
             <div className="content-container">
-              <Arrow title={"My Interests"} align={"right"} />
-              <Arrow title={"My Journey"} align={"bottom"} />
-              <Arrow title={"About Me"} align={"left"} />
+              <Arrow
+                title={"My Interests"}
+                align={"right"}
+                onClick={() => moveScreenAction("right")}
+              />
+              <Arrow
+                title={"My Journey"}
+                align={"bottom"}
+                onClick={() => moveScreenAction("down")}
+              />
+              <Arrow
+                title={"About Me"}
+                align={"left"}
+                onClick={() => moveScreenAction("left")}
+              />
             </div>
           </div>
         </div>
@@ -121,7 +151,11 @@ const App = () => {
         >
           <div className="bordered-frame">
             <div className="content-container">
-              <Arrow title={"Back to Main"} align={"left"} />
+              <Arrow
+                title={"Back to Main"}
+                align={"left"}
+                onClick={() => moveScreenAction("left")}
+              />
               {/* //TODO: Add the way images are displayed (maybe list with left,right,left,right,etc) */}
               <Interest
                 collidedDOM={collidedDOM}
@@ -163,7 +197,11 @@ const App = () => {
         >
           <div className="bordered-frame">
             <div className="content-container">
-              <Arrow title={"Back to Main"} align={"top"} />
+              <Arrow
+                title={"Back to Main"}
+                align={"top"}
+                onClick={() => moveScreenAction("up")}
+              />
             </div>
           </div>
         </div>
