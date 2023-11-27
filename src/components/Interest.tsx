@@ -4,6 +4,7 @@ type InterestProps = {
   title: string;
   description: string;
   imageSrcs?: string[];
+  collidedDOM: string | null;
 };
 
 const Arrow = (props: InterestProps) => {
@@ -11,9 +12,14 @@ const Arrow = (props: InterestProps) => {
 
   const images = [];
   for (const srcIdx in imagesProp) {
+    const src = imagesProp[srcIdx];
     images.push(
       <img
-        src={process.env.PUBLIC_URL + imagesProp[srcIdx]}
+        id={src}
+        className={`interest-image interactable ${
+          props.collidedDOM === src ? "hover" : ""
+        }`}
+        src={process.env.PUBLIC_URL + src}
         alt=""
         width="150"
         height="150"
