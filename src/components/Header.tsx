@@ -1,13 +1,11 @@
 import "./Header.css";
 import Icons from "./Svg";
+import Title from "./Title";
 
 function Name() {
   return (
     <div className="header">
-      <div className="name-container">
-        <div className="background-box"></div>
-        <text className="name-header">JOE WUTHRICH</text>
-      </div>
+      <Title title="JOE WUTHRICH" width="1298px" size="115px" />
       <text className="job-subtitle">ICONIC FIGURE</text>
       <text className="description">
         I'm a recent graduate, with a BSc in Computer Science and IT Management.

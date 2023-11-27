@@ -13,7 +13,6 @@
 .name-header {
   color: rgba(0, 0, 0, 0.9);
   font-family: "RobotoSlab-Bold";
-  font-size: 115px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -26,7 +25,6 @@
 }
 
 .background-box {
-  width: 1298px;
   height: 35px;
   flex-shrink: 0;
   background: #c3eaff;

@@ -14,6 +14,7 @@
   letter-spacing: 3px;
 
   flex-shrink: 1;
+  cursor: pointer;
 }
 
 .icon-container {

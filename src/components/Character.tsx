@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-const Character = ({ moveScreenAction, setPosition, position }) => {
+const Character = ({
+  moveScreenAction,
+  setPosition,
+  position,
+  translateScreen,
+}) => {
   const [keysPressed, setKeysPressed] = useState({
     ArrowUp: false,
     ArrowDown: false,
@@ -16,6 +21,7 @@ const Character = ({ moveScreenAction, setPosition, position }) => {
   const charHeight = 132;
 
   const edgeThreshold = 40;
+  const slowThreshold = 120;
 
   const handleKeyDown = (event) => {
     setKeysPressed((prevState) => ({
@@ -44,18 +50,56 @@ const Character = ({ moveScreenAction, setPosition, position }) => {
       // Calculate the speed for diagonal movement
       const diagonalSpeed = moveSpeed / 2.8;
 
+      // Logic to check proximity to the edge of the screen
+      const nearLeftEdge = x <= slowThreshold;
+      const nearRightEdge = x + charWidth >= window.innerWidth - slowThreshold;
+      const nearTopEdge = y <= slowThreshold;
+      const nearBottomEdge =
+        y + charHeight >= window.innerHeight - slowThreshold;
+
+      let finalMoveSpeed = moveSpeed;
+      let finalDiagonalSpeed = diagonalSpeed;
+      if (nearLeftEdge || nearRightEdge || nearTopEdge || nearBottomEdge) {
+        const maxDist = Math.max(window.innerWidth, window.innerHeight);
+
+        const minDistance = Math.min(
+          nearLeftEdge ? x : maxDist,
+          nearRightEdge ? window.innerWidth - (x + charWidth) : maxDist,
+          nearTopEdge ? y : maxDist,
+          nearBottomEdge ? window.innerHeight - (y + charHeight) : maxDist
+        );
+
+        translateScreen(
+          (nearRightEdge ? -1.01 : 1.01) ^
+            ((nearLeftEdge ? slowThreshold - x : 0) +
+              (nearRightEdge
+                ? slowThreshold - (window.innerWidth - (x + charWidth))
+                : 0)),
+          (nearTopEdge ? 1.01 : 1.01) ^
+            ((nearTopEdge ? slowThreshold - y : 0) +
+              (nearBottomEdge
+                ? -(slowThreshold - (window.innerHeight - (y + charHeight)))
+                : 0))
+        );
+
+        if (minDistance > 0) {
+          finalMoveSpeed *= minDistance / slowThreshold / 2;
+          finalDiagonalSpeed *= minDistance / slowThreshold / 2;
+        }
+      }
+
       // Determine the movement direction based on pressed keys
       if (keysPressed.ArrowUp) {
-        y -= moveSpeed;
+        y -= finalMoveSpeed;
       }
       if (keysPressed.ArrowDown) {
-        y += moveSpeed;
+        y += finalMoveSpeed;
       }
       if (keysPressed.ArrowLeft) {
-        x -= moveSpeed;
+        x -= finalMoveSpeed;
       }
       if (keysPressed.ArrowRight) {
-        x += moveSpeed;
+        x += finalMoveSpeed;
       }
 
       // Adjust the position for diagonal movement
@@ -63,18 +107,17 @@ const Character = ({ moveScreenAction, setPosition, position }) => {
         (keysPressed.ArrowUp || keysPressed.ArrowDown) &&
         (keysPressed.ArrowLeft || keysPressed.ArrowRight)
       ) {
-        x += x > position.x ? -diagonalSpeed : diagonalSpeed;
-        y += y > position.y ? -diagonalSpeed : diagonalSpeed;
+        x += x > position.x ? -finalDiagonalSpeed : finalDiagonalSpeed;
+        y += y > position.y ? -finalDiagonalSpeed : finalDiagonalSpeed;
       }
 
       // Logic to check proximity to the edge of the screen
-      const nearLeftEdge = x <= edgeThreshold;
-      const nearRightEdge = x + charWidth >= window.innerWidth - edgeThreshold;
-      const nearTopEdge = y <= edgeThreshold;
-      const nearBottomEdge =
-        y + charHeight >= window.innerHeight - edgeThreshold;
+      const atLeftEdge = x <= edgeThreshold;
+      const atRightEdge = x + charWidth >= window.innerWidth - edgeThreshold;
+      const atTopEdge = y <= edgeThreshold;
+      const atBottomEdge = y + charHeight >= window.innerHeight - edgeThreshold;
 
-      if (nearLeftEdge) {
+      if (atLeftEdge) {
         moveScreenAction("left", {
           x: window.innerWidth - edgeThreshold - charWidth - 1,
           y: y,
@@ -82,15 +125,14 @@ const Character = ({ moveScreenAction, setPosition, position }) => {
         return;
       }
 
-      if (nearRightEdge) {
+      if (atRightEdge) {
         moveScreenAction("right", { x: edgeThreshold + 1, y: y });
         return;
       }
 
-      if (nearTopEdge) y = edgeThreshold + 1;
+      if (atTopEdge) y = edgeThreshold + 1;
 
-      if (nearBottomEdge)
-        y = window.innerHeight - edgeThreshold - charHeight - 1;
+      if (atBottomEdge) y = window.innerHeight - edgeThreshold - charHeight - 1;
 
       setPosition({ x, y });
     };
@@ -98,7 +140,7 @@ const Character = ({ moveScreenAction, setPosition, position }) => {
     const interval = setInterval(handleMovement, 1000 / 60); // Adjust the interval for smooth movement
 
     return () => clearInterval(interval);
-  }, [keysPressed, position]);
+  }, [keysPressed, position, moveScreenAction, setPosition, translateScreen]);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
