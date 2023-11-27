@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const Character = ({
   moveScreenAction,
   setPosition,
   position,
   translateScreen,
+  screenInfo,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
     ArrowUp: false,
@@ -14,6 +15,9 @@ const Character = ({
     Control: false,
   });
 
+  const [facing, setFacing] = useState("S");
+  const [moving, setMoving] = useState(false);
+
   const baseMoveSpeed = 10; // Adjust the base speed as needed
   const sprintMultiplier = 3; // Adjust the sprint multiplier
 
@@ -22,6 +26,8 @@ const Character = ({
 
   const edgeThreshold = 40;
   const slowThreshold = 120;
+
+  const spriteRef = useRef(null);
 
   const handleKeyDown = (event) => {
     setKeysPressed((prevState) => ({
@@ -35,6 +41,40 @@ const Character = ({
       ...prevState,
       [event.key]: false,
     }));
+  };
+
+  const modifySprite = (
+    facing: "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
+  ) => {
+    switch (facing) {
+      case "N":
+        break;
+      case "NE":
+        break;
+      case "E":
+        break;
+      case "SE":
+        break;
+      case "S":
+        break;
+      case "SW":
+        break;
+      case "W":
+        break;
+      case "NW":
+        break;
+    }
+
+    spriteRef.current.innerHTML =
+      facing +
+      (!keysPressed.ArrowUp &&
+      !keysPressed.ArrowDown &&
+      !keysPressed.ArrowLeft &&
+      !keysPressed.ArrowRight
+        ? ""
+        : "(M)");
+
+    setFacing(facing);
   };
 
   useEffect(() => {
@@ -52,14 +92,16 @@ const Character = ({
 
       // Logic to check proximity to the edge of the screen
       const nearLeftEdge = x <= slowThreshold;
-      const nearRightEdge = x + charWidth >= window.innerWidth - slowThreshold;
-      const nearTopEdge = y <= slowThreshold;
+      const nearRightEdge =
+        x + charWidth >= window.innerWidth - slowThreshold &&
+        screenInfo.exits[1];
+      const nearTopEdge = y <= slowThreshold && screenInfo.exits[0];
       const nearBottomEdge =
-        y + charHeight >= window.innerHeight - slowThreshold;
+        y + charHeight >= window.innerHeight - slowThreshold &&
+        screenInfo.exits[2];
 
       let finalMoveSpeed = moveSpeed;
       let finalDiagonalSpeed = diagonalSpeed;
-      // TODO: Only do this if they can actually move across the edge
       if (nearLeftEdge || nearRightEdge || nearTopEdge || nearBottomEdge) {
         const maxDist = Math.max(window.innerWidth, window.innerHeight);
 
@@ -70,17 +112,22 @@ const Character = ({
           nearBottomEdge ? window.innerHeight - (y + charHeight) : maxDist
         );
 
-        translateScreen(
+        const translateX =
           (nearRightEdge ? -1.01 : 1.01) ^
-            ((nearLeftEdge ? slowThreshold - x : 0) +
-              (nearRightEdge
-                ? slowThreshold - (window.innerWidth - (x + charWidth))
-                : 0)),
+          ((nearLeftEdge ? slowThreshold - x : 0) +
+            (nearRightEdge
+              ? slowThreshold - (window.innerWidth - (x + charWidth))
+              : 0));
+
+        const translateY =
           (nearTopEdge ? 1.01 : 1.01) ^
-            ((nearTopEdge ? slowThreshold - y : 0) +
-              (nearBottomEdge
-                ? -(slowThreshold - (window.innerHeight - (y + charHeight)))
-                : 0))
+          ((nearTopEdge ? slowThreshold - y : 0) +
+            (nearBottomEdge
+              ? -(slowThreshold - (window.innerHeight - (y + charHeight)))
+              : 0));
+        translateScreen(
+          translateX > 1 ? translateX : 0,
+          translateY > 1 ? translateY : 0
         );
 
         if (minDistance > 0) {
@@ -89,25 +136,44 @@ const Character = ({
         }
       } else translateScreen(0, 0);
 
+      // @ts-ignore
+      let newFacing: "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW" = facing;
+
+      const movingUp = keysPressed.ArrowUp && !keysPressed.ArrowDown;
+      const movingDown = keysPressed.ArrowDown && !keysPressed.ArrowUp;
+      const movingLeft = keysPressed.ArrowLeft && !keysPressed.ArrowRight;
+      const movingRight = keysPressed.ArrowRight && !keysPressed.ArrowLeft;
+
       // Determine the movement direction based on pressed keys
-      if (keysPressed.ArrowUp) {
+      if (movingUp) {
         y -= finalMoveSpeed;
+        newFacing = "N";
       }
-      if (keysPressed.ArrowDown) {
+      if (movingDown) {
         y += finalMoveSpeed;
+        newFacing = "S";
       }
-      if (keysPressed.ArrowLeft) {
+      if (movingLeft) {
         x -= finalMoveSpeed;
+        newFacing = "W";
       }
-      if (keysPressed.ArrowRight) {
+      if (movingRight) {
         x += finalMoveSpeed;
+        newFacing = "E";
       }
 
       // Adjust the position for diagonal movement
-      if (
-        (keysPressed.ArrowUp || keysPressed.ArrowDown) &&
-        (keysPressed.ArrowLeft || keysPressed.ArrowRight)
-      ) {
+      if ((movingUp || movingDown) && (movingLeft || movingRight)) {
+        if (movingUp && movingLeft) {
+          newFacing = "NW";
+        } else if (movingUp && movingRight) {
+          newFacing = "NE";
+        } else if (movingDown && movingLeft) {
+          newFacing = "SW";
+        } else if (movingDown && movingRight) {
+          newFacing = "SE";
+        }
+
         x += x > position.x ? -finalDiagonalSpeed : finalDiagonalSpeed;
         y += y > position.y ? -finalDiagonalSpeed : finalDiagonalSpeed;
       }
@@ -117,6 +183,8 @@ const Character = ({
       const atRightEdge = x + charWidth >= window.innerWidth - edgeThreshold;
       const atTopEdge = y <= edgeThreshold;
       const atBottomEdge = y + charHeight >= window.innerHeight - edgeThreshold;
+
+      modifySprite(newFacing);
 
       // Logic for translating between screens
       if (atLeftEdge) {
@@ -132,9 +200,21 @@ const Character = ({
         return;
       }
 
-      if (atTopEdge) y = slowThreshold + 1;
+      if (atTopEdge) {
+        moveScreenAction("up", {
+          x: x,
+          y: window.innerHeight - slowThreshold - charHeight - 1,
+        });
+        return;
+      }
 
-      if (atBottomEdge) y = window.innerHeight - slowThreshold - charHeight - 1;
+      if (atBottomEdge) {
+        moveScreenAction("down", {
+          x: x,
+          y: slowThreshold + 1,
+        });
+        return;
+      }
 
       setPosition({ x, y });
     };
@@ -142,7 +222,15 @@ const Character = ({
     const interval = setInterval(handleMovement, 1000 / 60); // Adjust the interval for smooth movement
 
     return () => clearInterval(interval);
-  }, [keysPressed, position, moveScreenAction, setPosition, translateScreen]);
+  }, [
+    keysPressed,
+    position,
+    moveScreenAction,
+    setPosition,
+    translateScreen,
+    facing,
+    screenInfo,
+  ]);
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
@@ -159,6 +247,7 @@ const Character = ({
   return (
     <div
       className="character"
+      ref={spriteRef}
       style={{
         position: "absolute",
         left: `${position.x}px`,
@@ -166,7 +255,10 @@ const Character = ({
         backgroundColor: "#C66B2A",
         width: `${charWidth}px`,
         height: `${charHeight}px`,
-        transition: "left 0.2s ease, top 0.2s ease",
+        transition: "left 0.2s ease-out, top 0.2s ease-out",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {/* Your character's visual representation */}

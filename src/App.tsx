@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Character from "./components/Character";
@@ -6,6 +6,19 @@ import Arrow from "./components/Arrow";
 import Title from "./components/Title";
 
 const App = () => {
+  const screens = {
+    home: {
+      // North, East, South, West
+      exits: [false, true, true, true],
+    },
+    interests: {
+      exits: [false, false, false, true],
+    },
+    journey: {
+      exits: [true, false, false, false],
+    },
+  };
+
   const [currentScreen, setCurrentScreen] = useState("home");
   const [position, setPosition] = useState({
     x: Math.floor(window.innerWidth / 2),
@@ -14,8 +27,6 @@ const App = () => {
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
 
-  // TODO: Remove issue with body snapping back in place or to new translation when moving between screens
-  // Maybe have each screen shifted individually?
   const moveScreenAction = async (
     direction: "left" | "right" | "up" | "down",
     position
@@ -25,20 +36,29 @@ const App = () => {
         if (currentScreen === "interests") {
           setCurrentScreen("home");
           setPosition(position);
-          // TODO: Force animate character to be out of slow zone on new page
-          setTimeout(() => translateScreen(0, 0), 200);
+          setTimeout(() => translateScreen(0, 0), 250);
         }
         break;
       case "right":
         if (currentScreen === "home") {
           setCurrentScreen("interests");
           setPosition(position);
-          setTimeout(() => translateScreen(0, 0), 200);
+          setTimeout(() => translateScreen(0, 0), 250);
         }
         break;
       case "up":
+        if (currentScreen === "journey") {
+          setCurrentScreen("home");
+          setPosition(position);
+          setTimeout(() => translateScreen(0, 0), 250);
+        }
         break;
       case "down":
+        if (currentScreen === "home") {
+          setCurrentScreen("journey");
+          setPosition(position);
+          setTimeout(() => translateScreen(0, 0), 250);
+        }
         break;
     }
   };
@@ -55,6 +75,7 @@ const App = () => {
         position={position}
         setPosition={setPosition}
         translateScreen={translateScreen}
+        screenInfo={screens[currentScreen]}
       />
 
       <div
@@ -63,7 +84,15 @@ const App = () => {
           transform: `translateX(${horizontalTranslation}px) translateY(${verticalTranslation}px)`,
         }}
       >
-        <div className={`screen ${currentScreen === "home" ? "" : "left"}`}>
+        <div
+          className={`screen ${
+            currentScreen === "home"
+              ? ""
+              : currentScreen === "journey"
+              ? "top"
+              : "left"
+          }`}
+        >
           <div className="bordered-frame">
             <Header />
             <div className="content-container">
@@ -86,6 +115,15 @@ const App = () => {
                   size="70px"
                 />
               </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className={`screen ${currentScreen === "journey" ? "" : "bottom"}`}
+        >
+          <div className="bordered-frame">
+            <div className="content-container">
+              <Arrow title={"Back to Main"} align={"top"} />
             </div>
           </div>
         </div>
