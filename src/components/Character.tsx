@@ -16,7 +16,7 @@ const Character = ({
   });
 
   const [facing, setFacing] = useState("S");
-  const [moving, setMoving] = useState(false);
+  const [canMove, setCanMove] = useState(true);
 
   const baseMoveSpeed = 10; // Adjust the base speed as needed
   const sprintMultiplier = 3; // Adjust the sprint multiplier
@@ -43,41 +43,41 @@ const Character = ({
     }));
   };
 
-  const modifySprite = (
-    facing: "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
-  ) => {
-    switch (facing) {
-      case "N":
-        break;
-      case "NE":
-        break;
-      case "E":
-        break;
-      case "SE":
-        break;
-      case "S":
-        break;
-      case "SW":
-        break;
-      case "W":
-        break;
-      case "NW":
-        break;
-    }
-
-    spriteRef.current.innerHTML =
-      facing +
-      (!keysPressed.ArrowUp &&
-      !keysPressed.ArrowDown &&
-      !keysPressed.ArrowLeft &&
-      !keysPressed.ArrowRight
-        ? ""
-        : "(M)");
-
-    setFacing(facing);
-  };
-
   useEffect(() => {
+    const modifySprite = (
+      facing: "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
+    ) => {
+      switch (facing) {
+        case "N":
+          break;
+        case "NE":
+          break;
+        case "E":
+          break;
+        case "SE":
+          break;
+        case "S":
+          break;
+        case "SW":
+          break;
+        case "W":
+          break;
+        case "NW":
+          break;
+      }
+
+      spriteRef.current.innerHTML =
+        facing +
+        (!keysPressed.ArrowUp &&
+        !keysPressed.ArrowDown &&
+        !keysPressed.ArrowLeft &&
+        !keysPressed.ArrowRight
+          ? ""
+          : "(M)");
+
+      setFacing(facing);
+    };
+
     const handleMovement = () => {
       let x = position.x;
       let y = position.y;
@@ -91,7 +91,7 @@ const Character = ({
       const diagonalSpeed = moveSpeed / 2.8;
 
       // Logic to check proximity to the edge of the screen
-      const nearLeftEdge = x <= slowThreshold;
+      const nearLeftEdge = x <= slowThreshold && screenInfo.exits[3];
       const nearRightEdge =
         x + charWidth >= window.innerWidth - slowThreshold &&
         screenInfo.exits[1];
@@ -99,7 +99,6 @@ const Character = ({
       const nearBottomEdge =
         y + charHeight >= window.innerHeight - slowThreshold &&
         screenInfo.exits[2];
-
       let finalMoveSpeed = moveSpeed;
       let finalDiagonalSpeed = diagonalSpeed;
       if (nearLeftEdge || nearRightEdge || nearTopEdge || nearBottomEdge) {
@@ -125,9 +124,10 @@ const Character = ({
             (nearBottomEdge
               ? -(slowThreshold - (window.innerHeight - (y + charHeight)))
               : 0));
+
         translateScreen(
-          translateX > 1 ? translateX : 0,
-          translateY > 1 ? translateY : 0
+          translateX !== 1 ? translateX : 0,
+          translateY !== 1 ? translateY : 0
         );
 
         if (minDistance > 0) {
@@ -184,6 +184,9 @@ const Character = ({
       const atTopEdge = y <= edgeThreshold;
       const atBottomEdge = y + charHeight >= window.innerHeight - edgeThreshold;
 
+      if (!canMove) return;
+
+      // TODO: Modify this so that the sprite can't be moved while the screens are transitioning
       modifySprite(newFacing);
 
       // Logic for translating between screens

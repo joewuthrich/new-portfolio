@@ -1,0 +1,32 @@
+.interest-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+}
+
+.interest-title {
+  color: rgba(0, 0, 0, 0.9);
+
+  font-family: "RobotoSlab-Regular";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 5.4px;
+}
+
+.interest-description {
+  flex-shrink: 0;
+  color: rgba(0, 0, 0, 0.9);
+
+  font-family: "RobotoSlab-Light";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 2.6px;
+}
+
+.interest-image-container {
+  display: flex;
+}
