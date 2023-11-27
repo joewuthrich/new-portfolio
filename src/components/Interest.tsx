@@ -5,6 +5,8 @@ type InterestProps = {
   description: string;
   imageSrcs?: string[];
   collidedDOM: string | null;
+  align: "left" | "right";
+  offset?: number;
 };
 
 const Arrow = (props: InterestProps) => {
@@ -28,10 +30,17 @@ const Arrow = (props: InterestProps) => {
   }
 
   return (
-    <div className={`interest-container`}>
-      <text className={"interest-title"}>{props.title}</text>
-      <text className={"interest-description"}>{props.description}</text>
-      <div className="interest-image-container">{images}</div>
+    <div
+      className={`single-interest-container ${props.align}`}
+      style={{
+        marginLeft: props.offset + "px",
+      }}
+    >
+      <div className={`interest-container`}>
+        <text className={"interest-title"}>{props.title}</text>
+        <text className={"interest-description"}>{props.description}</text>
+        <div className="interest-image-container">{images}</div>
+      </div>
     </div>
   );
 };

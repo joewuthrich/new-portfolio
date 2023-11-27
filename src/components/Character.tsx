@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useImperativeHandle } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const Character = ({
   moveScreenAction,
@@ -33,14 +33,6 @@ const Character = ({
 
   const spriteRef = useRef(null);
 
-  const handleKeyDown = ({ key }) => {
-    console.log(keysPressed);
-    setKeysPressed((prevState) => ({
-      ...prevState,
-      [key]: true,
-    }));
-  };
-
   const handleKeyUp = ({ key }) => {
     setKeysPressed((prevState) => ({
       ...prevState,
@@ -53,7 +45,7 @@ const Character = ({
       if (collidedDOM != null) document.getElementById(collidedDOM)?.click();
       handleKeyUp({ key: "Enter" });
     }
-  }, [keysPressed]);
+  }, [keysPressed, collidedDOM]);
 
   useEffect(() => {
     const modifySprite = (
@@ -242,7 +234,9 @@ const Character = ({
       if (
         (closestElement == null && collidedDOM != null) ||
         (closestElement != null && collidedDOM == null) ||
-        closestElement !== collidedDOM
+        (closestElement != null &&
+          collidedDOM != null &&
+          closestElement.id !== collidedDOM.id)
       ) {
         console.log(
           closestElement?.id === undefined ? null : closestElement.id
@@ -299,6 +293,13 @@ const Character = ({
   ]);
 
   useEffect(() => {
+    const handleKeyDown = ({ key }) => {
+      setKeysPressed((prevState) => ({
+        ...prevState,
+        [key]: true,
+      }));
+    };
+
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
 
@@ -306,7 +307,7 @@ const Character = ({
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+  }, [keysPressed]);
 
   // Logic to check if the character moves off-screen and trigger screen transition
 

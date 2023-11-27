@@ -43,3 +43,35 @@
 .interest-image.hover {
   transform: scale(1.1);
 }
+
+.content-container {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.interest-list-container {
+  flex-grow: 1;
+  margin-left: 150px;
+  margin-right: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.single-interest-container {
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+}
+
+.single-interest-container.left {
+  justify-content: flex-start;
+}
+
+.single-interest-container.right {
+  justify-content: flex-end;
+}
