@@ -4,13 +4,14 @@ import Title from "./Title";
 
 type HeaderProps = {
   collidedDOM: string | null;
+  subtitle: string;
 };
 
 const Name = (props: HeaderProps) => {
   return (
     <div className="header">
       <Title title="JOE WUTHRICH" width="1298px" size="115px" />
-      <text className="job-subtitle">ICONIC FIGURE</text>
+      <text className="job-subtitle">{props.subtitle}</text>
       <text className="description">
         I'm a recent graduate, with a BSc in Computer Science and IT Management.
         I'm interested in anything from recent software solutions, to

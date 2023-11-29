@@ -16,6 +16,12 @@
     url(./styles/fonts/RobotoSlab-Light.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "RobotoSlab-Thin";
+  src: local("RobotoSlab-Thin"),
+    url(./styles/fonts/RobotoSlab-Thin.ttf) format("truetype");
+}
+
 body {
   overflow: hidden;
 }

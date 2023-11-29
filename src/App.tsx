@@ -1,9 +1,10 @@
-import { useState, useRef, forwardRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Character from "./components/Character";
 import Arrow from "./components/Arrow";
-import InterestsPage from "./components/InterestsPage";
+import InterestsPage from "./components/pages/InterestsPage";
+import JourneyPage from "./components/pages/JourneyPage";
 
 const App = () => {
   const screens = {
@@ -30,6 +31,13 @@ const App = () => {
   });
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
+  const [portfolioType, setPortfolioType] = useState("iconic figure");
+
+  useEffect(() => {
+    setPortfolioType(
+      new URL(window.location.href).searchParams.get("type") ?? "iconic figure"
+    );
+  }, []);
 
   const headerRefs = useRef(null);
 
@@ -126,7 +134,10 @@ const App = () => {
           }`}
         >
           <div className="bordered-frame">
-            <Header collidedDOM={collidedDOM} />
+            <Header
+              collidedDOM={collidedDOM}
+              subtitle={portfolioType.toUpperCase()}
+            />
             <div className="content-container">
               <Arrow
                 title={"My Interests"}
@@ -163,14 +174,10 @@ const App = () => {
           className={`screen ${currentScreen === "journey" ? "" : "bottom"}`}
         >
           <div className="bordered-frame">
-            <div className="content-container">
-              <Arrow
-                title={"Back to Main"}
-                align={"top"}
-                onClick={() => moveScreenAction("up")}
-                collidedDOM={collidedDOM}
-              />
-            </div>
+            <JourneyPage
+              collidedDOM={collidedDOM}
+              moveScreenAction={moveScreenAction}
+            />
           </div>
         </div>
       </div>

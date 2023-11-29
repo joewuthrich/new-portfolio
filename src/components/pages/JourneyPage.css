@@ -1,0 +1,143 @@
+.full-journey-container {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.journey-full-item-container {
+  display: flex;
+  position: relative;
+  margin-bottom: 60px;
+  margin-top: 71px;
+}
+
+.journey-full-item-container.left {
+  flex-direction: row-reverse;
+}
+
+.column-journey-container {
+  display: flex;
+  flex-direction: column;
+  width: calc(50% - 150px);
+}
+
+.column-journey-container.right {
+  margin-top: calc(71px + 10%);
+}
+
+.journey-item-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.journey-item-container.left {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.journey-item-container.right {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.journey-item-title {
+  text-align: inherit;
+  color: rgba(0, 0, 0, 0.9);
+
+  font-family: "RobotoSlab-Bold";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 5.4px;
+  flex-shrink: 0;
+}
+
+.journey-item-desc {
+  margin-top: 10px;
+  text-align: inherit;
+  color: rgba(0, 0, 0, 0.9);
+
+  font-family: "RobotoSlab-Light";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 2.6px;
+}
+
+.horizontal-divider {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 1px;
+  background: rgba(8, 8, 8, 0.15);
+}
+
+.vertical-divider {
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 1.3px;
+  height: 100%;
+  background: rgba(8, 8, 8, 0.15);
+}
+
+.journey-item-skills {
+  text-align: inherit;
+  color: rgba(0, 0, 0, 0.9);
+
+  font-family: "RobotoSlab-Thin";
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: normal;
+  letter-spacing: 2px;
+}
+
+.journey-item-image-container {
+  display: flex;
+  margin-top: 10px;
+}
+
+.journey-item-image-container.left {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.center-divider {
+  width: 1px;
+  background-color: transparent;
+}
+
+.journey-item-duration-space {
+  min-width: 15px;
+  width: 15px;
+}
+
+.journey-item-duration {
+  position: absolute;
+  color: rgba(0, 0, 0, 0.9);
+
+  text-align: center;
+  font-family: "RobotoSlab-Regular";
+  font-size: 12px;
+  max-height: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  flex-shrink: 1;
+  top: 50%;
+}
+
+.journey-item-duration.left {
+  transform: rotate(90deg) translateX(50%) translateY(50%);
+  transform-origin: center right;
+}
+
+.journey-item-duration.right {
+  transform: rotate(-90deg) translateX(-50%) translateY(50%);
+  transform-origin: center left;
+}

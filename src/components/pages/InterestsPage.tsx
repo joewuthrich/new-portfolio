@@ -1,7 +1,7 @@
-import "./Interest.css";
-import Arrow from "./Arrow";
-import Title from "./Title";
-import Interest from "./Interest";
+import "../Interest.css";
+import Arrow from "../Arrow";
+import Title from "../Title";
+import Interest from "../Interest";
 
 const InterestsPage = ({ collidedDOM, moveScreenAction }) => {
   return (
