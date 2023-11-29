@@ -2,8 +2,9 @@ import "../Interest.css";
 import "./JourneyPage.css";
 import Arrow from "../Arrow";
 import Title from "../Title";
+import Icons from "../Svg";
 
-const JourneyPage = ({ collidedDOM, moveScreenAction }) => {
+const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
   const journeyData: {
     title: string;
     desc: string;
@@ -11,26 +12,7 @@ const JourneyPage = ({ collidedDOM, moveScreenAction }) => {
     images: string[];
     start: string;
     end: string;
-  }[] = [
-    {
-      title: "Computer Science & IT Management (BSc)",
-      desc: "After three years at the University of Auckland, I graduated with a BSc. I learnt a lot across my three years, improving my soft skills in particular.",
-      skills:
-        "Project Management, Leadership, Teamwork, Conflict Resolution, UI/UX Design, Frontend Development, Client Interaction, Communication, Stakeholder Management",
-      images: [],
-      start: "Mar 2021",
-      end: "Nov 2023",
-    },
-    {
-      title: "WeDo",
-      desc: "While working on WeDo, I led a cross-functional team in developing a mobile application for a client, applying university-acquired skills to deliver a successful project.",
-      skills:
-        "Project Management, Leadership, Teamwork, Conflict Resolution, UI/UX Design, Frontend Development, Client Interaction, Communication, Stakeholder Management",
-      images: [],
-      start: "Aug 2023",
-      end: "Nov 2023",
-    },
-  ];
+  }[] = require(`../../journeys/journey-${type.replace(" ", "-")}.json`);
 
   const leftJourneys = [];
   for (let idx = 0; idx < journeyData.length; idx += 2) {
@@ -134,7 +116,10 @@ const JourneyPage = ({ collidedDOM, moveScreenAction }) => {
       />
       <div className="full-journey-container">
         <div className="column-journey-container left">{leftJourneys}</div>
-        <div className="center-divider"></div>
+        <div className="center-divider">
+          <Icons.RightShoeOutline />
+          <Icons.LeftShoeOutline />
+        </div>
         <div className="column-journey-container right">{rightJourneys}</div>
       </div>
     </div>

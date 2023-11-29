@@ -177,6 +177,7 @@ const App = () => {
             <JourneyPage
               collidedDOM={collidedDOM}
               moveScreenAction={moveScreenAction}
+              type="software developer"
             />
           </div>
         </div>
