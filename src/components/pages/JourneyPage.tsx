@@ -3,6 +3,7 @@ import "./JourneyPage.css";
 import Arrow from "../Arrow";
 import Title from "../Title";
 import Icons from "../Svg";
+import Journey from "../Journey";
 
 const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
   const journeyData: {
@@ -10,24 +11,14 @@ const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
     desc: string;
     skills: string;
     images: string[];
-    start: string;
+    start?: string;
     end: string;
   }[] = require(`../../journeys/journey-${type.replace(" ", "-")}.json`);
 
-  const leftJourneys = [];
-  for (let idx = 0; idx < journeyData.length; idx += 2) {
-    const journey: {
-      title: string;
-      desc: string;
-      skills: string;
-      images: string[];
-      start: string;
-      end: string;
-    } = journeyData[idx];
-
+  const getImages = (imageSrcs) => {
     const images = [];
-    for (const srcIdx in journey.images) {
-      const src = journey.images[srcIdx];
+    for (const srcIdx in imageSrcs) {
+      const src = "/images/" + imageSrcs[srcIdx];
       images.push(
         <img
           id={src}
@@ -41,22 +32,32 @@ const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
         />
       );
     }
+    return images;
+  };
+
+  const leftJourneys = [];
+  for (let idx = 0; idx < journeyData.length; idx += 2) {
+    const journey: {
+      title: string;
+      desc: string;
+      skills: string;
+      images: string[];
+      start?: string;
+      end: string;
+    } = journeyData[idx];
+
+    const images = getImages(journey.images);
 
     leftJourneys.push(
-      <div className="journey-full-item-container left">
-        <text className="journey-item-duration left">
-          {journey.start + " - " + journey.end}
-        </text>
-        <div className="journey-item-duration-space" />
-        <div className="vertical-divider left" />
-        <div className="journey-item-container left">
-          <div className="journey-item-title">{journey.title}</div>
-          <div className="journey-item-desc">{journey.desc}</div>
-          <div className="horizontal-divider" />
-          <div className="journey-item-skills">{journey.skills}</div>
-          <div className="journey-item-image-container left">{images}</div>
-        </div>
-      </div>
+      <Journey
+        title={journey.title}
+        desc={journey.desc}
+        skills={journey.skills}
+        start={journey.start}
+        end={journey.end}
+        images={images}
+        align={"left"}
+      />
     );
   }
 
@@ -67,42 +68,22 @@ const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
       desc: string;
       skills: string;
       images: string[];
-      start: string;
+      start?: string;
       end: string;
     } = journeyData[idx];
 
-    const images = [];
-    for (const srcIdx in journey.images) {
-      const src = journey.images[srcIdx];
-      images.push(
-        <img
-          id={src}
-          className={`interest-image interactable ${
-            collidedDOM === src ? "hover" : ""
-          }`}
-          src={process.env.PUBLIC_URL + src}
-          alt=""
-          width="150"
-          height="150"
-        />
-      );
-    }
+    const images = getImages(journey.images);
 
     rightJourneys.push(
-      <div className="journey-full-item-container right">
-        <text className="journey-item-duration right">
-          {journey.start + " - " + journey.end}
-        </text>
-        <div className="journey-item-duration-space" />
-        <div className="vertical-divider right" />
-        <div className="journey-item-container right">
-          <div className="journey-item-title">{journey.title}</div>
-          <div className="journey-item-desc">{journey.desc}</div>
-          <div className="horizontal-divider" />
-          <div className="journey-item-skills">{journey.skills}</div>
-          <div className="journey-item-image-container right">{images}</div>
-        </div>
-      </div>
+      <Journey
+        title={journey.title}
+        desc={journey.desc}
+        skills={journey.skills}
+        start={journey.start}
+        end={journey.end}
+        images={images}
+        align={"right"}
+      />
     );
   }
 

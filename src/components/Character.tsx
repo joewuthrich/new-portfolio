@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Footprint from "./Footprint";
 
 const Character = ({
   moveScreenAction,
@@ -9,6 +10,7 @@ const Character = ({
   reactiveElements,
   updateCollision,
   collidedDOM,
+  setFootprints,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
     ArrowUp: false,
@@ -21,6 +23,7 @@ const Character = ({
 
   const [facing, setFacing] = useState("S");
   const [canMove, setCanMove] = useState(true);
+  const [stepCounter, setStepCounter] = useState(0);
 
   const baseMoveSpeed = 10; // Adjust the base speed as needed
   const sprintMultiplier = 3; // Adjust the sprint multiplier
@@ -238,15 +241,31 @@ const Character = ({
           collidedDOM != null &&
           closestElement.id !== collidedDOM.id)
       ) {
-        console.log(
-          closestElement?.id === undefined ? null : closestElement.id
-        );
         updateCollision(
           closestElement?.id === undefined ? null : closestElement.id
         );
       }
 
       if (!canMove) return;
+
+      if (x !== position.x || y !== position.y) {
+        setStepCounter(stepCounter + 1);
+        if (stepCounter % (keysPressed.Control ? 3 : 9) === 0) {
+          setFootprints((prevFootprints) => [
+            ...prevFootprints.slice(-10),
+            {
+              key: stepCounter,
+              x: position.x + charWidth / 2,
+              y: position.y + (charHeight / 3) * 2,
+              side:
+                stepCounter % (keysPressed.Control ? 6 : 18) === 0
+                  ? "left"
+                  : "right",
+              facing: facing,
+            },
+          ]);
+        }
+      }
 
       // TODO: Modify this so that the sprite can't be moved while the screens are transitioning
       modifySprite(newFacing);
@@ -290,6 +309,8 @@ const Character = ({
     reactiveElements,
     collidedDOM,
     updateCollision,
+    stepCounter,
+    setFootprints,
   ]);
 
   useEffect(() => {
@@ -309,27 +330,26 @@ const Character = ({
     };
   }, [keysPressed]);
 
-  // Logic to check if the character moves off-screen and trigger screen transition
-
   return (
     <div
+      id={"character"}
       className="character"
       ref={spriteRef}
       style={{
         position: "absolute",
         left: `${position.x}px`,
         top: `${position.y}px`,
-        backgroundColor: "#C66B2A",
+        background: `url(${process.env.PUBLIC_URL}/images/me.png)`,
+        backgroundSize: `${charWidth}px ${charHeight}px`,
         width: `${charWidth}px`,
         height: `${charHeight}px`,
         transition: "left 0.2s ease-out, top 0.2s ease-out",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: 0,
       }}
-    >
-      {/* Your character's visual representation */}
-    </div>
+    />
   );
 };
 

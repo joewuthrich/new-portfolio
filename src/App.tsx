@@ -5,6 +5,7 @@ import Character from "./components/Character";
 import Arrow from "./components/Arrow";
 import InterestsPage from "./components/pages/InterestsPage";
 import JourneyPage from "./components/pages/JourneyPage";
+import Footprint from "./components/Footprint";
 
 const App = () => {
   const screens = {
@@ -23,6 +24,7 @@ const App = () => {
   const charHeight = 132;
   const charWidth = 69;
 
+  const [footprints, setFootprints] = useState([]);
   const [collidedDOM, setCollidedDOM] = useState(null);
   const [currentScreen, setCurrentScreen] = useState("home");
   const [position, setPosition] = useState({
@@ -116,8 +118,8 @@ const App = () => {
         ]}
         updateCollision={updateCollision}
         collidedDOM={collidedDOM}
+        setFootprints={setFootprints}
       />
-
       <div
         className="background"
         style={{
@@ -133,6 +135,16 @@ const App = () => {
               : "left"
           }`}
         >
+          {currentScreen === "home"
+            ? footprints.map((fp, _) => (
+                <Footprint
+                  key={fp.key}
+                  position={{ x: fp.x, y: fp.y }}
+                  side={fp.side}
+                  facing={fp.facing}
+                />
+              ))
+            : null}
           <div className="bordered-frame">
             <Header
               collidedDOM={collidedDOM}
@@ -163,6 +175,16 @@ const App = () => {
         <div
           className={`screen ${currentScreen === "interests" ? "" : "right"}`}
         >
+          {currentScreen === "interests"
+            ? footprints.map((fp, _) => (
+                <Footprint
+                  key={fp.key}
+                  position={{ x: fp.x, y: fp.y }}
+                  side={fp.side}
+                  facing={fp.facing}
+                />
+              ))
+            : null}
           <div className="bordered-frame">
             <InterestsPage
               collidedDOM={collidedDOM}
@@ -173,6 +195,16 @@ const App = () => {
         <div
           className={`screen ${currentScreen === "journey" ? "" : "bottom"}`}
         >
+          {currentScreen === "journey"
+            ? footprints.map((fp, _) => (
+                <Footprint
+                  key={fp.key}
+                  position={{ x: fp.x, y: fp.y }}
+                  side={fp.side}
+                  facing={fp.facing}
+                />
+              ))
+            : null}
           <div className="bordered-frame">
             <JourneyPage
               collidedDOM={collidedDOM}
