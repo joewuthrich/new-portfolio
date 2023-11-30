@@ -18,9 +18,7 @@ const Arrow = (props: InterestProps) => {
     images.push(
       <img
         id={src}
-        className={`interest-image interactable ${
-          props.collidedDOM === src ? "hover" : ""
-        }`}
+        className={`interest-image`}
         src={process.env.PUBLIC_URL + src}
         alt=""
         width="150"
@@ -31,7 +29,10 @@ const Arrow = (props: InterestProps) => {
 
   return (
     <div
-      className={`single-interest-container ${props.align}`}
+      className={`single-interest-container ${props.align} interactable ${
+        props.collidedDOM === "interests-" + props.title ? "hover" : ""
+      }`}
+      id={"interests-" + props.title}
       style={{
         marginLeft: props.offset + "px",
       }}

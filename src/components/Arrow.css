@@ -40,6 +40,7 @@
 .arrow-container.top {
   transform: rotate(180deg);
   top: 0px;
+  margin-top: 71px;
 }
 
 .arrow-container.bottom {

@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import Footprint from "./Footprint";
 
 const Character = ({
   moveScreenAction,
@@ -11,6 +10,9 @@ const Character = ({
   updateCollision,
   collidedDOM,
   setFootprints,
+  canMove,
+  setJourneyScroll,
+  journeyScroll,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
     ArrowUp: false,
@@ -22,7 +24,6 @@ const Character = ({
   });
 
   const [facing, setFacing] = useState("S");
-  const [canMove, setCanMove] = useState(true);
   const [stepCounter, setStepCounter] = useState(0);
 
   const baseMoveSpeed = 10; // Adjust the base speed as needed
@@ -33,6 +34,8 @@ const Character = ({
 
   const edgeThreshold = 40;
   const slowThreshold = 120;
+
+  const journeyScrollThreshold = window.innerHeight / 3;
 
   const spriteRef = useRef(null);
 
@@ -86,11 +89,57 @@ const Character = ({
     };
 
     const handleMovement = () => {
+      const movingUp = keysPressed.ArrowUp && !keysPressed.ArrowDown;
+      const movingDown = keysPressed.ArrowDown && !keysPressed.ArrowUp;
+      const movingLeft = keysPressed.ArrowLeft && !keysPressed.ArrowRight;
+      const movingRight = keysPressed.ArrowRight && !keysPressed.ArrowLeft;
+
+      move(movingUp, movingDown, movingLeft, movingRight, keysPressed.Control);
+    };
+
+    const handleWheel = (event) => {
+      const deltaY = event.deltaY;
+      move(deltaY <= 0, deltaY > 0, false, false, true, true);
+      event.preventDefault();
+    };
+
+    const createFootPrint = () => {
+      setStepCounter(stepCounter + 1);
+      if (stepCounter % (keysPressed.Control ? 3 : 9) === 0) {
+        setFootprints((prevFootprints) => [
+          ...prevFootprints.slice(-10),
+          {
+            key: stepCounter,
+            x: position.x + charWidth / 2,
+            y:
+              position.y +
+              (charHeight / 3) * 2 +
+              (screenInfo.name === "journey"
+                ? document.getElementById("journey-screen").scrollTop
+                : 0),
+            side:
+              stepCounter % (keysPressed.Control ? 6 : 18) === 0
+                ? "left"
+                : "right",
+            facing: facing,
+          },
+        ]);
+      }
+    };
+
+    const move = (
+      movingUp,
+      movingDown,
+      movingLeft,
+      movingRight,
+      sprinting,
+      scroll = false
+    ) => {
       let x = position.x;
       let y = position.y;
 
       // Calculate the actual move speed considering sprint
-      const moveSpeed = keysPressed.Control
+      const moveSpeed = sprinting
         ? baseMoveSpeed * sprintMultiplier
         : baseMoveSpeed;
 
@@ -98,17 +147,97 @@ const Character = ({
       const diagonalSpeed = moveSpeed / 2.8;
 
       // Logic to check proximity to the edge of the screen
-      const nearLeftEdge = x <= slowThreshold && screenInfo.exits[3];
-      const nearRightEdge =
-        x + charWidth >= window.innerWidth - slowThreshold &&
-        screenInfo.exits[1];
-      const nearTopEdge = y <= slowThreshold && screenInfo.exits[0];
+      const nearLeftEdge = x <= slowThreshold;
+      const nearRightEdge = x + charWidth >= window.innerWidth - slowThreshold;
+      const nearTopEdge = y <= slowThreshold;
       const nearBottomEdge =
-        y + charHeight >= window.innerHeight - slowThreshold &&
-        screenInfo.exits[2];
+        y + charHeight >= window.innerHeight - slowThreshold;
+
+      const nearLeftValid = nearLeftEdge && screenInfo.exits[3];
+      const nearRightValid = nearRightEdge && screenInfo.exits[1];
+      const nearTopValid = y <= slowThreshold && screenInfo.exits[0];
+      const nearBottomValid = nearBottomEdge && screenInfo.exits[2];
+
       let finalMoveSpeed = moveSpeed;
       let finalDiagonalSpeed = diagonalSpeed;
-      if (nearLeftEdge || nearRightEdge || nearTopEdge || nearBottomEdge) {
+
+      let handled = false;
+
+      let journeyScreenDOM = document.getElementById("journey-screen");
+
+      // @ts-ignore
+      let newFacing: "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW" = facing;
+
+      // Determine the movement direction based on pressed keys
+      if (movingUp) newFacing = "N";
+      if (movingDown) newFacing = "S";
+      if (movingLeft) newFacing = "W";
+      if (movingRight) newFacing = "E";
+
+      if ((movingUp || movingDown) && (movingLeft || movingRight)) {
+        if (movingUp && movingLeft) {
+          newFacing = "NW";
+        } else if (movingUp && movingRight) {
+          newFacing = "NE";
+        } else if (movingDown && movingLeft) {
+          newFacing = "SW";
+        } else if (movingDown && movingRight) {
+          newFacing = "SE";
+        }
+      }
+
+      // !! DOM MANUPULATION BAD?
+      if (
+        y <= journeyScrollThreshold &&
+        screenInfo.name === "journey" &&
+        movingUp &&
+        journeyScreenDOM.scrollTop !== 0
+      ) {
+        if (journeyScreenDOM.scrollTop > 70) {
+          setJourneyScroll(journeyScreenDOM.scrollTop);
+          journeyScreenDOM.scrollBy(0, -moveSpeed * (scroll ? 14 : 8));
+          movingUp = false;
+          handled = true;
+          // createFootPrint();
+          // return;
+        } else {
+          setJourneyScroll(0);
+          journeyScreenDOM.scrollTo(0, 0);
+        }
+      }
+
+      if (
+        y + charHeight >= window.innerHeight - journeyScrollThreshold &&
+        screenInfo.name === "journey" &&
+        movingDown &&
+        journeyScreenDOM.scrollTop !==
+          journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight
+      ) {
+        if (
+          journeyScreenDOM.scrollTop <
+          journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight - 70
+        ) {
+          setJourneyScroll(journeyScreenDOM.scrollTop + 71);
+          journeyScreenDOM.scrollBy(0, moveSpeed * (scroll ? 14 : 8));
+          movingDown = false;
+          handled = true;
+          // createFootPrint();
+          // return;
+        } else {
+          setJourneyScroll(
+            journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight
+          );
+          journeyScreenDOM.scrollTo(
+            0,
+            journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight
+          );
+        }
+      }
+
+      if (
+        (nearLeftValid || nearRightValid || nearTopValid || nearBottomValid) &&
+        !handled
+      ) {
         const maxDist = Math.max(window.innerWidth, window.innerHeight);
 
         const minDistance = Math.min(
@@ -141,46 +270,25 @@ const Character = ({
           finalMoveSpeed *= minDistance / slowThreshold / 2;
           finalDiagonalSpeed *= minDistance / slowThreshold / 2;
         }
-      } else translateScreen(0, 0);
-
-      // @ts-ignore
-      let newFacing: "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW" = facing;
-
-      const movingUp = keysPressed.ArrowUp && !keysPressed.ArrowDown;
-      const movingDown = keysPressed.ArrowDown && !keysPressed.ArrowUp;
-      const movingLeft = keysPressed.ArrowLeft && !keysPressed.ArrowRight;
-      const movingRight = keysPressed.ArrowRight && !keysPressed.ArrowLeft;
+      } else if (!handled) translateScreen(0, 0);
 
       // Determine the movement direction based on pressed keys
       if (movingUp) {
         y -= finalMoveSpeed;
-        newFacing = "N";
       }
       if (movingDown) {
         y += finalMoveSpeed;
-        newFacing = "S";
       }
       if (movingLeft) {
         x -= finalMoveSpeed;
-        newFacing = "W";
       }
       if (movingRight) {
         x += finalMoveSpeed;
-        newFacing = "E";
       }
 
       // Adjust the position for diagonal movement
+      // TODO: Adjust diagonal speed when scrolling
       if ((movingUp || movingDown) && (movingLeft || movingRight)) {
-        if (movingUp && movingLeft) {
-          newFacing = "NW";
-        } else if (movingUp && movingRight) {
-          newFacing = "NE";
-        } else if (movingDown && movingLeft) {
-          newFacing = "SW";
-        } else if (movingDown && movingRight) {
-          newFacing = "SE";
-        }
-
         x += x > position.x ? -finalDiagonalSpeed : finalDiagonalSpeed;
         y += y > position.y ? -finalDiagonalSpeed : finalDiagonalSpeed;
       }
@@ -202,7 +310,12 @@ const Character = ({
             // Calculate center of the character and the element
             const characterCenter = {
               x: x + charWidth / 2,
-              y: y + charHeight / 2,
+              y:
+                y +
+                charHeight / 2 +
+                (screenInfo.name === "journey"
+                  ? document.getElementById("journey-screen").scrollTop
+                  : 0),
             };
             const elementCenter = {
               x: elementRect.left + elementRect.width / 2,
@@ -248,26 +361,8 @@ const Character = ({
 
       if (!canMove) return;
 
-      if (x !== position.x || y !== position.y) {
-        setStepCounter(stepCounter + 1);
-        if (stepCounter % (keysPressed.Control ? 3 : 9) === 0) {
-          setFootprints((prevFootprints) => [
-            ...prevFootprints.slice(-10),
-            {
-              key: stepCounter,
-              x: position.x + charWidth / 2,
-              y: position.y + (charHeight / 3) * 2,
-              side:
-                stepCounter % (keysPressed.Control ? 6 : 18) === 0
-                  ? "left"
-                  : "right",
-              facing: facing,
-            },
-          ]);
-        }
-      }
+      if (x !== position.x || y !== position.y) createFootPrint();
 
-      // TODO: Modify this so that the sprite can't be moved while the screens are transitioning
       modifySprite(newFacing);
 
       // Logic for translating between screens
@@ -294,9 +389,13 @@ const Character = ({
       setPosition({ x, y });
     };
 
-    const interval = setInterval(handleMovement, 1000 / 60); // Adjust the interval for smooth movement
+    const interval = setInterval(handleMovement, 1000 / 60);
+    window.addEventListener("wheel", handleWheel, { passive: false });
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("wheel", handleWheel);
+    };
   }, [
     keysPressed,
     position,
@@ -311,13 +410,16 @@ const Character = ({
     updateCollision,
     stepCounter,
     setFootprints,
+    journeyScroll,
+    setJourneyScroll,
   ]);
 
   useEffect(() => {
-    const handleKeyDown = ({ key }) => {
+    const handleKeyDown = (event) => {
+      event.preventDefault();
       setKeysPressed((prevState) => ({
         ...prevState,
-        [key]: true,
+        [event.key]: true,
       }));
     };
 
@@ -343,11 +445,18 @@ const Character = ({
         backgroundSize: `${charWidth}px ${charHeight}px`,
         width: `${charWidth}px`,
         height: `${charHeight}px`,
-        transition: "left 0.2s ease-out, top 0.2s ease-out",
+        transition: canMove ? "" : "left 0.5s ease, top 0.5s ease",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 0,
+        transform: `${
+          facing === "W" || facing === "NW" || facing === "SW"
+            ? "scaleX(-1)"
+            : facing === "N"
+            ? "scaleY(-1)"
+            : ""
+        }`,
       }}
     />
   );

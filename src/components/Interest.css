@@ -34,15 +34,7 @@
 }
 
 .interest-image {
-  transition: transform 0.3s ease;
-}
-
-.interest-image:hover {
-  transform: scale(1.1);
-}
-
-.interest-image.hover {
-  transform: scale(1.1);
+  object-fit: cover;
 }
 
 .content-container {
@@ -68,6 +60,7 @@
   display: flex;
   flex-direction: row;
   width: 80%;
+  transition: transform 0.3s ease;
 }
 
 .single-interest-container.left {
@@ -76,4 +69,12 @@
 
 .single-interest-container.right {
   justify-content: flex-end;
+}
+
+.single-interest-container:hover {
+  transform: scale(1.1);
+}
+
+.single-interest-container.hover {
+  transform: scale(1.1);
 }

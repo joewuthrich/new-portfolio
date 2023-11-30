@@ -11,12 +11,15 @@ const App = () => {
   const screens = {
     home: {
       // North, East, South, West
+      name: "home",
       exits: [false, true, true, true],
     },
     interests: {
+      name: "interests",
       exits: [false, false, false, true],
     },
     journey: {
+      name: "journey",
       exits: [true, false, false, false],
     },
   };
@@ -24,6 +27,8 @@ const App = () => {
   const charHeight = 132;
   const charWidth = 69;
 
+  const [journeyScroll, setJourneyScroll] = useState(0);
+  const [switchingScreens, setSwitchingScreens] = useState(false);
   const [footprints, setFootprints] = useState([]);
   const [collidedDOM, setCollidedDOM] = useState(null);
   const [currentScreen, setCurrentScreen] = useState("home");
@@ -54,6 +59,7 @@ const App = () => {
     const slowThreshold = 120;
 
     let newPosition;
+    let moved = false;
     switch (direction) {
       case "left":
         newPosition = {
@@ -62,16 +68,14 @@ const App = () => {
         };
         if (currentScreen === "interests") {
           setCurrentScreen("home");
-          setPosition(newPosition);
-          setTimeout(() => translateScreen(0, 0), 250);
+          moved = true;
         }
         break;
       case "right":
         newPosition = { x: slowThreshold + 1, y: position.y };
         if (currentScreen === "home") {
           setCurrentScreen("interests");
-          setPosition(newPosition);
-          setTimeout(() => translateScreen(0, 0), 250);
+          moved = true;
         }
         break;
       case "up":
@@ -81,8 +85,7 @@ const App = () => {
         };
         if (currentScreen === "journey") {
           setCurrentScreen("home");
-          setPosition(newPosition);
-          setTimeout(() => translateScreen(0, 0), 250);
+          moved = true;
         }
         break;
       case "down":
@@ -92,10 +95,19 @@ const App = () => {
         };
         if (currentScreen === "home") {
           setCurrentScreen("journey");
-          setPosition(newPosition);
-          setTimeout(() => translateScreen(0, 0), 250);
+          moved = true;
         }
         break;
+    }
+
+    if (moved) {
+      setSwitchingScreens(true);
+      setTimeout(() => {
+        translateScreen(0, 0);
+        setSwitchingScreens(false);
+      }, 300);
+      setPosition(newPosition);
+      setFootprints([]);
     }
   };
 
@@ -119,6 +131,9 @@ const App = () => {
         updateCollision={updateCollision}
         collidedDOM={collidedDOM}
         setFootprints={setFootprints}
+        canMove={!switchingScreens}
+        setJourneyScroll={setJourneyScroll}
+        journeyScroll={journeyScroll}
       />
       <div
         className="background"
@@ -195,21 +210,23 @@ const App = () => {
         <div
           className={`screen ${currentScreen === "journey" ? "" : "bottom"}`}
         >
-          {currentScreen === "journey"
-            ? footprints.map((fp, _) => (
-                <Footprint
-                  key={fp.key}
-                  position={{ x: fp.x, y: fp.y }}
-                  side={fp.side}
-                  facing={fp.facing}
-                />
-              ))
-            : null}
-          <div className="bordered-frame">
+          <div
+            id="journey-screen"
+            className="bordered-frame"
+            style={{
+              margin: "0px",
+              padding: "71px",
+              overflowY: "scroll",
+              overflowX: "hidden",
+              scrollBehavior: "smooth",
+            }}
+          >
             <JourneyPage
               collidedDOM={collidedDOM}
               moveScreenAction={moveScreenAction}
               type="software developer"
+              footprints={footprints}
+              currentScreen={currentScreen}
             />
           </div>
         </div>

@@ -10,50 +10,159 @@
     "title": "WeDo",
     "desc": "While working on WeDo, I led a cross-functional team in developing a mobile application for a client, applying university-acquired skills to deliver a successful project.",
     "skills": "Project Management, Leadership, Teamwork, Conflict Resolution, UI/UX Design, Frontend Development, Client Interaction, Communication, Stakeholder Management",
-    "images": [
-      "interests-photography-bajo.jpg",
-      "interests-photography-pinnacles.jpg"
-    ],
+    "images": [],
+    "start": "Apr 2023",
     "end": "Nov 2023"
   },
   {
-    "title": "WeDo",
-    "desc": "While working on WeDo, I led a cross-functional team in developing a mobile application for a client, applying university-acquired skills to deliver a successful project.",
-    "skills": "Project Management, Leadership, Teamwork, Conflict Resolution, UI/UX Design, Frontend Development, Client Interaction, Communication, Stakeholder Management",
-    "images": [
-      "interests-photography-bajo.jpg",
-      "interests-photography-pinnacles.jpg"
-    ],
+    "title": "National University of Singapore",
+    "desc": "In 2023, I left New Zealand on an exchange to study Computer Science at the National University of Singapore, which was ranked in the top 10 Computer Science universities at the time. It was an amazing opportunity to live overseas and interact with people of all different backgrounds, greatly broadening my world view, while also studying and learning new things.",
+    "skills": "Interaction Design, Database Implementation, Leadership, Communication, Presenting",
+    "images": ["journey-nus-group.jpg"],
+    "start": "Jan 2023",
+    "end": "May 2023"
+  },
+  {
+    "title": "University of Auckland Faculty Representative",
+    "desc": "After my eighth selection as a class representative, I was elected by my peers as the overall Computer Science faculty representative. My role was to carry the Computer Science feedback to the semesterly faculty meeting and bring any critical topic back to the faculty for further discussion. ",
+    "skills": "Leadership, Communication",
+    "images": [],
+    "start": "Sep 2022",
     "end": "Nov 2023"
   },
   {
-    "title": "WeDo",
-    "desc": "While working on WeDo, I led a cross-functional team in developing a mobile application for a client, applying university-acquired skills to deliver a successful project.",
-    "skills": "Project Management, Leadership, Teamwork, Conflict Resolution, UI/UX Design, Frontend Development, Client Interaction, Communication, Stakeholder Management",
-    "images": [
-      "interests-photography-bajo.jpg",
-      "interests-photography-pinnacles.jpg"
-    ],
+    "title": "University of Auckland Course Coordinator",
+    "desc": "In 2022, I was promoted to Course Coordinator for INFOMGMT192, adding both coordinating and managing the tutor team and serving as the primary point of contact for students to my previous responsibilities. ",
+    "skills": "Leadership, Communication, Management, Problem Solving",
+    "images": ["journey-teaching.jpg"],
+    "start": "Aug 2022",
     "end": "Nov 2023"
   },
   {
-    "title": "WeDo",
-    "desc": "While working on WeDo, I led a cross-functional team in developing a mobile application for a client, applying university-acquired skills to deliver a successful project.",
-    "skills": "Project Management, Leadership, Teamwork, Conflict Resolution, UI/UX Design, Frontend Development, Client Interaction, Communication, Stakeholder Management",
-    "images": [
-      "interests-photography-bajo.jpg",
-      "interests-photography-pinnacles.jpg"
-    ],
+    "title": "Velocity Innovation Challenge",
+    "desc": "After a recommendation from a course I was taking at the time, I entered the Velocity Innovation Challenge, a contest for aspiring entrepreneurs to present their ideas to a panel of judges to get feedback and basic funding. With MarkIt, I ended up winning the challenge, and was advised to continue development on what was possibly a high-value idea.",
+    "skills": "Communication, Independent Development, Entrepreneurship",
+    "images": ["journey-velocity-innovation.jpg"],
+    "end": "May 2022"
+  },
+  {
+    "title": "MarkIt Prototype",
+    "desc": "When marking student's assignments as part of my role as a tutor, I realised that the usual marking process is generally quite inefficient. I created MarkIt to help me mark student's work, and plan to expand to a cloud version soon.",
+    "skills": "HTML, CSS, JavaScript",
+    "images": [],
+    "end": "Nov 2021"
+  },
+  {
+    "title": "University of Auckland Tutor",
+    "desc": "After my first semester, I was asked to become a tutor at the University of Auckland, assisting the lecturer and teaching in one lab session per week for INFOMGMT192.",
+    "skills": "Teaching, Google Sheets, SQLite, Database Design & ERDs, Data Visualization",
+    "images": [],
+    "start": "Aug 2021",
     "end": "Nov 2023"
   },
   {
-    "title": "WeDo",
-    "desc": "While working on WeDo, I led a cross-functional team in developing a mobile application for a client, applying university-acquired skills to deliver a successful project.",
-    "skills": "Project Management, Leadership, Teamwork, Conflict Resolution, UI/UX Design, Frontend Development, Client Interaction, Communication, Stakeholder Management",
-    "images": [
-      "interests-photography-bajo.jpg",
-      "interests-photography-pinnacles.jpg"
-    ],
+    "title": "University of Auckland Class Representative",
+    "desc": "In 2021, I was elected to be a class representative for four of my classes. In this role, I acted as a mediator between the students and the teaching staff, ensuring that complaints were heard and that good feedback was collected.",
+    "skills": "Leadership, Communication",
+    "images": [],
+    "start": "Mar 2021",
     "end": "Nov 2023"
+  },
+  {
+    "title": "Hoop33 Gym Software",
+    "desc": "After working on a mobile application for Hoop33's basketball league since the beginning of 2021, we switched focus to gym-oriented software, as the company's priorities had changed. This project combines a web-oriented program creator and a mobile application to allow simple program creation and viewing.",
+    "skills": "React Native, CSS, JS, HTML, Node.js, MongoDB",
+    "images": [],
+    "start": "Jul 2021",
+    "end": "Dec 2021"
+  },
+  {
+    "title": "Website Design and Consulting Club",
+    "desc": "While at University, I decided to join the Website Development and Consulting Club. In this club, I have worked together with other club members on a website for the Auckland Student's Pool Club, which allows them to streamline registration for both memberships and events.",
+    "skills": "PHP, JavaScript, Google Sheets, Agile Methodology",
+    "images": ["journey-aspa.png"],
+    "start": "Mar 2021",
+    "end": "Apr 2021"
+  },
+  {
+    "title": "University of Auckland",
+    "desc": "In 2021, I decided to attend the University of Auckland, studying Computer Science and Information and Technology Management. I plan to finish both degrees in 2023.",
+    "skills": "Python, CSS, HTML, JavaScript, Java",
+    "images": [],
+    "start": "Mar 2021",
+    "end": "Nov 2023"
+  },
+  {
+    "title": "Youtube Marker",
+    "desc": "At the end of 2020, I finished a project that I had tentatively started during CS50x, YouTube Marker. The website is no longer up, but the project allowed timestamps to be added to YouTube videos with a keypress or the click of a button. These timestamps could be sorted into groups, saved as videos with an account, and turned into text for commenting.",
+    "skills": "CSS, HTML, JavaScript, Python, Flask, MySQL",
+    "images": [],
+    "start": "Aug 2020",
+    "end": "Dec 2020"
+  },
+  {
+    "title": "SEO Copywriter",
+    "desc": "As my plans for University in 2020 didn't work out, I decided to take a gap year. To learn about some more fields that might interest me and make some money, I worked as an SEO copywriter for Chalk n Cheese Digital.",
+    "skills": "SEO, Contract Work",
+    "images": [],
+    "start": "Jul 2020",
+    "end": "Dec 2020"
+  },
+  {
+    "title": "Arduino Model Trains",
+    "desc": "While still in the first lockdown period, I used my old Arduino parts from school and some model trains that I found while cleaning out my room to create a small model train set, complete with a custom remote and an algorithm to generate custom shunting challenges.",
+    "skills": "C++, Arduino",
+    "images": [],
+    "end": "May 2020"
+  },
+  {
+    "title": "Harvard's CS50x",
+    "desc": "During the first COVID lockdown period, I decided to take Harvard's CS50x course, as my plans to head to the USA for college didn't work out due to the pandemic. During this course, we made several small projects while learning the foundations of programming.",
+    "skills": "C, CSS, HTML, JavaScript, Python, Flask, MySQL",
+    "images": [],
+    "end": "Apr 2020"
+  },
+  {
+    "title": "Graduated Westlake Boys High School",
+    "desc": "At the end of 2019, I graduated from WBHS with three scholars awards and a 4.0 GPA. At this time, I was planning to accept an offer from RIT to go and study in the USA.",
+    "skills": "Calculus, Physics, English, Statistics, Robotics",
+    "images": ["journey-westlake.jpg"],
+    "end": "Nov 2019"
+  },
+  {
+    "title": "Space Shuffle",
+    "desc": "As my first proper project that wasn't related to either Minecraft or school, I wanted to create a mobile game. I built Space Shuffle on Unity using C# and their game creation engine.",
+    "skills": "C#",
+    "images": [],
+    "end": "Aug 2019"
+  },
+  {
+    "title": "Calculator Programming",
+    "desc": "While at school, I figured out how to program games onto my calculator in CASIO Basic, including both snake and pong.",
+    "skills": "CASIO BASIC",
+    "images": [],
+    "end": "2019"
+  },
+  {
+    "title": "Learning C++",
+    "desc": "After learning parts of C++ in school, I was interested in learning more about the language. I made some small applications using C++ to learn more about how it works.",
+    "skills": "C++",
+    "images": [],
+    "end": "2019"
+  },
+  {
+    "title": "Arduino Robotics",
+    "desc": "In both 2018 and 2019, I took WBHS's equivalent of robotics, in which we used Arduino in projects such as a robotic arm and a parking sensor to detect cars.",
+    "skills": "C++",
+    "images": [],
+    "start": "2018",
+    "end": "2018"
+  },
+  {
+    "title": "Minecraft Plugins",
+    "desc": "My interest in programming and software development was first sparked in 2015 by way of Minecraft plugins. I enjoyed playing Minecraft and wanted to create custom game modes inside it, so I decided to learn parts of Java to do so.",
+    "skills": "Java, Game Development",
+    "images": ["journey-minecraft-goatimon.png"],
+    "end": "2015"
   }
 ]

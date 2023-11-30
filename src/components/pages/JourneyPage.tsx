@@ -2,10 +2,16 @@ import "../Interest.css";
 import "./JourneyPage.css";
 import Arrow from "../Arrow";
 import Title from "../Title";
-import Icons from "../Svg";
 import Journey from "../Journey";
+import Footprint from "../Footprint";
 
-const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
+const JourneyPage = ({
+  collidedDOM,
+  moveScreenAction,
+  type,
+  footprints,
+  currentScreen,
+}) => {
   const journeyData: {
     title: string;
     desc: string;
@@ -22,12 +28,10 @@ const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
       images.push(
         <img
           id={src}
-          className={`interest-image interactable ${
-            collidedDOM === src ? "hover" : ""
-          }`}
+          className={`interest-image ${collidedDOM === src ? "hover" : ""}`}
           src={process.env.PUBLIC_URL + src}
           alt=""
-          width="150"
+          // width="150"
           height="150"
         />
       );
@@ -50,6 +54,7 @@ const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
 
     leftJourneys.push(
       <Journey
+        collidedDOM={collidedDOM}
         title={journey.title}
         desc={journey.desc}
         skills={journey.skills}
@@ -76,6 +81,7 @@ const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
 
     rightJourneys.push(
       <Journey
+        collidedDOM={collidedDOM}
         title={journey.title}
         desc={journey.desc}
         skills={journey.skills}
@@ -88,21 +94,43 @@ const JourneyPage = ({ collidedDOM, moveScreenAction, type }) => {
   }
 
   return (
-    <div className="content-container">
-      <Arrow
-        title={"Back to Main"}
-        align={"top"}
-        onClick={() => moveScreenAction("up")}
-        collidedDOM={collidedDOM}
-      />
+    <div
+      className="content-container"
+      style={{
+        flexDirection: "column",
+      }}
+    >
+      <div
+        className="journey-arrow-container"
+        style={{
+          top: 0 + "px",
+        }}
+      >
+        <Arrow
+          title={"Back to Main"}
+          align={"top"}
+          onClick={() => moveScreenAction("up")}
+          collidedDOM={collidedDOM}
+        />
+      </div>
       <div className="full-journey-container">
+        {currentScreen === "journey"
+          ? footprints.map((fp, _) => (
+              <Footprint
+                key={fp.key}
+                position={{ x: fp.x, y: fp.y }}
+                side={fp.side}
+                facing={fp.facing}
+              />
+            ))
+          : null}
         <div className="column-journey-container left">{leftJourneys}</div>
-        <div className="center-divider">
-          <Icons.RightShoeOutline />
-          <Icons.LeftShoeOutline />
-        </div>
+        <div className="center-divider" />
         <div className="column-journey-container right">{rightJourneys}</div>
       </div>
+      <div className="top-fog" />
+      <div className="bottom-fog" />
+      <Title title="MY JOURNEY" width="calc(100% - 71px - 71px)" size="80px" />
     </div>
   );
 };

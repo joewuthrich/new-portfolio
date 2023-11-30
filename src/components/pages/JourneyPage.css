@@ -11,6 +11,15 @@
   position: relative;
   margin-bottom: 60px;
   margin-top: 71px;
+  transition: transform 0.3s ease;
+}
+
+.journey-full-item-container:hover {
+  transform: scale(1.1);
+}
+
+.journey-full-item-container.hover {
+  transform: scale(1.1);
 }
 
 .journey-full-item-container.left {
@@ -141,3 +150,56 @@
   transform: rotate(-90deg) translateX(-50%) translateY(50%);
   transform-origin: center left;
 }
+
+.journey-arrow-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* .bottom-fog {
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  top: 100vh;
+  background-color: white;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
+  mask-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
+  transform: translateY(-171px);
+}
+
+.top-fog {
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  top: 0px;
+  background-color: white;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
+  mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
+  transform: translateY(-100px);
+} */

@@ -9,6 +9,7 @@ type JourneyProps = {
   end: string;
   images: string[];
   align: "left" | "right";
+  collidedDOM: string;
 };
 
 const Journey = ({
@@ -19,9 +20,15 @@ const Journey = ({
   end,
   images,
   align,
+  collidedDOM,
 }: JourneyProps) => {
   return (
-    <div className={`journey-full-item-container ${align}`}>
+    <div
+      id={`${title}-${end}-${align}`}
+      className={`journey-full-item-container interactable ${align} ${
+        collidedDOM === `${title}-${end}-${align}` ? "hover" : ""
+      }`}
+    >
       <text className={`journey-item-duration ${align}`}>
         {(start ? start + " - " : "") + end}
       </text>
