@@ -10,7 +10,7 @@
     "title": "WeDo",
     "desc": "While working on WeDo, I led a cross-functional team in developing a mobile application for a client, applying university-acquired skills to deliver a successful project.",
     "skills": "Project Management, Leadership, Teamwork, Conflict Resolution, UI/UX Design, Frontend Development, Client Interaction, Communication, Stakeholder Management",
-    "images": [],
+    "images": ["journey-wedo-demo.mp4", "journey-wedo-award.jpeg"],
     "start": "Apr 2023",
     "end": "Nov 2023"
   },
@@ -49,8 +49,16 @@
     "title": "MarkIt Prototype",
     "desc": "When marking student's assignments as part of my role as a tutor, I realised that the usual marking process is generally quite inefficient. I created MarkIt to help me mark student's work, and plan to expand to a cloud version soon.",
     "skills": "HTML, CSS, JavaScript",
-    "images": [],
+    "images": ["journey-markit-prototype.mp4"],
     "end": "Nov 2021"
+  },
+  {
+    "title": "Encrafted",
+    "desc": "I wanted to practice my Java skills in preperation for one of my university courses in the following semester, so I started building a Minecraft plugin as a way to refresh my knowledge. It ended up growing into a large project, where I lead a team of developers, model designers, and story writers to develop a Minecraft server based off the original concept I came up with. With almost 5,000 reactions on social media platforms, this was one of my more popular projects.",
+    "skills": "Project Management, Creativity, Communication, Management, Game Design, Leadership",
+    "images": ["journey-encrafted-trailer.mp4"],
+    "start": "Aug 2021",
+    "end": "Mar 2022"
   },
   {
     "title": "University of Auckland Tutor",
@@ -72,7 +80,7 @@
     "title": "Hoop33 Gym Software",
     "desc": "After working on a mobile application for Hoop33's basketball league since the beginning of 2021, we switched focus to gym-oriented software, as the company's priorities had changed. This project combines a web-oriented program creator and a mobile application to allow simple program creation and viewing.",
     "skills": "React Native, CSS, JS, HTML, Node.js, MongoDB",
-    "images": [],
+    "images": ["journey-hoop33-login.mp4"],
     "start": "Jul 2021",
     "end": "Dec 2021"
   },
@@ -88,7 +96,7 @@
     "title": "University of Auckland",
     "desc": "In 2021, I decided to attend the University of Auckland, studying Computer Science and Information and Technology Management. I plan to finish both degrees in 2023.",
     "skills": "Python, CSS, HTML, JavaScript, Java",
-    "images": [],
+    "images": ["journey-uoa-logo.jpg"],
     "start": "Mar 2021",
     "end": "Nov 2023"
   },
@@ -96,7 +104,7 @@
     "title": "Youtube Marker",
     "desc": "At the end of 2020, I finished a project that I had tentatively started during CS50x, YouTube Marker. The website is no longer up, but the project allowed timestamps to be added to YouTube videos with a keypress or the click of a button. These timestamps could be sorted into groups, saved as videos with an account, and turned into text for commenting.",
     "skills": "CSS, HTML, JavaScript, Python, Flask, MySQL",
-    "images": [],
+    "images": ["jouney-ytmarker.mp4"],
     "start": "Aug 2020",
     "end": "Dec 2020"
   },
@@ -112,14 +120,14 @@
     "title": "Arduino Model Trains",
     "desc": "While still in the first lockdown period, I used my old Arduino parts from school and some model trains that I found while cleaning out my room to create a small model train set, complete with a custom remote and an algorithm to generate custom shunting challenges.",
     "skills": "C++, Arduino",
-    "images": [],
+    "images": ["journey-trains.mp4"],
     "end": "May 2020"
   },
   {
     "title": "Harvard's CS50x",
     "desc": "During the first COVID lockdown period, I decided to take Harvard's CS50x course, as my plans to head to the USA for college didn't work out due to the pandemic. During this course, we made several small projects while learning the foundations of programming.",
     "skills": "C, CSS, HTML, JavaScript, Python, Flask, MySQL",
-    "images": [],
+    "images": ["journey-cs50x.mp4"],
     "end": "Apr 2020"
   },
   {
@@ -133,7 +141,7 @@
     "title": "Space Shuffle",
     "desc": "As my first proper project that wasn't related to either Minecraft or school, I wanted to create a mobile game. I built Space Shuffle on Unity using C# and their game creation engine.",
     "skills": "C#",
-    "images": [],
+    "images": ["journey-space-shuffle.mp4"],
     "end": "Aug 2019"
   },
   {
@@ -154,7 +162,7 @@
     "title": "Arduino Robotics",
     "desc": "In both 2018 and 2019, I took WBHS's equivalent of robotics, in which we used Arduino in projects such as a robotic arm and a parking sensor to detect cars.",
     "skills": "C++",
-    "images": [],
+    "images": ["journey-crane.mp4"],
     "start": "2018",
     "end": "2018"
   },
@@ -162,7 +170,10 @@
     "title": "Minecraft Plugins",
     "desc": "My interest in programming and software development was first sparked in 2015 by way of Minecraft plugins. I enjoyed playing Minecraft and wanted to create custom game modes inside it, so I decided to learn parts of Java to do so.",
     "skills": "Java, Game Development",
-    "images": ["journey-minecraft-goatimon.png"],
+    "images": [
+      "journey-minecraft-inventory.mp4",
+      "journey-planet-generator.mp4"
+    ],
     "end": "2015"
   }
 ]

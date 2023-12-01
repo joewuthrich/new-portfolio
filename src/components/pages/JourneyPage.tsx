@@ -26,14 +26,25 @@ const JourneyPage = ({
     for (const srcIdx in imageSrcs) {
       const src = "/images/" + imageSrcs[srcIdx];
       images.push(
-        <img
-          id={src}
-          className={`interest-image ${collidedDOM === src ? "hover" : ""}`}
-          src={process.env.PUBLIC_URL + src}
-          alt=""
-          // width="150"
-          height="150"
-        />
+        src.includes(".mp4") ? (
+          <video
+            className={`interest-image`}
+            autoPlay
+            muted
+            src={process.env.PUBLIC_URL + src}
+            // width="150"
+            height="150"
+            loop
+          />
+        ) : (
+          <img
+            className={`interest-image`}
+            src={process.env.PUBLIC_URL + src}
+            alt=""
+            // width="150"
+            height="150"
+          />
+        )
       );
     }
     return images;

@@ -198,7 +198,8 @@ const Character = ({
           journeyScreenDOM.scrollBy(0, -moveSpeed * (scroll ? 14 : 8));
           movingUp = false;
           handled = true;
-          // createFootPrint();
+
+          if (!movingLeft && !movingRight && !movingDown) createFootPrint();
           // return;
         } else {
           setJourneyScroll(0);
@@ -221,7 +222,8 @@ const Character = ({
           journeyScreenDOM.scrollBy(0, moveSpeed * (scroll ? 14 : 8));
           movingDown = false;
           handled = true;
-          // createFootPrint();
+
+          if (!movingLeft && !movingRight && !movingUp) createFootPrint();
           // return;
         } else {
           setJourneyScroll(
