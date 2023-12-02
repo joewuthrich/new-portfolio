@@ -24,7 +24,7 @@ const App = () => {
     },
   };
 
-  const charHeight = 132;
+  const charHeight = 93;
   const charWidth = 69;
 
   const [journeyScroll, setJourneyScroll] = useState(0);
@@ -134,6 +134,8 @@ const App = () => {
         canMove={!switchingScreens}
         setJourneyScroll={setJourneyScroll}
         journeyScroll={journeyScroll}
+        charWidth={charWidth}
+        charHeight={charHeight}
       />
       <div
         className="background"

@@ -13,6 +13,8 @@ const Character = ({
   canMove,
   setJourneyScroll,
   journeyScroll,
+  charWidth,
+  charHeight,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
     ArrowUp: false,
@@ -28,9 +30,6 @@ const Character = ({
 
   const baseMoveSpeed = 10; // Adjust the base speed as needed
   const sprintMultiplier = 3; // Adjust the sprint multiplier
-
-  const charWidth = 69;
-  const charHeight = 132;
 
   const edgeThreshold = 40;
   const slowThreshold = 120;
@@ -76,14 +75,14 @@ const Character = ({
           break;
       }
 
-      spriteRef.current.innerHTML =
-        facing +
-        (!keysPressed.ArrowUp &&
-        !keysPressed.ArrowDown &&
-        !keysPressed.ArrowLeft &&
-        !keysPressed.ArrowRight
-          ? ""
-          : "(M)");
+      // spriteRef.current.innerHTML =
+      //   facing +
+      //   (!keysPressed.ArrowUp &&
+      //   !keysPressed.ArrowDown &&
+      //   !keysPressed.ArrowLeft &&
+      //   !keysPressed.ArrowRight
+      //     ? ""
+      //     : "(M)");
 
       setFacing(facing);
     };
@@ -414,6 +413,9 @@ const Character = ({
     setFootprints,
     journeyScroll,
     setJourneyScroll,
+    journeyScrollThreshold,
+    charHeight,
+    charWidth,
   ]);
 
   useEffect(() => {
@@ -434,6 +436,24 @@ const Character = ({
     };
   }, [keysPressed]);
 
+  const getSpriteURL = () => {
+    const mainFace = facing.split("")[0];
+    const faceSprite = mainFace === "E" ? "W" : mainFace;
+
+    const image =
+      faceSprite +
+      "-" +
+      (Math.round(stepCounter / 5) % 4 === 2
+        ? 0
+        : Math.round(stepCounter / 5) % 4 === 3
+        ? 2
+        : Math.round(stepCounter / 5) % 4);
+
+    console.log(image);
+
+    return `${process.env.PUBLIC_URL}/images/character/${image}.png`;
+  };
+
   return (
     <div
       id={"character"}
@@ -443,22 +463,18 @@ const Character = ({
         position: "absolute",
         left: `${position.x}px`,
         top: `${position.y}px`,
-        background: `url(${process.env.PUBLIC_URL}/images/me.png)`,
+        background: `url(${getSpriteURL()}) no-repeat`,
         backgroundSize: `${charWidth}px ${charHeight}px`,
         width: `${charWidth}px`,
         height: `${charHeight}px`,
         transition: canMove ? "" : "left 0.5s ease, top 0.5s ease",
+        imageRendering: "crisp-edges",
         display: "flex",
+        objectFit: "fill",
         justifyContent: "center",
         alignItems: "center",
         zIndex: 0,
-        transform: `${
-          facing === "W" || facing === "NW" || facing === "SW"
-            ? "scaleX(-1)"
-            : facing === "N"
-            ? "scaleY(-1)"
-            : ""
-        }`,
+        transform: `${facing === "E" ? "scaleX(-1)" : ""}`,
       }}
     />
   );
