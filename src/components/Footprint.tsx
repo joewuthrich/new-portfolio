@@ -62,9 +62,9 @@ const Footprint = ({
       style={{
         position: "absolute",
         left: `${position.x}px`, // Adjust positioning as needed
-        top: `${position.y + 10}px`, // Adjust positioning as needed
+        top: `${position.y}px`, // Adjust positioning as needed
         transform: `rotate(${rotation}deg) translateX(${
-          side === "left" ? "-15px" : "15px"
+          side === "left" ? "-5px" : "5px"
         })`,
         opacity: faded ? "0" : "1",
         transition: "opacity 2s ease",

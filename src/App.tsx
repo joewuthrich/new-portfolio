@@ -32,7 +32,7 @@ const App = () => {
     y: Math.floor(window.innerHeight / 2 + charHeight / 2),
   };
 
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   const [journeyScroll, setJourneyScroll] = useState(0);
   const [switchingScreens, setSwitchingScreens] = useState(false);
   const [footprints, setFootprints] = useState([]);

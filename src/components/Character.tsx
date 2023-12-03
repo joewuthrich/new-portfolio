@@ -109,7 +109,7 @@ const Character = ({
 
     const createFootPrint = () => {
       setStepCounter(stepCounter + 1);
-      if (stepCounter % (keysPressed.Control ? 3 : 9) === 0) {
+      if (stepCounter % (keysPressed.Control ? 2 : 6) === 0) {
         setFootprints((prevFootprints) => [
           ...prevFootprints.slice(-10),
           {
@@ -117,12 +117,13 @@ const Character = ({
             x: position.x + charWidth / 2,
             y:
               position.y +
-              (charHeight / 3) * 2 +
+              charHeight -
+              15 +
               (screenInfo.name === "journey"
                 ? document.getElementById("journey-screen").scrollTop
                 : 0),
             side:
-              stepCounter % (keysPressed.Control ? 6 : 18) === 0
+              stepCounter % (keysPressed.Control ? 4 : 12) === 0
                 ? "left"
                 : "right",
             facing: facing,
@@ -159,7 +160,7 @@ const Character = ({
 
       const nearLeftValid = nearLeftEdge && screenInfo.exits[3];
       const nearRightValid = nearRightEdge && screenInfo.exits[1];
-      const nearTopValid = y <= slowThreshold && screenInfo.exits[0];
+      const nearTopValid = nearTopEdge && screenInfo.exits[0];
       const nearBottomValid = nearBottomEdge && screenInfo.exits[2];
 
       let finalMoveSpeed = moveSpeed;
@@ -246,23 +247,23 @@ const Character = ({
         const maxDist = Math.max(window.innerWidth, window.innerHeight);
 
         const minDistance = Math.min(
-          nearLeftEdge ? x : maxDist,
-          nearRightEdge ? window.innerWidth - (x + charWidth) : maxDist,
-          nearTopEdge ? y : maxDist,
-          nearBottomEdge ? window.innerHeight - (y + charHeight) : maxDist
+          nearLeftValid ? x : maxDist,
+          nearRightValid ? window.innerWidth - (x + charWidth) : maxDist,
+          nearTopValid ? y : maxDist,
+          nearBottomValid ? window.innerHeight - (y + charHeight) : maxDist
         );
 
         const translateX =
-          (nearRightEdge ? -1.01 : 1.01) ^
-          ((nearLeftEdge ? slowThreshold - x : 0) +
-            (nearRightEdge
+          (nearRightValid ? -1.01 : 1.01) ^
+          ((nearLeftValid ? slowThreshold - x : 0) +
+            (nearRightValid
               ? slowThreshold - (window.innerWidth - (x + charWidth))
               : 0));
 
         const translateY =
-          (nearTopEdge ? 1.01 : 1.01) ^
-          ((nearTopEdge ? slowThreshold - y : 0) +
-            (nearBottomEdge
+          (nearTopValid ? 1.01 : 1.01) ^
+          ((nearTopValid ? slowThreshold - y : 0) +
+            (nearBottomValid
               ? -(slowThreshold - (window.innerHeight - (y + charHeight)))
               : 0));
 
