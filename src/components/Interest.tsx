@@ -29,15 +29,17 @@ const Arrow = (props: InterestProps) => {
 
   return (
     <div
-      className={`single-interest-container ${props.align} interactable ${
-        props.collidedDOM === "interests-" + props.title ? "hover" : ""
-      }`}
-      id={"interests-" + props.title}
+      className={`single-interest-container ${props.align}  `}
       style={{
         marginLeft: props.offset + "px",
       }}
     >
-      <div className={`interest-container`}>
+      <div
+        id={"interests-" + props.title}
+        className={`interest-container interactable ${
+          props.collidedDOM === "interests-" + props.title ? "hover" : ""
+        }`}
+      >
         <text className={"interest-title"}>{props.title}</text>
         <text className={"interest-description"}>{props.description}</text>
         <div className="interest-image-container">{images}</div>

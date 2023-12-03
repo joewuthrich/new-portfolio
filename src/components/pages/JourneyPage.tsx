@@ -4,6 +4,8 @@ import Arrow from "../Arrow";
 import Title from "../Title";
 import Journey from "../Journey";
 import Footprint from "../Footprint";
+import { useEffect } from "react";
+import VideoComponent from "../VideoComponent";
 
 const JourneyPage = ({
   collidedDOM,
@@ -11,6 +13,7 @@ const JourneyPage = ({
   type,
   footprints,
   currentScreen,
+  scroll,
 }) => {
   const journeyData: {
     title: string;
@@ -21,21 +24,15 @@ const JourneyPage = ({
     end: string;
   }[] = require(`../../journeys/journey-${type.replace(" ", "-")}.json`);
 
+  useEffect(() => {}, [scroll]);
+
   const getImages = (imageSrcs) => {
     const images = [];
     for (const srcIdx in imageSrcs) {
       const src = "/images/" + imageSrcs[srcIdx];
       images.push(
         src.includes(".mp4") ? (
-          <video
-            className={`interest-image`}
-            autoPlay
-            muted
-            src={process.env.PUBLIC_URL + src}
-            // width="150"
-            height="150"
-            loop
-          />
+          <VideoComponent src={process.env.PUBLIC_URL + src} />
         ) : (
           <img
             className={`interest-image`}

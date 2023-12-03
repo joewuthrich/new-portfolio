@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import "./Interest.css";
 import "./pages/JourneyPage.css";
 
@@ -22,12 +23,51 @@ const Journey = ({
   align,
   collidedDOM,
 }: JourneyProps) => {
+  const [isLarge, setLarge] = useState(false);
+  const journeyRef = useRef(null);
+
+  useEffect(() => {
+    const options = {
+      root: null, // Use the viewport as the root
+      rootMargin: `30% 0px 30% 0px`, // Margin around the root
+      threshold: 0.9,
+    };
+
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log("entering " + title);
+
+          if (!isLarge) setLarge(true);
+        } else {
+          console.log("leaving " + title);
+          if (isLarge) setLarge(false);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, options);
+
+    // Observe the video element
+    if (journeyRef.current) {
+      observer.observe(journeyRef.current);
+    }
+
+    return () => {
+      // Disconnect the observer when component unmounts
+      if (journeyRef.current) {
+        observer.unobserve(journeyRef.current);
+      }
+    };
+  }, [isLarge, title]);
+
   return (
     <div
       id={`${title}-${end}-${align}`}
-      className={`journey-full-item-container interactable ${align} ${
-        collidedDOM === `${title}-${end}-${align}` ? "hover" : ""
+      className={`journey-full-item-container ${align} ${
+        isLarge ? "hover" : ""
       }`}
+      ref={journeyRef}
     >
       <text className={`journey-item-duration ${align}`}>
         {(start ? start + " - " : "") + end}

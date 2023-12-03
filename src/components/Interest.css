@@ -3,10 +3,19 @@
   flex-direction: column;
   max-width: 500px;
   z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.interest-container:hover {
+  transform: scale(1.1);
+}
+
+.interest-container.hover {
+  transform: scale(1.1);
 }
 
 .interest-title {
-  color: rgba(0, 0, 0, 0.9);
+  color: var(--main-text-color);
 
   font-family: "RobotoSlab-Regular";
   font-size: 36px;
@@ -18,7 +27,7 @@
 
 .interest-description {
   flex-shrink: 0;
-  color: rgba(0, 0, 0, 0.9);
+  color: var(--main-text-color);
 
   font-family: "RobotoSlab-Light";
   font-size: 13px;
@@ -60,7 +69,6 @@
   display: flex;
   flex-direction: row;
   width: 80%;
-  transition: transform 0.3s ease;
 }
 
 .single-interest-container.left {
@@ -69,12 +77,4 @@
 
 .single-interest-container.right {
   justify-content: flex-end;
-}
-
-.single-interest-container:hover {
-  transform: scale(1.1);
-}
-
-.single-interest-container.hover {
-  transform: scale(1.1);
 }

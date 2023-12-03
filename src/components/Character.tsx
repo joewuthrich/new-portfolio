@@ -204,7 +204,6 @@ const Character = ({
           handled = true;
 
           if (!movingLeft && !movingRight && !movingDown) createFootPrint();
-          // return;
         } else {
           setJourneyScroll(0);
           journeyScreenDOM.scrollTo(0, 0);
@@ -454,8 +453,6 @@ const Character = ({
         ? 2
         : Math.round(stepCounter / 5) % 4);
 
-    console.log(image);
-
     return `${process.env.PUBLIC_URL}/images/character/${image}.png`;
   };
 
@@ -469,7 +466,7 @@ const Character = ({
         left: `${position.x}px`,
         top: `${position.y}px`,
         background: `url(${getSpriteURL()}) no-repeat`,
-        backgroundSize: `${charWidth}px ${charHeight}px`,
+        // backgroundSize: ``,
         width: `${charWidth}px`,
         height: `${charHeight}px`,
         transition: canMove ? "" : "left 0.5s ease, top 0.5s ease",

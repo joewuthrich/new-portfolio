@@ -6,6 +6,7 @@ import Arrow from "./components/Arrow";
 import InterestsPage from "./components/pages/InterestsPage";
 import JourneyPage from "./components/pages/JourneyPage";
 import Footprint from "./components/Footprint";
+import { createGlobalStyle } from "styled-components";
 
 const App = () => {
   const screens = {
@@ -31,6 +32,7 @@ const App = () => {
     y: Math.floor(window.innerHeight / 2 + charHeight / 2),
   };
 
+  const [isDark, setIsDark] = useState(false);
   const [journeyScroll, setJourneyScroll] = useState(0);
   const [switchingScreens, setSwitchingScreens] = useState(false);
   const [footprints, setFootprints] = useState([]);
@@ -132,8 +134,27 @@ const App = () => {
     setVerticalTranslation(y);
   };
 
+  const GlobalStyles = createGlobalStyle`
+  :root {
+    ${
+      isDark
+        ? `--main-bg-color: #262626;
+        --main-text-color: rgba(255, 255, 255, 0.9);
+        --title-dash-color: #c66b2a;
+        --icon-color: rgba(255, 255, 255, 0.65);
+        --footstep-color: rgba(255, 255, 255, 0.1);`
+        : `--main-bg-color: #fefefe;
+    --main-text-color: rgba(0, 0, 0, 0.9);
+    --title-dash-color: #c3eaff;
+    --icon-color: rgba(0, 0, 0, 0.65);
+    --footstep-color: rgba(0, 0, 0, 0.1); `
+    }
+  }
+`;
+
   return (
     <div className="frame">
+      <GlobalStyles />
       <Character
         moveScreenAction={moveScreenAction}
         position={position}
@@ -246,6 +267,7 @@ const App = () => {
               type="software developer"
               footprints={footprints}
               currentScreen={currentScreen}
+              scroll={journeyScroll}
             />
           </div>
         </div>
