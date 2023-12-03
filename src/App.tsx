@@ -23,6 +23,10 @@ const App = () => {
       name: "journey",
       exits: [true, false, false, false],
     },
+    about: {
+      name: "about",
+      exits: [false, true, false, false],
+    },
   };
 
   const charHeight = 93;
@@ -32,7 +36,7 @@ const App = () => {
     y: Math.floor(window.innerHeight / 2 + charHeight / 2),
   };
 
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [journeyScroll, setJourneyScroll] = useState(0);
   const [switchingScreens, setSwitchingScreens] = useState(false);
   const [footprints, setFootprints] = useState([]);
@@ -87,12 +91,18 @@ const App = () => {
         if (currentScreen === "interests") {
           setCurrentScreen("home");
           moved = true;
+        } else if (currentScreen === "home") {
+          setCurrentScreen("about");
+          moved = true;
         }
         break;
       case "right":
         newPosition = { x: slowThreshold + 1, y: position.y };
         if (currentScreen === "home") {
           setCurrentScreen("interests");
+          moved = true;
+        } else if (currentScreen === "about") {
+          setCurrentScreen("home");
           moved = true;
         }
         break;
@@ -174,6 +184,7 @@ const App = () => {
         charWidth={charWidth}
         charHeight={charHeight}
         restartPage={restartPage}
+        isDark={isDark}
       />
       <div
         className="background"
@@ -187,6 +198,8 @@ const App = () => {
               ? ""
               : currentScreen === "journey"
               ? "top"
+              : currentScreen === "about"
+              ? "right"
               : "left"
           }`}
         >
@@ -270,6 +283,9 @@ const App = () => {
               scroll={journeyScroll}
             />
           </div>
+        </div>
+        <div className={`screen ${currentScreen === "about" ? "" : "left"}`}>
+          <div className="bordered-frame"></div>
         </div>
       </div>
     </div>

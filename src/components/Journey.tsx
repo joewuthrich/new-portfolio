@@ -36,11 +36,8 @@ const Journey = ({
     const handleIntersection = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          console.log("entering " + title);
-
           if (!isLarge) setLarge(true);
         } else {
-          console.log("leaving " + title);
           if (isLarge) setLarge(false);
         }
       });

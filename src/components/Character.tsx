@@ -16,15 +16,21 @@ const Character = ({
   charWidth,
   charHeight,
   restartPage,
+  isDark,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
-    ArrowUp: false,
-    ArrowDown: false,
-    ArrowLeft: false,
-    ArrowRight: false,
-    Control: false,
-    Enter: false,
+    arrowup: false,
+    arrowdown: false,
+    arrowleft: false,
+    arrowright: false,
+    control: false,
+    shift: false,
+    enter: false,
     " ": false,
+    w: false,
+    a: false,
+    s: false,
+    d: false,
   });
 
   const [facing, setFacing] = useState("S");
@@ -43,14 +49,14 @@ const Character = ({
   const handleKeyUp = ({ key }) => {
     setKeysPressed((prevState) => ({
       ...prevState,
-      [key]: false,
+      [key.toLowerCase()]: false,
     }));
   };
 
   useEffect(() => {
-    if (keysPressed.Enter) {
+    if (keysPressed.enter) {
       if (collidedDOM != null) document.getElementById(collidedDOM)?.click();
-      handleKeyUp({ key: "Enter" });
+      handleKeyUp({ key: "enter" });
     } else if (keysPressed[" "]) {
       restartPage();
       handleKeyUp({ key: "Space" });
@@ -80,25 +86,30 @@ const Character = ({
           break;
       }
 
-      // spriteRef.current.innerHTML =
-      //   facing +
-      //   (!keysPressed.ArrowUp &&
-      //   !keysPressed.ArrowDown &&
-      //   !keysPressed.ArrowLeft &&
-      //   !keysPressed.ArrowRight
-      //     ? ""
-      //     : "(M)");
-
       setFacing(facing);
     };
 
     const handleMovement = () => {
-      const movingUp = keysPressed.ArrowUp && !keysPressed.ArrowDown;
-      const movingDown = keysPressed.ArrowDown && !keysPressed.ArrowUp;
-      const movingLeft = keysPressed.ArrowLeft && !keysPressed.ArrowRight;
-      const movingRight = keysPressed.ArrowRight && !keysPressed.ArrowLeft;
+      const movingUp =
+        (keysPressed.arrowup || keysPressed.w) &&
+        !(keysPressed.arrowdown || keysPressed.s);
+      const movingDown =
+        (keysPressed.arrowdown || keysPressed.s) &&
+        !(keysPressed.arrowup || keysPressed.w);
+      const movingLeft =
+        (keysPressed.arrowleft || keysPressed.a) &&
+        !(keysPressed.arrowright || keysPressed.d);
+      const movingRight =
+        (keysPressed.arrowright || keysPressed.d) &&
+        !(keysPressed.arrowleft || keysPressed.a);
 
-      move(movingUp, movingDown, movingLeft, movingRight, keysPressed.Control);
+      move(
+        movingUp,
+        movingDown,
+        movingLeft,
+        movingRight,
+        keysPressed.control || keysPressed.shift
+      );
     };
 
     const handleWheel = (event) => {
@@ -108,8 +119,10 @@ const Character = ({
     };
 
     const createFootPrint = () => {
+      const sprinting = keysPressed.control || keysPressed.shift;
+
       setStepCounter(stepCounter + 1);
-      if (stepCounter % (keysPressed.Control ? 2 : 6) === 0) {
+      if (stepCounter % (sprinting ? 2 : 6) === 0) {
         setFootprints((prevFootprints) => [
           ...prevFootprints.slice(-10),
           {
@@ -122,10 +135,7 @@ const Character = ({
               (screenInfo.name === "journey"
                 ? document.getElementById("journey-screen").scrollTop
                 : 0),
-            side:
-              stepCounter % (keysPressed.Control ? 4 : 12) === 0
-                ? "left"
-                : "right",
+            side: stepCounter % (sprinting ? 4 : 12) === 0 ? "left" : "right",
             facing: facing,
           },
         ]);
@@ -428,7 +438,7 @@ const Character = ({
       event.preventDefault();
       setKeysPressed((prevState) => ({
         ...prevState,
-        [event.key]: true,
+        [event.key.toLowerCase()]: true,
       }));
     };
 
@@ -443,16 +453,18 @@ const Character = ({
 
   const getSpriteURL = () => {
     const mainFace = facing.split("")[0];
-    const faceSprite = mainFace === "E" ? "W" : mainFace;
 
     const image =
-      faceSprite +
+      mainFace +
       "-" +
       (Math.round(stepCounter / 5) % 4 === 2
         ? 0
         : Math.round(stepCounter / 5) % 4 === 3
         ? 2
-        : Math.round(stepCounter / 5) % 4);
+        : Math.round(stepCounter / 5) % 4) +
+      (isDark ? "-Dark" : "");
+
+    console.log(image);
 
     return `${process.env.PUBLIC_URL}/images/character/${image}.png`;
   };
@@ -477,7 +489,6 @@ const Character = ({
         justifyContent: "center",
         alignItems: "center",
         zIndex: 0,
-        transform: `${facing === "E" ? "scaleX(-1)" : ""}`,
       }}
     />
   );
