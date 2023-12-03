@@ -15,6 +15,7 @@ const Character = ({
   journeyScroll,
   charWidth,
   charHeight,
+  restartPage,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
     ArrowUp: false,
@@ -23,6 +24,7 @@ const Character = ({
     ArrowRight: false,
     Control: false,
     Enter: false,
+    " ": false,
   });
 
   const [facing, setFacing] = useState("S");
@@ -49,8 +51,11 @@ const Character = ({
     if (keysPressed.Enter) {
       if (collidedDOM != null) document.getElementById(collidedDOM)?.click();
       handleKeyUp({ key: "Enter" });
+    } else if (keysPressed[" "]) {
+      restartPage();
+      handleKeyUp({ key: "Space" });
     }
-  }, [keysPressed, collidedDOM]);
+  }, [keysPressed, collidedDOM, restartPage]);
 
   useEffect(() => {
     const modifySprite = (

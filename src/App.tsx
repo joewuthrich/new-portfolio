@@ -26,16 +26,17 @@ const App = () => {
 
   const charHeight = 93;
   const charWidth = 69;
+  const startPos = {
+    x: Math.floor(window.innerWidth / 2 - charWidth / 2),
+    y: Math.floor(window.innerHeight / 2 + charHeight / 2),
+  };
 
   const [journeyScroll, setJourneyScroll] = useState(0);
   const [switchingScreens, setSwitchingScreens] = useState(false);
   const [footprints, setFootprints] = useState([]);
   const [collidedDOM, setCollidedDOM] = useState(null);
   const [currentScreen, setCurrentScreen] = useState("home");
-  const [position, setPosition] = useState({
-    x: Math.floor(window.innerWidth / 2 - charWidth / 2),
-    y: Math.floor(window.innerHeight / 2 + charHeight / 2),
-  });
+  const [position, setPosition] = useState(startPos);
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
   const [portfolioType, setPortfolioType] = useState("iconic figure");
@@ -52,8 +53,23 @@ const App = () => {
     setCollidedDOM(element);
   };
 
+  const restartPage = () => {
+    if (currentScreen === "home") {
+    } else if (currentScreen === "interests") {
+      moveScreenAction("left");
+    } else if (currentScreen === "journey") {
+      moveScreenAction("up");
+    } else if (currentScreen === "about") {
+      moveScreenAction("right");
+    }
+
+    setJourneyScroll(0);
+    document.getElementById("journey-screen").scrollTo(0, 0);
+  };
+
   const moveScreenAction = async (
-    direction: "left" | "right" | "up" | "down"
+    direction: "left" | "right" | "up" | "down",
+    moveChar = true
   ) => {
     // TODO: Pass these to Character.tsx
     const slowThreshold = 120;
@@ -106,7 +122,7 @@ const App = () => {
         translateScreen(0, 0);
         setSwitchingScreens(false);
       }, 300);
-      setPosition(newPosition);
+      if (moveChar) setPosition(newPosition);
       setFootprints([]);
     }
   };
@@ -136,6 +152,7 @@ const App = () => {
         journeyScroll={journeyScroll}
         charWidth={charWidth}
         charHeight={charHeight}
+        restartPage={restartPage}
       />
       <div
         className="background"
