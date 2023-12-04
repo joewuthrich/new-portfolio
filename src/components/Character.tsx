@@ -33,6 +33,7 @@ const Character = ({
     d: false,
   });
 
+  const [allowInput, setAllowInput] = useState(true);
   const [facing, setFacing] = useState("S");
   const [stepCounter, setStepCounter] = useState(0);
 
@@ -45,23 +46,6 @@ const Character = ({
   const journeyScrollThreshold = window.innerHeight / 3;
 
   const spriteRef = useRef(null);
-
-  const handleKeyUp = ({ key }) => {
-    setKeysPressed((prevState) => ({
-      ...prevState,
-      [key.toLowerCase()]: false,
-    }));
-  };
-
-  useEffect(() => {
-    if (keysPressed.enter) {
-      if (collidedDOM != null) document.getElementById(collidedDOM)?.click();
-      handleKeyUp({ key: "enter" });
-    } else if (keysPressed[" "]) {
-      restartPage();
-      handleKeyUp({ key: "Space" });
-    }
-  }, [keysPressed, collidedDOM, restartPage]);
 
   useEffect(() => {
     const modifySprite = (
@@ -89,6 +73,93 @@ const Character = ({
       setFacing(facing);
     };
 
+    const handleScreenClick = (event) => {
+      if (!allowInput) return;
+      const clickX = event.clientX || event.touches[0].clientX;
+      const clickY = event.clientY || event.touches[0].clientY;
+
+      // Calculate the target position
+      const targetX = clickX - charWidth / 2;
+      const targetY = clickY - charHeight / 2;
+
+      // Initiate the movement animation
+      startMovementAnimation(targetX, targetY);
+    };
+
+    const startMovementAnimation = (targetX, targetY) => {
+      const framesPerSecond = 60;
+
+      const startX = position.x;
+      const startY = position.y;
+
+      let distanceX = targetX - startX;
+      let distanceY = targetY - startY;
+
+      const movingRight = distanceX > 0;
+      const movingLeft = distanceX <= 0;
+      const movingUp = distanceY <= 0;
+      const movingDown = distanceY > 0;
+
+      const diagonalMoveSpeed = baseMoveSpeed / 2.8;
+
+      console.log(distanceX + " " + distanceY);
+
+      distanceX = Math.abs(distanceX);
+      distanceY = Math.abs(distanceY);
+
+      setAllowInput(false);
+      const moveInterval = setInterval(() => {
+        if (distanceX <= 0 && distanceY <= 0) {
+          clearInterval(moveInterval);
+          setPosition({ x: targetX, y: targetY });
+          setKeysPressed({
+            arrowup: false,
+            arrowdown: false,
+            arrowleft: false,
+            arrowright: false,
+            control: false,
+            shift: false,
+            enter: false,
+            " ": false,
+            w: false,
+            a: false,
+            s: false,
+            d: false,
+          });
+          setAllowInput(true);
+        } else {
+          setKeysPressed({
+            arrowup: movingUp && distanceY > 0,
+            arrowdown: movingDown && distanceY > 0,
+            arrowleft: movingLeft && distanceX > 0,
+            arrowright: movingRight && distanceX > 0,
+            control: false,
+            shift: false,
+            enter: false,
+            " ": false,
+            w: false,
+            a: false,
+            s: false,
+            d: false,
+          });
+
+          let speed =
+            (movingUp &&
+              distanceY > 0 &&
+              ((movingLeft && distanceX > 0) ||
+                (movingRight && distanceX > 0))) ||
+            (movingDown &&
+              distanceY > 0 &&
+              ((movingLeft && distanceX > 0) || (movingRight && distanceX > 0)))
+              ? diagonalMoveSpeed
+              : baseMoveSpeed;
+
+          distanceX -= speed;
+          distanceY -= speed;
+        }
+      }, 1000 / framesPerSecond);
+    };
+
     const handleMovement = () => {
       const movingUp =
         (keysPressed.arrowup || keysPressed.w) &&
@@ -113,9 +184,10 @@ const Character = ({
     };
 
     const handleWheel = (event) => {
+      event.preventDefault();
+      if (!allowInput) return;
       const deltaY = event.deltaY;
       move(deltaY <= 0, deltaY > 0, false, false, true, true);
-      event.preventDefault();
     };
 
     const createFootPrint = () => {
@@ -407,10 +479,14 @@ const Character = ({
 
     const interval = setInterval(handleMovement, 1000 / 60);
     window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("click", handleScreenClick);
+    window.addEventListener("touchstart", handleScreenClick);
 
     return () => {
       clearInterval(interval);
       window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("click", handleScreenClick);
+      window.removeEventListener("touchstart", handleScreenClick);
     };
   }, [
     keysPressed,
@@ -436,11 +512,28 @@ const Character = ({
   useEffect(() => {
     const handleKeyDown = (event) => {
       event.preventDefault();
+      if (!allowInput) return;
       setKeysPressed((prevState) => ({
         ...prevState,
         [event.key.toLowerCase()]: true,
       }));
     };
+
+    const handleKeyUp = ({ key }) => {
+      if (!allowInput) return;
+      setKeysPressed((prevState) => ({
+        ...prevState,
+        [key.toLowerCase()]: false,
+      }));
+    };
+
+    if (keysPressed.enter) {
+      if (collidedDOM != null) document.getElementById(collidedDOM)?.click();
+      handleKeyUp({ key: "enter" });
+    } else if (keysPressed[" "]) {
+      restartPage();
+      handleKeyUp({ key: "Space" });
+    }
 
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
@@ -449,7 +542,7 @@ const Character = ({
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
-  }, [keysPressed]);
+  }, [keysPressed, allowInput, collidedDOM, restartPage]);
 
   const getSpriteURL = () => {
     const mainFace = facing.split("")[0];
@@ -463,8 +556,6 @@ const Character = ({
         ? 2
         : Math.round(stepCounter / 5) % 4) +
       (isDark ? "-Dark" : "");
-
-    console.log(image);
 
     return `${process.env.PUBLIC_URL}/images/character/${image}.png`;
   };
