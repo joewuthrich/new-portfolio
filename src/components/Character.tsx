@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 const Character = ({
   moveScreenAction,
@@ -47,6 +48,11 @@ const Character = ({
 
   const spriteRef = useRef(null);
 
+  const positionRef = useRef(position);
+  useEffect(() => {
+    positionRef.current = position;
+  }, [position]);
+
   useEffect(() => {
     const modifySprite = (
       facing: "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
@@ -89,75 +95,59 @@ const Character = ({
     const startMovementAnimation = (targetX, targetY) => {
       const framesPerSecond = 60;
 
-      const startX = position.x;
-      const startY = position.y;
-
-      let distanceX = targetX - startX;
-      let distanceY = targetY - startY;
-
-      const movingRight = distanceX > 0;
-      const movingLeft = distanceX <= 0;
-      const movingUp = distanceY <= 0;
-      const movingDown = distanceY > 0;
-
-      const diagonalMoveSpeed = baseMoveSpeed / 2.8;
-
-      console.log(distanceX + " " + distanceY);
-
-      distanceX = Math.abs(distanceX);
-      distanceY = Math.abs(distanceY);
+      console.log(targetX + " " + targetY);
+      console.log(targetX - position.x + " " + (targetY - position.y));
 
       setAllowInput(false);
-      const moveInterval = setInterval(() => {
-        if (distanceX <= 0 && distanceY <= 0) {
-          clearInterval(moveInterval);
-          setPosition({ x: targetX, y: targetY });
-          setKeysPressed({
-            arrowup: false,
-            arrowdown: false,
-            arrowleft: false,
-            arrowright: false,
-            control: false,
-            shift: false,
-            enter: false,
-            " ": false,
-            w: false,
-            a: false,
-            s: false,
-            d: false,
-          });
-          setAllowInput(true);
-        } else {
-          setKeysPressed({
-            arrowup: movingUp && distanceY > 0,
-            arrowdown: movingDown && distanceY > 0,
-            arrowleft: movingLeft && distanceX > 0,
-            arrowright: movingRight && distanceX > 0,
-            control: false,
-            shift: false,
-            enter: false,
-            " ": false,
-            w: false,
-            a: false,
-            s: false,
-            d: false,
-          });
 
-          let speed =
-            (movingUp &&
-              distanceY > 0 &&
-              ((movingLeft && distanceX > 0) ||
-                (movingRight && distanceX > 0))) ||
-            (movingDown &&
-              distanceY > 0 &&
-              ((movingLeft && distanceX > 0) || (movingRight && distanceX > 0)))
-              ? diagonalMoveSpeed
-              : baseMoveSpeed;
+      let timer;
 
-          distanceX -= speed;
-          distanceY -= speed;
-        }
-      }, 1000 / framesPerSecond);
+      // TODO: Fix character walking when clicking on interactables
+      // TODO: Fix character trying to walk into impossible area
+      // TODO: Fix character walking scrolling the entire way down the screen
+      timer =
+        !timer &&
+        setInterval(() => {
+          const currentPos = positionRef.current;
+
+          if (
+            Math.abs(targetY - currentPos.y) < 10 &&
+            Math.abs(targetX - currentPos.x) < 10
+          ) {
+            setPosition({ x: targetX, y: targetY });
+            setKeysPressed({
+              arrowup: false,
+              arrowdown: false,
+              arrowleft: false,
+              arrowright: false,
+              control: false,
+              shift: false,
+              enter: false,
+              " ": false,
+              w: false,
+              a: false,
+              s: false,
+              d: false,
+            });
+            setAllowInput(true);
+            clearInterval(timer);
+          } else {
+            setKeysPressed({
+              arrowup: targetY - currentPos.y <= -6,
+              arrowdown: targetY - currentPos.y > 6,
+              arrowleft: targetX - currentPos.x <= -6,
+              arrowright: targetX - currentPos.x > 6,
+              control: false,
+              shift: false,
+              enter: false,
+              " ": false,
+              w: false,
+              a: false,
+              s: false,
+              d: false,
+            });
+          }
+        }, 1000 / 20);
     };
 
     const handleMovement = () => {
@@ -507,6 +497,7 @@ const Character = ({
     journeyScrollThreshold,
     charHeight,
     charWidth,
+    allowInput,
   ]);
 
   useEffect(() => {
