@@ -48,6 +48,7 @@ const Character = ({
 
   const spriteRef = useRef(null);
 
+  const clickRef = useRef(null);
   const positionRef = useRef(position);
   useEffect(() => {
     positionRef.current = position;
@@ -80,7 +81,14 @@ const Character = ({
     };
 
     const handleScreenClick = (event) => {
-      if (!allowInput) return;
+      // TODO: Fix character continue walking when switching screens
+      // TODO: Fix character trying to walk into impossible area
+      // TODO: Fix character walking scrolling the entire way down the screen
+
+      // if (!allowInput) return;
+
+      if (event.target.classList.contains("prevent-click-move")) return;
+
       const clickX = event.clientX || event.touches[0].clientX;
       const clickY = event.clientY || event.touches[0].clientY;
 
@@ -88,25 +96,32 @@ const Character = ({
       const targetX = clickX - charWidth / 2;
       const targetY = clickY - charHeight / 2;
 
+      const atLeftEdge = targetX <= edgeThreshold;
+      const atRightEdge =
+        targetX + charWidth >= window.innerWidth - edgeThreshold;
+      const atTopEdge = targetY <= edgeThreshold;
+      const atBottomEdge =
+        targetY + charHeight >= window.innerHeight - edgeThreshold;
+
+      if (atLeftEdge || atRightEdge || atTopEdge || atBottomEdge) return;
+
+      if (clickRef.current !== undefined) {
+        clearInterval(clickRef.current);
+        clickRef.current = undefined;
+      }
+
       // Initiate the movement animation
       startMovementAnimation(targetX, targetY);
     };
 
     const startMovementAnimation = (targetX, targetY) => {
-      const framesPerSecond = 60;
-
       console.log(targetX + " " + targetY);
       console.log(targetX - position.x + " " + (targetY - position.y));
 
       setAllowInput(false);
 
-      let timer;
-
-      // TODO: Fix character walking when clicking on interactables
-      // TODO: Fix character trying to walk into impossible area
-      // TODO: Fix character walking scrolling the entire way down the screen
-      timer =
-        !timer &&
+      clickRef.current =
+        !clickRef.current &&
         setInterval(() => {
           const currentPos = positionRef.current;
 
@@ -130,13 +145,14 @@ const Character = ({
               d: false,
             });
             setAllowInput(true);
-            clearInterval(timer);
+            clearInterval(clickRef.current);
+            clickRef.current = undefined;
           } else {
             setKeysPressed({
-              arrowup: targetY - currentPos.y <= -6,
-              arrowdown: targetY - currentPos.y > 6,
-              arrowleft: targetX - currentPos.x <= -6,
-              arrowright: targetX - currentPos.x > 6,
+              arrowup: targetY - currentPos.y <= -8,
+              arrowdown: targetY - currentPos.y > 8,
+              arrowleft: targetX - currentPos.x <= -8,
+              arrowright: targetX - currentPos.x > 8,
               control: false,
               shift: false,
               enter: false,

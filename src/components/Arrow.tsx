@@ -22,7 +22,7 @@ const Arrow = (props: ArrowProps) => {
         <Icons.ArrowIcon />
       </div>
       <div
-        className={`clickable-area ${
+        className={`clickable-area prevent-click-move ${
           props.align === "top" || props.align === "bottom"
             ? "horizontal"
             : "vertical"

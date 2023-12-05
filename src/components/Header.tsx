@@ -20,7 +20,7 @@ const Name = (props: HeaderProps) => {
       <div className="outer-link-container">
         <a
           id={"emailLink"}
-          className={`link-container interactable ${
+          className={`link-container interactable prevent-click-move ${
             props.collidedDOM === "emailLink" ? "hover" : ""
           }`}
           href="mailto:joerwuthrich@gmail.com?body=Hi Joe,%0D%0A%0D%0A%0D%0A"
@@ -30,7 +30,7 @@ const Name = (props: HeaderProps) => {
         </a>
         <a
           id={"linkedInLink"}
-          className={`link-container interactable ${
+          className={`link-container interactable prevent-click-move ${
             props.collidedDOM === "linkedInLink" ? "hover" : ""
           }`}
           href="https://www.linkedin.com/in/joewuthrich/"

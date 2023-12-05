@@ -36,7 +36,7 @@ const Arrow = (props: InterestProps) => {
     >
       <div
         id={"interests-" + props.title}
-        className={`interest-container interactable ${
+        className={`interest-container interactable prevent-click-move ${
           props.collidedDOM === "interests-" + props.title ? "hover" : ""
         }`}
       >
