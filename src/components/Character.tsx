@@ -20,6 +20,9 @@ const Character = ({
   isDark,
   interrupt,
   setInterrupt,
+  slowThreshold,
+  stepCounter,
+  setStepCounter,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
     arrowup: false,
@@ -36,15 +39,12 @@ const Character = ({
     d: false,
   });
 
-  const [allowInput, setAllowInput] = useState(true);
   const [facing, setFacing] = useState("S");
-  const [stepCounter, setStepCounter] = useState(0);
 
   const baseMoveSpeed = 10; // Adjust the base speed as needed
   const sprintMultiplier = 3; // Adjust the sprint multiplier
 
   const edgeThreshold = 40;
-  const slowThreshold = 120;
 
   const journeyScrollThreshold = window.innerHeight / 3;
 
@@ -146,8 +146,6 @@ const Character = ({
       console.log(targetX + " " + targetY);
       console.log(targetX - position.x + " " + (targetY - position.y));
 
-      setAllowInput(false);
-
       clickRef.current =
         !clickRef.current &&
         setInterval(() => {
@@ -172,7 +170,6 @@ const Character = ({
               s: false,
               d: false,
             });
-            setAllowInput(true);
             clearInterval(clickRef.current);
             clickRef.current = undefined;
           } else {
@@ -218,16 +215,17 @@ const Character = ({
     };
 
     const handleWheel = (event) => {
-      event.preventDefault();
-      if (!allowInput) return;
-      const deltaY = event.deltaY;
-      move(deltaY <= 0, deltaY > 0, false, false, true, true);
+      // TODO: Figure out what to do with this
+      // event.preventDefault();
+      clearCurrentClick();
+      // const deltaY = event.deltaY;
+      // move(deltaY <= 0, deltaY > 0, false, false, true, true);
     };
 
     const createFootPrint = () => {
       const sprinting = keysPressed.control || keysPressed.shift;
 
-      setStepCounter(stepCounter + 1);
+      setStepCounter((count) => count + 1);
       if (stepCounter % (sprinting ? 2 : 6) === 0) {
         setFootprints((prevFootprints) => [
           ...prevFootprints.slice(-10),
@@ -541,13 +539,11 @@ const Character = ({
     journeyScrollThreshold,
     charHeight,
     charWidth,
-    allowInput,
   ]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       event.preventDefault();
-      // if (!allowInput) return;
       clearCurrentClick();
       setKeysPressed((prevState) => ({
         ...prevState,
@@ -556,7 +552,6 @@ const Character = ({
     };
 
     const handleKeyUp = ({ key }) => {
-      // if (!allowInput) return;
       setKeysPressed((prevState) => ({
         ...prevState,
         [key.toLowerCase()]: false,
@@ -578,7 +573,7 @@ const Character = ({
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
-  }, [keysPressed, allowInput, collidedDOM, restartPage]);
+  }, [keysPressed, collidedDOM, restartPage]);
 
   const getSpriteURL = () => {
     const mainFace = facing.split("")[0];

@@ -8,6 +8,7 @@ import JourneyPage from "./components/pages/JourneyPage";
 import Footprint from "./components/Footprint";
 import { createGlobalStyle } from "styled-components";
 import LightDarkToggle from "./components/LightDarkToggle";
+import Instructions from "./components/Instructions";
 
 const App = () => {
   const screens = {
@@ -32,9 +33,10 @@ const App = () => {
 
   const charHeight = 93;
   const charWidth = 69;
+  const slowThreshold = 120;
   const startPos = {
-    x: Math.floor(window.innerWidth / 2 - charWidth / 2),
-    y: Math.floor(window.innerHeight / 2 + charHeight / 2),
+    x: Math.floor(window.innerWidth / 2 - charWidth / 2 + 60),
+    y: Math.floor(window.innerHeight / 2 + charHeight / 2 + 60),
   };
 
   const [isDark, setIsDark] = useState(() => {
@@ -52,24 +54,7 @@ const App = () => {
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
   const [portfolioType, setPortfolioType] = useState("iconic figure");
-
-  // Set light/dark mode
-  // useEffect(() => {
-  //   const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-  //   const setInitialTheme = (e) => {
-  //     setIsDark(e.matches);
-  //   };
-
-  //   darkModeQuery.addEventListener("change", setInitialTheme);
-
-  //   // Check initial theme when the component mounts
-  //   setInitialTheme(darkModeQuery);
-
-  //   return () => {
-  //     darkModeQuery.removeEventListener("change", setInitialTheme);
-  //   };
-  // }, []);
+  const [stepCounter, setStepCounter] = useState(0);
 
   useEffect(() => {
     setPortfolioType(
@@ -102,9 +87,6 @@ const App = () => {
     direction: "left" | "right" | "up" | "down",
     moveChar = true
   ) => {
-    // TODO: Pass these to Character.tsx
-    const slowThreshold = 120;
-
     let newPosition;
     let moved = false;
     switch (direction) {
@@ -179,12 +161,14 @@ const App = () => {
         --main-text-color: rgba(255, 255, 255, 0.9);
         --title-dash-color: #c66b2a;
         --icon-color: rgba(255, 255, 255, 0.65);
-        --footstep-color: rgba(255, 255, 255, 0.1);`
+        --footstep-color: rgba(255, 255, 255, 0.1);
+        --intruction-color: rgba(255, 255, 255, 0.2)`
         : `--main-bg-color: #fefefe;
     --main-text-color: rgba(0, 0, 0, 0.9);
     --title-dash-color: #c3eaff;
     --icon-color: rgba(0, 0, 0, 0.65);
-    --footstep-color: rgba(0, 0, 0, 0.1); `
+    --footstep-color: rgba(0, 0, 0, 0.1);
+    --intruction-color: rgba(0, 0, 0, 0.2)`
     }
   }
 `;
@@ -214,6 +198,9 @@ const App = () => {
         isDark={isDark}
         interrupt={interrupt}
         setInterrupt={setInterrupt}
+        slowThreshold={slowThreshold}
+        stepCounter={stepCounter}
+        setStepCounter={setStepCounter}
       />
 
       <div
@@ -251,6 +238,7 @@ const App = () => {
               subtitle={portfolioType.toUpperCase()}
             />
             <div className="content-container">
+              <Instructions stepsTaken={stepCounter} />
               <Arrow
                 title={"My Interests"}
                 align={"right"}

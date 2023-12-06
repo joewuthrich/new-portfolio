@@ -123,3 +123,60 @@ body {
   fill: var(--footstep-color);
   transition: fill 0.5s ease;
 }
+
+.instruction-icon {
+  fill: var(--intruction-color);
+  transition: fill 0.5s ease;
+}
+
+.instruction-icon-bg {
+  fill: var(--main-bg-color);
+  transition: fill 0.5s ease;
+}
+
+.instruction-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  width: 1000px;
+  transform: translateX(-240px);
+}
+
+.instruction-line {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.instruction-text {
+  color: var(--footstep-color);
+  font-family: "RobotoSlab-Regular";
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
+  transition: color 0.5s ease;
+}
+
+.instruction-side {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.instruction-side.left {
+  justify-content: flex-end;
+}
+
+.instruction-side.right {
+  justify-content: flex-start;
+}
