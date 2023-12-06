@@ -125,7 +125,7 @@ body {
 }
 
 .instruction-icon {
-  fill: var(--intruction-color);
+  fill: var(--instruction-color);
   transition: fill 0.5s ease;
 }
 
@@ -140,7 +140,7 @@ body {
   align-items: flex-end;
   justify-content: center;
   width: 1000px;
-  transform: translateX(-240px);
+  transform: translateX(-240px) translateY(-25px);
 }
 
 .instruction-line {
@@ -164,6 +164,7 @@ body {
   margin-left: 10px;
   margin-right: 10px;
   transition: color 0.5s ease;
+  user-select: none;
 }
 
 .instruction-side {

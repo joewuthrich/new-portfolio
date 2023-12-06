@@ -143,9 +143,6 @@ const Character = ({
     };
 
     const startMovementAnimation = (targetX, targetY) => {
-      console.log(targetX + " " + targetY);
-      console.log(targetX - position.x + " " + (targetY - position.y));
-
       clickRef.current =
         !clickRef.current &&
         setInterval(() => {
@@ -174,10 +171,10 @@ const Character = ({
             clickRef.current = undefined;
           } else {
             setKeysPressed({
-              arrowup: targetY - currentPos.y <= -8,
-              arrowdown: targetY - currentPos.y > 8,
-              arrowleft: targetX - currentPos.x <= -8,
-              arrowright: targetX - currentPos.x > 8,
+              arrowup: targetY - currentPos.y <= -11,
+              arrowdown: targetY - currentPos.y > 11,
+              arrowleft: targetX - currentPos.x <= -11,
+              arrowright: targetX - currentPos.x > 11,
               control: false,
               shift: false,
               enter: false,
@@ -539,6 +536,8 @@ const Character = ({
     journeyScrollThreshold,
     charHeight,
     charWidth,
+    slowThreshold,
+    setStepCounter,
   ]);
 
   useEffect(() => {
@@ -601,7 +600,6 @@ const Character = ({
         left: `${position.x}px`,
         top: `${position.y}px`,
         background: `url(${getSpriteURL()}) no-repeat`,
-        // backgroundSize: ``,
         width: `${charWidth}px`,
         height: `${charHeight}px`,
         transition: canMove ? "" : "left 0.5s ease, top 0.5s ease",
@@ -610,7 +608,7 @@ const Character = ({
         objectFit: "fill",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 0,
+        zIndex: 1,
       }}
     />
   );

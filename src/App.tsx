@@ -9,6 +9,7 @@ import Footprint from "./components/Footprint";
 import { createGlobalStyle } from "styled-components";
 import LightDarkToggle from "./components/LightDarkToggle";
 import Instructions from "./components/Instructions";
+import AboutPage from "./components/pages/AboutPage";
 
 const App = () => {
   const screens = {
@@ -36,7 +37,9 @@ const App = () => {
   const slowThreshold = 120;
   const startPos = {
     x: Math.floor(window.innerWidth / 2 - charWidth / 2 + 60),
-    y: Math.floor(window.innerHeight / 2 + charHeight / 2 + 60),
+    y: Math.floor(
+      window.innerHeight / 2 + charHeight / 2 + window.innerHeight / 27
+    ),
   };
 
   const [isDark, setIsDark] = useState(() => {
@@ -162,13 +165,13 @@ const App = () => {
         --title-dash-color: #c66b2a;
         --icon-color: rgba(255, 255, 255, 0.65);
         --footstep-color: rgba(255, 255, 255, 0.1);
-        --intruction-color: rgba(255, 255, 255, 0.2)`
+        --instruction-color: rgba(255, 255, 255, 0.2)`
         : `--main-bg-color: #fefefe;
     --main-text-color: rgba(0, 0, 0, 0.9);
     --title-dash-color: #c3eaff;
     --icon-color: rgba(0, 0, 0, 0.65);
     --footstep-color: rgba(0, 0, 0, 0.1);
-    --intruction-color: rgba(0, 0, 0, 0.2)`
+    --instruction-color: rgba(0, 0, 0, 0.2)`
     }
   }
 `;
@@ -305,7 +308,12 @@ const App = () => {
           </div>
         </div>
         <div className={`screen ${currentScreen === "about" ? "" : "left"}`}>
-          <div className="bordered-frame"></div>
+          <div className="bordered-frame">
+            <AboutPage
+              collidedDOM={collidedDOM}
+              moveScreenAction={moveScreenAction}
+            />
+          </div>
         </div>
       </div>
     </div>

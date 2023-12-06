@@ -136,8 +136,16 @@ const JourneyPage = ({
         <div className="center-divider" />
         <div className="column-journey-container right">{rightJourneys}</div>
       </div>
-      <div className="top-fog" />
-      <div className="bottom-fog" />
+      <text
+        id="return-top-text"
+        className={`return-top-text interactable prevent-click-move ${
+          collidedDOM === "return-top-text" ? "hover" : ""
+        }`}
+        onClick={() => document.getElementById("journey-screen").scrollTo(0, 0)}
+      >
+        Back to Top
+      </text>
+
       <Title title="MY JOURNEY" width="calc(100% - 71px - 71px)" size="80px" />
     </div>
   );
