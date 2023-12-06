@@ -7,6 +7,7 @@ import InterestsPage from "./components/pages/InterestsPage";
 import JourneyPage from "./components/pages/JourneyPage";
 import Footprint from "./components/Footprint";
 import { createGlobalStyle } from "styled-components";
+import LightDarkToggle from "./components/LightDarkToggle";
 
 const App = () => {
   const screens = {
@@ -36,7 +37,12 @@ const App = () => {
     y: Math.floor(window.innerHeight / 2 + charHeight / 2),
   };
 
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    if (localStorage.getItem("theme-preference"))
+      return localStorage.getItem("theme-preference") === "dark";
+    else return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+  const [interrupt, setInterrupt] = useState(false);
   const [journeyScroll, setJourneyScroll] = useState(0);
   const [switchingScreens, setSwitchingScreens] = useState(false);
   const [footprints, setFootprints] = useState([]);
@@ -46,6 +52,24 @@ const App = () => {
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
   const [portfolioType, setPortfolioType] = useState("iconic figure");
+
+  // Set light/dark mode
+  // useEffect(() => {
+  //   const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+  //   const setInitialTheme = (e) => {
+  //     setIsDark(e.matches);
+  //   };
+
+  //   darkModeQuery.addEventListener("change", setInitialTheme);
+
+  //   // Check initial theme when the component mounts
+  //   setInitialTheme(darkModeQuery);
+
+  //   return () => {
+  //     darkModeQuery.removeEventListener("change", setInitialTheme);
+  //   };
+  // }, []);
 
   useEffect(() => {
     setPortfolioType(
@@ -61,6 +85,7 @@ const App = () => {
 
   const restartPage = () => {
     if (currentScreen === "home") {
+      setInterrupt(true);
     } else if (currentScreen === "interests") {
       moveScreenAction("left");
     } else if (currentScreen === "journey") {
@@ -129,6 +154,7 @@ const App = () => {
     }
 
     if (moved) {
+      setInterrupt(true);
       setSwitchingScreens(true);
       setTimeout(() => {
         translateScreen(0, 0);
@@ -144,6 +170,7 @@ const App = () => {
     setVerticalTranslation(y);
   };
 
+  console.log(isDark);
   const GlobalStyles = createGlobalStyle`
   :root {
     ${
@@ -185,7 +212,10 @@ const App = () => {
         charHeight={charHeight}
         restartPage={restartPage}
         isDark={isDark}
+        interrupt={interrupt}
+        setInterrupt={setInterrupt}
       />
+
       <div
         className="background"
         style={{
@@ -213,6 +243,8 @@ const App = () => {
                 />
               ))
             : null}
+          <LightDarkToggle setIsDark={setIsDark} collidedDOM={collidedDOM} />
+
           <div className="bordered-frame">
             <Header
               collidedDOM={collidedDOM}

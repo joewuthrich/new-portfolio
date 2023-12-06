@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;
   color: var(--main-text-color);
+  transition: color 0.5s ease;
 
   font-family: "RobotoSlab-Regular";
   font-size: 20px;

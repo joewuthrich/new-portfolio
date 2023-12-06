@@ -13,6 +13,7 @@
 
 .name-header {
   color: var(--main-text-color);
+  transition: color 0.5s ease;
   font-family: "RobotoSlab-Bold";
   font-style: normal;
   font-weight: 700;
@@ -28,7 +29,8 @@
 .background-box {
   height: 35px;
   flex-shrink: 0;
-  background: var(--title-dash-color);
+  background-color: var(--title-dash-color);
+  transition: background-color 0.5s ease;
   position: absolute;
   left: 50%;
   align-self: center;
@@ -37,6 +39,7 @@
 
 .job-subtitle {
   color: var(--main-text-color);
+  transition: color 0.5s ease;
 
   font-family: "RobotoSlab-Regular";
   font-size: 36px;
@@ -50,6 +53,7 @@
 
 .description {
   color: var(--main-text-color);
+  transition: color 0.5s ease;
 
   text-align: center;
   font-family: "RobotoSlab-Light";
@@ -91,6 +95,7 @@
 
 .link-item {
   color: var(--main-text-color);
+  transition: color 0.5s ease;
 
   font-family: "RobotoSlab-Light";
   font-size: 11px;

@@ -18,6 +18,8 @@ const Character = ({
   charHeight,
   restartPage,
   isDark,
+  interrupt,
+  setInterrupt,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
     arrowup: false,
@@ -54,6 +56,34 @@ const Character = ({
     positionRef.current = position;
   }, [position]);
 
+  const clearCurrentClick = () => {
+    if (clickRef.current !== undefined) {
+      clearInterval(clickRef.current);
+      clickRef.current = undefined;
+      setKeysPressed({
+        arrowup: false,
+        arrowdown: false,
+        arrowleft: false,
+        arrowright: false,
+        control: false,
+        shift: false,
+        enter: false,
+        " ": false,
+        w: false,
+        a: false,
+        s: false,
+        d: false,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (interrupt) {
+      clearCurrentClick();
+      setInterrupt(false);
+    }
+  }, [interrupt, setInterrupt]);
+
   useEffect(() => {
     const modifySprite = (
       facing: "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW"
@@ -81,11 +111,12 @@ const Character = ({
     };
 
     const handleScreenClick = (event) => {
+      if (event.clientX === 0 && event.clientY === 0 && event.layerY === 0)
+        return;
+
       // TODO: Fix character continue walking when switching screens
       // TODO: Fix character trying to walk into impossible area
       // TODO: Fix character walking scrolling the entire way down the screen
-
-      // if (!allowInput) return;
 
       if (event.target.classList.contains("prevent-click-move")) return;
 
@@ -105,10 +136,7 @@ const Character = ({
 
       if (atLeftEdge || atRightEdge || atTopEdge || atBottomEdge) return;
 
-      if (clickRef.current !== undefined) {
-        clearInterval(clickRef.current);
-        clickRef.current = undefined;
-      }
+      clearCurrentClick();
 
       // Initiate the movement animation
       startMovementAnimation(targetX, targetY);
@@ -519,7 +547,8 @@ const Character = ({
   useEffect(() => {
     const handleKeyDown = (event) => {
       event.preventDefault();
-      if (!allowInput) return;
+      // if (!allowInput) return;
+      clearCurrentClick();
       setKeysPressed((prevState) => ({
         ...prevState,
         [event.key.toLowerCase()]: true,
@@ -527,7 +556,7 @@ const Character = ({
     };
 
     const handleKeyUp = ({ key }) => {
-      if (!allowInput) return;
+      // if (!allowInput) return;
       setKeysPressed((prevState) => ({
         ...prevState,
         [key.toLowerCase()]: false,
