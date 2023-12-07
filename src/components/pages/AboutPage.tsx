@@ -11,7 +11,6 @@ const AboutPage = ({ collidedDOM, moveScreenAction }) => {
     fetch(`${process.env.PUBLIC_URL}/abouts/2023-12-06.txt`)
       .then((response) => response.text())
       .then((data) => {
-        console.log(data);
         const paragraphArray = data.split("\n");
         setParagraphs(paragraphArray);
       })

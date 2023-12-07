@@ -139,7 +139,7 @@ body {
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
-  width: 1000px;
+  /* width: 1000px; */
   transform: translateX(-240px) translateY(-25px);
 }
 
@@ -180,4 +180,19 @@ body {
 
 .instruction-side.right {
   justify-content: flex-start;
+}
+
+@media only screen and (max-width: 1000px) {
+  .bordered-frame {
+    margin: 61px;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  .bordered-frame {
+    margin: 51px;
+  }
+}
+
+@media only screen and (max-width: 575px) {
 }

@@ -6,13 +6,16 @@ function Title({
   size,
 }: {
   title: string;
-  width: string;
-  size: string;
+  width?: string;
+  size?: string;
 }) {
   return (
     <div className="name-container">
-      <div className="background-box" style={{ width: width }}></div>
-      <text className="name-header" style={{ fontSize: size }}>
+      <div
+        className="background-box"
+        style={width ? { width: width } : {}}
+      ></div>
+      <text className="name-header" style={size ? { fontSize: size } : {}}>
         {title}
       </text>
     </div>

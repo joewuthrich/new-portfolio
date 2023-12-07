@@ -10,7 +10,7 @@ type HeaderProps = {
 const Name = (props: HeaderProps) => {
   return (
     <div className="header">
-      <Title title="JOE WUTHRICH" width="1298px" size="115px" />
+      <Title title="JOE WUTHRICH" width="" size="" />
       <text className="job-subtitle">{props.subtitle}</text>
       <text className="description">
         I'm a recent graduate, with a BSc in Computer Science and IT Management.
