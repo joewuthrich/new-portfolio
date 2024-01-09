@@ -38,7 +38,7 @@
 }
 
 .arrow-container.top {
-  transform: rotate(180deg);
+  transform: rotate(180deg) translateY(50%);
   top: 0px;
   margin-top: 71px;
 }
@@ -83,9 +83,19 @@
   }
 }
 
-@media only screen and (max-height: 700px) {
+@media only screen and (max-width: 1000px) {
+  .arrow-container.top {
+    margin-top: 51px !important;
+  }
+}
+
+@media only screen and (max-height: 720px) {
   .arrow-container.left,
   .arrow-container.right {
     display: none;
+  }
+
+  .arrow-container.top {
+    margin-top: 21px !important;
   }
 }

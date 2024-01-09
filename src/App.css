@@ -52,7 +52,7 @@ body {
 
 .screen {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   max-width: 100vw;
   max-height: 100vh;
   display: flex;
@@ -92,6 +92,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .interests-title-container {
@@ -218,8 +219,8 @@ body {
 
 @media only screen and (max-width: 720px) {
   .bordered-frame {
-    padding: 31px !important;
-    margin: 31px !important;
+    padding: 21px !important;
+    margin: 21px !important;
   }
 }
 

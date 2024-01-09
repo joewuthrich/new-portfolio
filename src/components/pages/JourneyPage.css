@@ -222,4 +222,9 @@
     margin-top: 30px;
     margin-bottom: 30px;
   }
+
+  .vertical-divider {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
