@@ -75,3 +75,17 @@
   position: absolute;
   top: 0;
 }
+
+@media only screen and (max-width: 1500px) {
+  .arrow-container.left,
+  .arrow-container.right {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 700px) {
+  .arrow-container.left,
+  .arrow-container.right {
+    display: none;
+  }
+}

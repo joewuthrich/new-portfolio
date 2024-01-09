@@ -56,12 +56,13 @@ const App = () => {
   const [position, setPosition] = useState(startPos);
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
-  const [portfolioType, setPortfolioType] = useState("iconic figure");
+  const [portfolioType, setPortfolioType] = useState("Technical Graduate");
   const [stepCounter, setStepCounter] = useState(0);
 
   useEffect(() => {
     setPortfolioType(
-      new URL(window.location.href).searchParams.get("type") ?? "iconic figure"
+      new URL(window.location.href).searchParams.get("type") ??
+        "Technical Graduate"
     );
   }, []);
 
@@ -90,6 +91,12 @@ const App = () => {
     direction: "left" | "right" | "up" | "down",
     moveChar = true
   ) => {
+    if (
+      !(window.innerWidth > 1500 && window.innerHeight > 700) &&
+      (direction === "left" || direction === "right")
+    )
+      return;
+
     let newPosition;
     let moved = false;
     switch (direction) {
@@ -155,7 +162,6 @@ const App = () => {
     setVerticalTranslation(y);
   };
 
-  console.log(isDark);
   const GlobalStyles = createGlobalStyle`
   :root {
     ${
@@ -209,7 +215,9 @@ const App = () => {
       <div
         className="background"
         style={{
-          transform: `translateX(${horizontalTranslation}px) translateY(${verticalTranslation}px)`,
+          transform: `translateX(${
+            window.innerWidth > 1500 ? horizontalTranslation : 0
+          }px) translateY(${verticalTranslation}px)`,
         }}
       >
         <div
@@ -265,6 +273,7 @@ const App = () => {
         </div>
         <div
           className={`screen ${currentScreen === "interests" ? "" : "right"}`}
+          id="interests-screen"
         >
           {currentScreen === "interests"
             ? footprints.map((fp, _) => (
@@ -307,7 +316,10 @@ const App = () => {
             />
           </div>
         </div>
-        <div className={`screen ${currentScreen === "about" ? "" : "left"}`}>
+        <div
+          className={`screen ${currentScreen === "about" ? "" : "left"}`}
+          id="about-screen"
+        >
           <div className="bordered-frame">
             <AboutPage
               collidedDOM={collidedDOM}

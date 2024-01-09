@@ -49,6 +49,8 @@ const Character = ({
 
   const spriteRef = useRef(null);
 
+  const visible = window.innerWidth > 1500 && window.innerHeight > 700;
+
   const clickRef = useRef(null);
   const positionRef = useRef(position);
   useEffect(() => {
@@ -56,6 +58,8 @@ const Character = ({
   }, [position]);
 
   useEffect(() => {
+    console.log("Here");
+
     const sprites = [
       "E-0",
       "E-1",
@@ -143,6 +147,8 @@ const Character = ({
     };
 
     const handleScreenClick = (event) => {
+      if (!visible) return;
+
       if (event.clientX === 0 && event.clientY === 0 && event.layerY === 0)
         return;
 
@@ -245,6 +251,7 @@ const Character = ({
 
     const handleWheel = (event) => {
       // TODO: Figure out what to do with this
+      if (!visible) return;
       // event.preventDefault();
       clearCurrentClick();
       // const deltaY = event.deltaY;
@@ -570,10 +577,13 @@ const Character = ({
     charWidth,
     slowThreshold,
     setStepCounter,
+    visible,
   ]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
+      if (!visible) return;
+
       event.preventDefault();
       clearCurrentClick();
       setKeysPressed((prevState) => ({
@@ -604,7 +614,7 @@ const Character = ({
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
-  }, [keysPressed, collidedDOM, restartPage]);
+  }, [keysPressed, collidedDOM, restartPage, visible]);
 
   const getSpriteURL = () => {
     const mainFace = facing.split("")[0];
@@ -636,7 +646,7 @@ const Character = ({
         height: `${charHeight}px`,
         transition: canMove ? "" : "left 0.5s ease, top 0.5s ease",
         imageRendering: "crisp-edges",
-        display: "flex",
+        display: visible ? "flex" : "none",
         objectFit: "fill",
         justifyContent: "center",
         alignItems: "center",

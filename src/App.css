@@ -47,6 +47,7 @@ body {
   font-family: "RobotoSlab-Regular";
   overflow: hidden;
   transition: transform 0.1s ease;
+  min-height: 500px;
 }
 
 .screen {
@@ -180,6 +181,28 @@ body {
 
 .instruction-side.right {
   justify-content: flex-start;
+}
+
+@media only screen and (max-width: 1500px) {
+  #interests-screen,
+  #about-screen {
+    display: none;
+  }
+
+  .instruction-container {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 700px) {
+  #interests-screen,
+  #about-screen {
+    display: none;
+  }
+
+  .instruction-container {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 1000px) {
