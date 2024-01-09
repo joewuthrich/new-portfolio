@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 const Character = ({
   moveScreenAction,
@@ -55,6 +54,39 @@ const Character = ({
   useEffect(() => {
     positionRef.current = position;
   }, [position]);
+
+  useEffect(() => {
+    const sprites = [
+      "E-0",
+      "E-1",
+      "E-2",
+      "N-0",
+      "N-1",
+      "N-2",
+      "W-0",
+      "W-1",
+      "W-2",
+      "S-0",
+      "S-1",
+      "S-2",
+      "E-0-Dark",
+      "E-1-Dark",
+      "E-2-Dark",
+      "N-0-Dark",
+      "N-1-Dark",
+      "N-2-Dark",
+      "W-0-Dark",
+      "W-1-Dark",
+      "W-2-Dark",
+      "S-0-Dark",
+      "S-1-Dark",
+      "S-2-Dark",
+    ];
+
+    sprites.forEach((image) => {
+      new Image().src = `${process.env.PUBLIC_URL}/images/character/${image}.png`;
+    });
+  }, []);
 
   const clearCurrentClick = () => {
     if (clickRef.current !== undefined) {
