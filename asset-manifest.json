@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/new-portfolio/static/css/main.75a4929b.css",
-    "main.js": "/new-portfolio/static/js/main.a72aebbb.js",
+    "main.css": "/new-portfolio/static/css/main.b5f51872.css",
+    "main.js": "/new-portfolio/static/js/main.c04cfe32.js",
     "static/js/787.7da95b79.chunk.js": "/new-portfolio/static/js/787.7da95b79.chunk.js",
     "static/media/RobotoSlab-Bold.ttf": "/new-portfolio/static/media/RobotoSlab-Bold.37f7c30bbfc1ebae4939.ttf",
     "static/media/RobotoSlab-Light.ttf": "/new-portfolio/static/media/RobotoSlab-Light.acad4001c48971a95eb3.ttf",
     "static/media/RobotoSlab-Regular.ttf": "/new-portfolio/static/media/RobotoSlab-Regular.51fdb083efba0dd8a5ea.ttf",
     "static/media/RobotoSlab-Thin.ttf": "/new-portfolio/static/media/RobotoSlab-Thin.5d7d07d7def37f069edc.ttf",
     "index.html": "/new-portfolio/index.html",
-    "main.75a4929b.css.map": "/new-portfolio/static/css/main.75a4929b.css.map",
-    "main.a72aebbb.js.map": "/new-portfolio/static/js/main.a72aebbb.js.map",
+    "main.b5f51872.css.map": "/new-portfolio/static/css/main.b5f51872.css.map",
+    "main.c04cfe32.js.map": "/new-portfolio/static/js/main.c04cfe32.js.map",
     "787.7da95b79.chunk.js.map": "/new-portfolio/static/js/787.7da95b79.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.75a4929b.css",
-    "static/js/main.a72aebbb.js"
+    "static/css/main.b5f51872.css",
+    "static/js/main.c04cfe32.js"
   ]
 }
