@@ -24,6 +24,9 @@ const JourneyPage = ({
     end: string;
   }[] = require(`../../journeys/journey-${type.replace(" ", "-")}.json`);
 
+  // TODO: Make this reactive later
+  const isSmall = window.innerWidth < 1100;
+
   useEffect(() => {}, [scroll]);
 
   const getImages = (imageSrcs) => {
@@ -48,34 +51,37 @@ const JourneyPage = ({
   };
 
   const leftJourneys = [];
-  for (let idx = 0; idx < journeyData.length; idx += 2) {
-    const journey: {
-      title: string;
-      desc: string;
-      skills: string;
-      images: string[];
-      start?: string;
-      end: string;
-    } = journeyData[idx];
+  if (!isSmall) {
+    for (let idx = 0; idx < journeyData.length; idx += 2) {
+      const journey: {
+        title: string;
+        desc: string;
+        skills: string;
+        images: string[];
+        start?: string;
+        end: string;
+      } = journeyData[idx];
 
-    const images = getImages(journey.images);
+      const images = getImages(journey.images);
 
-    leftJourneys.push(
-      <Journey
-        collidedDOM={collidedDOM}
-        title={journey.title}
-        desc={journey.desc}
-        skills={journey.skills}
-        start={journey.start}
-        end={journey.end}
-        images={images}
-        align={"left"}
-      />
-    );
+      leftJourneys.push(
+        <Journey
+          collidedDOM={collidedDOM}
+          title={journey.title}
+          desc={journey.desc}
+          skills={journey.skills}
+          start={journey.start}
+          end={journey.end}
+          images={images}
+          align={"left"}
+        />
+      );
+    }
   }
 
   const rightJourneys = [];
-  for (let idx = 1; idx < journeyData.length; idx += 2) {
+
+  for (let idx = 1; idx < journeyData.length; idx += isSmall ? 1 : 2) {
     const journey: {
       title: string;
       desc: string;
@@ -146,7 +152,13 @@ const JourneyPage = ({
         Back to Top
       </text>
 
-      <Title title="MY JOURNEY" width="calc(100% - 71px - 71px)" size="80px" />
+      <Title
+        title="MY JOURNEY"
+        width={
+          isSmall ? "calc(100% - 41px - 41px)" : "calc(100% - 71px - 71px)"
+        }
+        size={isSmall ? "40px" : "80px"}
+      />
     </div>
   );
 };

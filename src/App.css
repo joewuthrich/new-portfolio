@@ -211,13 +211,13 @@ body {
   }
 
   .bordered-frame {
-    margin: 61px;
+    padding: 51px !important;
   }
 }
 
 @media only screen and (max-width: 720px) {
   .bordered-frame {
-    margin: 51px;
+    padding: 31px !important;
   }
 }
 

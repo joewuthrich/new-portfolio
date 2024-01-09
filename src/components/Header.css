@@ -147,6 +147,10 @@
     max-width: 80%;
     font-size: 13px;
   }
+
+  .name-container {
+    margin-top: 30px;
+  }
 }
 
 @media only screen and (max-width: 575px) {
