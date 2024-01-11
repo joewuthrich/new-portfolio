@@ -57,7 +57,7 @@ const LightDarkToggle = ({ setIsDark, collidedDOM }) => {
     });
 
   return (
-    <button
+    <div
       className={`theme-toggle interactable ${
         collidedDOM === "theme-toggle" ? "hover" : ""
       }`}
@@ -66,6 +66,7 @@ const LightDarkToggle = ({ setIsDark, collidedDOM }) => {
       aria-live="polite"
       //@ts-ignore
       credit="This switch was built by the web.dev team, and looks awesome! Find it here: https://web.dev/patterns/theming/theme-switch"
+      href="#"
     >
       <svg
         className="sun-and-moon"
@@ -97,7 +98,7 @@ const LightDarkToggle = ({ setIsDark, collidedDOM }) => {
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
         </g>
       </svg>
-    </button>
+    </div>
   );
 };
 
