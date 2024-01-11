@@ -10,6 +10,9 @@ import { createGlobalStyle } from "styled-components";
 import LightDarkToggle from "./components/LightDarkToggle";
 import Instructions from "./components/Instructions";
 import AboutPage from "./components/pages/AboutPage";
+import smoothscroll from "smoothscroll-polyfill";
+
+smoothscroll.polyfill();
 
 const App = () => {
   const screens = {
@@ -303,7 +306,7 @@ const App = () => {
               padding: "71px",
               overflowY: "scroll",
               overflowX: "hidden",
-              scrollBehavior: "smooth",
+              // scrollBehavior: "smooth",
             }}
           >
             <JourneyPage

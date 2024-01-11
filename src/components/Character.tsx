@@ -348,16 +348,19 @@ const Character = ({
         movingUp &&
         journeyScreenDOM.scrollTop !== 0
       ) {
-        if (journeyScreenDOM.scrollTop > 70) {
+        if (journeyScreenDOM.scrollTop > 10) {
           setJourneyScroll(journeyScreenDOM.scrollTop);
-          journeyScreenDOM.scrollBy(0, -moveSpeed * (scroll ? 14 : 8));
+          // !! SMOOTH DOESN'T WORK ON A LOT OF BROWERS
+          journeyScreenDOM.scrollBy(0, -moveSpeed * (scroll ? 2.4 : 1.7));
           movingUp = false;
           handled = true;
 
           if (!movingLeft && !movingRight && !movingDown) createFootPrint();
         } else {
-          setJourneyScroll(0);
-          journeyScreenDOM.scrollTo(0, 0);
+          journeyScreenDOM.scrollBy(
+            0,
+            Math.min(-journeyScreenDOM.scrollTop, 0)
+          );
         }
       }
 
@@ -370,23 +373,17 @@ const Character = ({
       ) {
         if (
           journeyScreenDOM.scrollTop <
-          journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight - 70
+          journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight - 10
         ) {
-          setJourneyScroll(journeyScreenDOM.scrollTop + 71);
-          journeyScreenDOM.scrollBy(0, moveSpeed * (scroll ? 14 : 8));
+          // !! SMOOTH DOESN'T WORK ON A LOT OF BROWERS
+          journeyScreenDOM.scrollBy(0, moveSpeed * (scroll ? 2.4 : 1.7));
           movingDown = false;
           handled = true;
 
           if (!movingLeft && !movingRight && !movingUp) createFootPrint();
           // return;
         } else {
-          setJourneyScroll(
-            journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight
-          );
-          journeyScreenDOM.scrollTo(
-            0,
-            journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight
-          );
+          journeyScreenDOM.scrollTo(0, journeyScreenDOM.scrollHeight);
         }
       }
 
