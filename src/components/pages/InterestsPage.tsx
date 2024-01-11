@@ -47,7 +47,7 @@ const InterestsPage = ({ collidedDOM, moveScreenAction }) => {
       </div>
       <div className="interests-title-container">
         <Title
-          title="MY INTERESTS"
+          title="INTERESTS"
           width={`${window.innerHeight - 71 * 2}px`}
           size="70px"
         />

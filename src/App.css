@@ -96,9 +96,10 @@ body {
 }
 
 .interests-title-container {
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) translateY(calc(50% - 71px)) translateX(50%);
   position: absolute;
-  right: calc(-25% + (70px));
+  right: 0px;
+  transform-origin: right center;
 }
 
 .svg-icon {

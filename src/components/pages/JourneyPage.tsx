@@ -46,6 +46,9 @@ const JourneyPage = ({
           />
         )
       );
+
+      // If the page is small only ever return one video (otherwise might not fit)
+      if (isSmall) return images;
     }
     return images;
   };

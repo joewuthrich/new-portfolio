@@ -22,3 +22,34 @@
   width: calc(100% - 250px);
   height: 100%;
 }
+
+.about-content-container {
+  max-height: 100%;
+}
+
+.about-text {
+  color: var(--main-text-color);
+
+  font-family: "RobotoSlab-Light";
+  font-size: 22px;
+  font-style: normal;
+  line-height: normal;
+}
+
+@media only screen and (max-width: 1700px) {
+  .about-text {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .about-text {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (max-width: 1600px) {
+  .about-text {
+    font-size: 18px;
+  }
+}

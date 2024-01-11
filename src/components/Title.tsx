@@ -12,7 +12,9 @@ function Title({
   return (
     <div className="name-container">
       <div
-        className="background-box"
+        className={`background-box ${title
+          .toLowerCase()
+          .replace(" ", "-")}-background`}
         style={width ? { width: width } : {}}
       ></div>
       <text className="name-header" style={size ? { fontSize: size } : {}}>

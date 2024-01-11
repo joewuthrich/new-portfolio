@@ -41,6 +41,11 @@
   transform: translate(-50%, 0);
 }
 
+.about-me-background,
+.my-interests-background {
+  height: 1.6vw;
+}
+
 .job-subtitle {
   color: var(--main-text-color);
   transition: color 0.5s ease;

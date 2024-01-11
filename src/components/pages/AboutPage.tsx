@@ -20,7 +20,7 @@ const AboutPage = ({ collidedDOM, moveScreenAction }) => {
   }, []);
 
   return (
-    <div className="content-container">
+    <div className="content-container about-content-container">
       <Arrow
         title={"Back to Main"}
         align={"right"}
@@ -29,7 +29,7 @@ const AboutPage = ({ collidedDOM, moveScreenAction }) => {
       />
       <div className="about-title-container">
         <Title
-          title="About Me"
+          title="ABOUT ME"
           width={`${window.innerHeight - 71 * 2}px`}
           size="70px"
         />

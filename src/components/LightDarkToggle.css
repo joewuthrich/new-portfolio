@@ -78,7 +78,3 @@
   cursor: pointer;
   transform: scale(1.2) translateX(-50%);
 }
-
-.theme-toggle.hover {
-  transform: scale(1.2) translateX(-50%);
-}
