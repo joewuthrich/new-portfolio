@@ -150,7 +150,11 @@ const JourneyPage = ({
         className={`return-top-text interactable prevent-click-move ${
           collidedDOM === "return-top-text" ? "hover" : ""
         }`}
-        onClick={() => document.getElementById("journey-screen").scrollTo(0, 0)}
+        onClick={() =>
+          document
+            .getElementById("journey-screen")
+            .scrollTo({ top: 0, behavior: "smooth" })
+        }
       >
         Back to Top
       </text>

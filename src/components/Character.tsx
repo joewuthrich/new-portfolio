@@ -40,6 +40,10 @@ const Character = ({
 
   const [facing, setFacing] = useState("S");
 
+  // const [journeyHeight, setJourneyHeight] = useState(
+  //   document.getElementById("journey-screen").scrollHeight
+  // );
+
   const baseMoveSpeed = 10; // Adjust the base speed as needed
   const sprintMultiplier = 3; // Adjust the sprint multiplier
 
@@ -375,6 +379,10 @@ const Character = ({
           journeyScreenDOM.scrollTop <
           journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight - 10
         ) {
+          console.log(
+            journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight
+          );
+          console.log("top" + journeyScreenDOM.scrollTop);
           // !! SMOOTH DOESN'T WORK ON A LOT OF BROWERS
           journeyScreenDOM.scrollBy(0, moveSpeed * (scroll ? 2.4 : 1.7));
           movingDown = false;
@@ -383,7 +391,12 @@ const Character = ({
           if (!movingLeft && !movingRight && !movingUp) createFootPrint();
           // return;
         } else {
-          journeyScreenDOM.scrollTo(0, journeyScreenDOM.scrollHeight);
+          // TODO: FIX THIS
+          console.log("hi");
+          journeyScreenDOM.scrollTo(
+            0,
+            journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight
+          );
         }
       }
 
@@ -450,7 +463,10 @@ const Character = ({
       const atLeftEdge = x <= edgeThreshold;
       const atRightEdge = x + charWidth >= window.innerWidth - edgeThreshold;
       const atTopEdge = y <= edgeThreshold;
-      const atBottomEdge = y + charHeight >= window.innerHeight - edgeThreshold;
+      const atBottomEdge =
+        y + charHeight >=
+        window.innerHeight -
+          (screenInfo.name === "journey" ? edgeThreshold + 50 : edgeThreshold);
 
       let closestElement = null;
       let closestDistance = Infinity;
