@@ -267,18 +267,19 @@ const Character = ({
 
       setStepCounter((count) => count + 1);
       if (stepCounter % (sprinting ? 2 : 6) === 0) {
+        const offsetX =
+          screenInfo.name === "journey" ? -charWidth / 2 : charWidth / 2;
+        const offsetY =
+          screenInfo.name === "journey"
+            ? document.getElementById("journey-screen").scrollTop
+            : charHeight - 15;
+
         setFootprints((prevFootprints) => [
           ...prevFootprints.slice(-10),
           {
             key: stepCounter,
-            x: position.x + charWidth / 2,
-            y:
-              position.y +
-              charHeight -
-              15 +
-              (screenInfo.name === "journey"
-                ? document.getElementById("journey-screen").scrollTop
-                : 0),
+            x: position.x + offsetX,
+            y: position.y + offsetY,
             side: stepCounter % (sprinting ? 4 : 12) === 0 ? "left" : "right",
             facing: facing,
           },

@@ -323,6 +323,16 @@ const App = () => {
           className={`screen ${currentScreen === "about" ? "" : "left"}`}
           id="about-screen"
         >
+          {currentScreen === "about"
+            ? footprints.map((fp, _) => (
+                <Footprint
+                  key={fp.key}
+                  position={{ x: fp.x, y: fp.y }}
+                  side={fp.side}
+                  facing={fp.facing}
+                />
+              ))
+            : null}
           <div className="bordered-frame">
             <AboutPage
               collidedDOM={collidedDOM}
