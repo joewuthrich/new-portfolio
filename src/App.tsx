@@ -95,7 +95,7 @@ const App = () => {
     moveChar = true
   ) => {
     if (
-      !(window.innerWidth > 1500 && window.innerHeight > 700) &&
+      !(window.innerWidth > 1300 && window.innerHeight > 700) &&
       (direction === "left" || direction === "right")
     )
       return;
@@ -219,7 +219,7 @@ const App = () => {
         className="background"
         style={{
           transform: `translateX(${
-            window.innerWidth > 1500 ? horizontalTranslation : 0
+            window.innerWidth > 1300 ? horizontalTranslation : 0
           }px) translateY(${verticalTranslation}px)`,
         }}
       >

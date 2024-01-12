@@ -23,14 +23,14 @@ const InterestsPage = ({ collidedDOM, moveScreenAction }) => {
             "/images/interests-photography-pinnacles.jpg",
           ]}
           align="left"
-          offset={-150}
+          offset={"-27%"}
         />
         <Interest
           collidedDOM={collidedDOM}
           title={"INNOVATION"}
           description="I've always loved creating new things, and this love has only grown. I've won a few awards for my own projects, such as the University of Auckland Velocity Innovation Challenge."
           align="right"
-          offset={300}
+          offset={"300px"}
         />
         <Interest
           collidedDOM={collidedDOM}
@@ -42,7 +42,7 @@ const InterestsPage = ({ collidedDOM, moveScreenAction }) => {
             "/images/interests-travel-london.jpg",
           ]}
           align="left"
-          offset={500}
+          offset={"14%"}
         />
       </div>
       <div className="interests-title-container">

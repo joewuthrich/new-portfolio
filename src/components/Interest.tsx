@@ -6,7 +6,7 @@ type InterestProps = {
   imageSrcs?: string[];
   collidedDOM: string | null;
   align: "left" | "right";
-  offset?: number;
+  offset?: string;
 };
 
 const Arrow = (props: InterestProps) => {
@@ -31,7 +31,7 @@ const Arrow = (props: InterestProps) => {
     <div
       className={`single-interest-container ${props.align}  `}
       style={{
-        marginLeft: props.offset + "px",
+        marginLeft: props.offset,
       }}
     >
       <div

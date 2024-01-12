@@ -185,7 +185,7 @@ body {
   justify-content: flex-start;
 }
 
-@media only screen and (max-width: 1500px) {
+@media only screen and (max-width: 1300px) {
   #interests-screen,
   #about-screen {
     display: none;
