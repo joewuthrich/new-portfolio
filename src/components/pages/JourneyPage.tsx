@@ -26,6 +26,9 @@ const JourneyPage = ({
 
   // TODO: Make this reactive later
   const isSmall = window.innerWidth < 1100;
+  const singleImage =
+    window.innerWidth < 700 ||
+    (window.innerWidth < 1550 && window.innerWidth > 1100);
 
   useEffect(() => {}, [scroll]);
 
@@ -48,7 +51,7 @@ const JourneyPage = ({
       );
 
       // If the page is small only ever return one video (otherwise might not fit)
-      if (isSmall) return images;
+      if (singleImage) return images;
     }
     return images;
   };
