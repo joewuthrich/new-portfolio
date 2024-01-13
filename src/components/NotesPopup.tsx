@@ -41,10 +41,13 @@ const Popup = ({ setPopup }) => {
           Hopefully someone else will fill the gap and create an "Emily's Notes"
           or "Zac's Notes", and the tradition can continue.
         </p>
-        <p className="popup-text popup-text-bottom">
+        <p className="popup-text">
           That being said, If anyone wants to stay in contact with me (or just
-          needs more connections), my LinkedIn can be found on this page. For
-          those of you still in university, good luck with the rest of your
+          needs more connections), my LinkedIn can be found on this page, and
+          you can reach me there.
+        </p>
+        <p className="popup-text popup-text-bottom">
+          For those of you still in university, good luck with the rest of your
           journey, and I hope you enjoy it as much as I did. For those who are
           graduating, I look forward to seeing some of you in the workplace -
           either way, stay in touch!
