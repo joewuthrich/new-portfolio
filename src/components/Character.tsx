@@ -22,6 +22,7 @@ const Character = ({
   slowThreshold,
   stepCounter,
   setStepCounter,
+  popup,
 }) => {
   const [keysPressed, setKeysPressed] = useState({
     arrowup: false,
@@ -39,10 +40,6 @@ const Character = ({
   });
 
   const [facing, setFacing] = useState("S");
-
-  // const [journeyHeight, setJourneyHeight] = useState(
-  //   document.getElementById("journey-screen").scrollHeight
-  // );
 
   const baseMoveSpeed = 10; // Adjust the base speed as needed
   const sprintMultiplier = 3; // Adjust the sprint multiplier
@@ -151,7 +148,7 @@ const Character = ({
     };
 
     const handleScreenClick = (event) => {
-      if (!visible) return;
+      if (!visible || popup !== "") return;
 
       if (event.clientX === 0 && event.clientY === 0 && event.layerY === 0)
         return;
@@ -255,7 +252,7 @@ const Character = ({
 
     const handleWheel = (event) => {
       // TODO: Figure out what to do with this
-      if (!visible) return;
+      if (!visible || popup !== "") return;
       // event.preventDefault();
       clearCurrentClick();
       // const deltaY = event.deltaY;
@@ -592,11 +589,12 @@ const Character = ({
     slowThreshold,
     setStepCounter,
     visible,
+    popup,
   ]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (!visible) return;
+      if (!visible || popup !== "") return;
 
       event.preventDefault();
       clearCurrentClick();
@@ -628,7 +626,7 @@ const Character = ({
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
-  }, [keysPressed, collidedDOM, restartPage, visible]);
+  }, [keysPressed, collidedDOM, restartPage, visible, popup]);
 
   const getSpriteURL = () => {
     const mainFace = facing.split("")[0];

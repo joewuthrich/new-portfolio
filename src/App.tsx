@@ -217,6 +217,7 @@ const App = () => {
         slowThreshold={slowThreshold}
         stepCounter={stepCounter}
         setStepCounter={setStepCounter}
+        popup={popup}
       />
 
       {popup === "notes" && <NotesPopup setPopup={setPopup} />}
