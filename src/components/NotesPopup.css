@@ -85,3 +85,29 @@
     max-width: 70%;
   }
 }
+
+@media only screen and (max-height: 800px) {
+  .popup-box {
+    max-width: 70%;
+  }
+}
+
+@media only screen and (max-height: 600px) {
+  .popup-text {
+    font-size: 18px;
+  }
+
+  .popup-box {
+    max-width: 80%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .popup-text {
+    font-size: 18px;
+  }
+
+  .popup-box {
+    max-width: 80%;
+  }
+}
