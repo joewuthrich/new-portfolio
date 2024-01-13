@@ -6,10 +6,10 @@ const Popup = ({ setPopup }) => {
   useEffect(() => {
     const overlay = document.getElementById("popup-overlay");
     const exit = document.getElementById("popup-exit-box");
-    overlay.addEventListener("pointerdown", () => {
+    overlay.addEventListener("pointerup", () => {
       setPopup("");
     });
-    exit.addEventListener("pointerdown", () => {
+    exit.addEventListener("pointerup", () => {
       setPopup("");
     });
     const newUrl = window.location.origin + window.location.pathname;

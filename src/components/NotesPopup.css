@@ -18,6 +18,10 @@
   transition: background-color 0.5s ease;
 }
 
+.popup-opacity:hover {
+  cursor: pointer;
+}
+
 .popup-box {
   background-color: var(--main-bg-color);
   padding: 30px;

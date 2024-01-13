@@ -45,9 +45,10 @@ const LightDarkToggle = ({ setIsDark, collidedDOM }) => {
     reflectPreference();
 
     // now this script can find and listen for clicks on the control
+    document.querySelector("#theme-toggle").addEventListener("click", onClick);
     document
       .querySelector("#theme-toggle")
-      .addEventListener("pointerdown", onClick);
+      .addEventListener("touchend", onClick);
   };
 
   // sync with system changes
