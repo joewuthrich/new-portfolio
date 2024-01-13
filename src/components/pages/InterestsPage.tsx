@@ -45,13 +45,13 @@ const InterestsPage = ({ collidedDOM, moveScreenAction }) => {
           offset={"14%"}
         />
       </div>
-      <div className="interests-title-container">
+      {/* <div className="interests-title-container">
         <Title
           title="INTERESTS"
           width={`${window.innerHeight - 71 * 2}px`}
           size="70px"
         />
-      </div>
+      </div> */}
     </div>
   );
 };

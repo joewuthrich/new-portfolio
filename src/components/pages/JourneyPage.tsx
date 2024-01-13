@@ -162,13 +162,13 @@ const JourneyPage = ({
         Back to Top
       </text>
 
-      <Title
+      {/* <Title
         title="MY JOURNEY"
         width={
           isSmall ? "calc(100% - 41px - 41px)" : "calc(100% - 71px - 71px)"
         }
         size={isSmall ? "40px" : "80px"}
-      />
+      /> */}
     </div>
   );
 };

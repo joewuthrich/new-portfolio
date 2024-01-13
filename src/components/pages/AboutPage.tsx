@@ -27,13 +27,13 @@ const AboutPage = ({ collidedDOM, moveScreenAction }) => {
         onClick={() => moveScreenAction("right")}
         collidedDOM={collidedDOM}
       />
-      <div className="about-title-container">
+      {/* <div className="about-title-container">
         <Title
           title="ABOUT ME"
           width={`${window.innerHeight - 71 * 2}px`}
           size="70px"
         />
-      </div>
+      </div> */}
       <div className="about-text-container">
         {paragraphs.map((paragraph, index) => (
           <p className="about-text" key={index}>
