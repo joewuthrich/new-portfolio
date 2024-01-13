@@ -11,6 +11,7 @@ import LightDarkToggle from "./components/LightDarkToggle";
 import Instructions from "./components/Instructions";
 import AboutPage from "./components/pages/AboutPage";
 import smoothscroll from "smoothscroll-polyfill";
+import NotesPopup from "./components/NotesPopup";
 
 smoothscroll.polyfill();
 
@@ -60,6 +61,7 @@ const App = () => {
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
   const [portfolioType, setPortfolioType] = useState("Technical Graduate");
+  const [popup, setPopup] = useState("");
   const [stepCounter, setStepCounter] = useState(0);
 
   useEffect(() => {
@@ -67,6 +69,8 @@ const App = () => {
       new URL(window.location.href).searchParams.get("type") ??
         "Technical Graduate"
     );
+
+    setPopup(new URL(window.location.href).searchParams.get("popup") ?? "");
   }, []);
 
   const headerRefs = useRef(null);
@@ -214,6 +218,8 @@ const App = () => {
         stepCounter={stepCounter}
         setStepCounter={setStepCounter}
       />
+
+      {popup === "notes" && <NotesPopup setPopup={setPopup} />}
 
       <div
         className="background"

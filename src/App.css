@@ -218,6 +218,17 @@ body {
   }
 }
 
+@media only screen and (max-width: 850px) {
+  .instruction-container {
+    width: auto;
+  }
+
+  .bordered-frame {
+    padding: 39px !important;
+    margin: 39px !important;
+  }
+}
+
 @media only screen and (max-width: 720px) {
   .bordered-frame {
     padding: 21px !important;

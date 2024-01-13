@@ -40,7 +40,6 @@
 .arrow-container.top {
   transform: rotate(180deg) translateY(50%);
   top: 0px;
-  margin-top: 71px;
 }
 
 .arrow-container.bottom {
@@ -83,9 +82,9 @@
   }
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 720px) {
   .arrow-container.top {
-    margin-top: 51px !important;
+    margin-top: 31px !important;
   }
 }
 
