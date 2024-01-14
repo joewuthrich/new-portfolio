@@ -1,12 +1,8 @@
+import { useEffect } from "react";
 import "./LightDarkToggle.css";
 
 const LightDarkToggle = ({ setIsDark, collidedDOM }) => {
   const storageKey = "theme-preference";
-
-  const onClick = () => {
-    theme.value = theme.value === "light" ? "dark" : "light";
-    setPreference();
-  };
 
   const getColorPreference = () => {
     if (localStorage.getItem(storageKey))
@@ -17,47 +13,54 @@ const LightDarkToggle = ({ setIsDark, collidedDOM }) => {
         : "light";
   };
 
-  const setPreference = () => {
-    localStorage.setItem(storageKey, theme.value);
-    setIsDark(theme.value === "dark");
+  useEffect(() => {
+    const theme = {
+      value: getColorPreference(),
+    };
 
-    reflectPreference();
-  };
+    const setPreference = () => {
+      localStorage.setItem(storageKey, theme.value);
+      setIsDark(theme.value === "dark");
+      reflectPreference();
+    };
 
-  const reflectPreference = () => {
-    document.firstElementChild.setAttribute("data-theme", theme.value);
+    const reflectPreference = () => {
+      document.firstElementChild.setAttribute("data-theme", theme.value);
 
-    document
-      .querySelector("#theme-toggle")
-      ?.setAttribute("aria-label", theme.value);
-  };
+      document
+        .querySelector("#theme-toggle")
+        ?.setAttribute("aria-label", theme.value);
+    };
 
-  const theme = {
-    value: getColorPreference(),
-  };
+    const setUpOnLoad = () => {
+      const onClick = () => {
+        theme.value = theme.value === "light" ? "dark" : "light";
+        setPreference();
+      };
 
-  // set early so no page flashes / CSS is made aware
-  reflectPreference();
+      setPreference();
+      // Set on load so screen readers can see the latest value on the button
+      reflectPreference();
 
-  window.onload = () => {
-    setPreference();
-    // set on load so screen readers can see latest value on the button
-    reflectPreference();
+      // Now this script can find and listen for clicks on the control
+      document
+        .querySelector("#theme-toggle")
+        .addEventListener("click", onClick);
+    };
 
-    // now this script can find and listen for clicks on the control
-    document.querySelector("#theme-toggle").addEventListener("click", onClick);
-    document
-      .querySelector("#theme-toggle")
-      .addEventListener("touchend", onClick);
-  };
+    setUpOnLoad();
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", ({ matches: isDark }) => {
+        theme.value = isDark ? "dark" : "light";
+        setPreference();
+      });
+
+    console.log("rah");
+  }, [setIsDark]);
 
   // sync with system changes
-  window
-    .matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", ({ matches: isDark }) => {
-      theme.value = isDark ? "dark" : "light";
-      setPreference();
-    });
 
   return (
     <div
@@ -65,11 +68,8 @@ const LightDarkToggle = ({ setIsDark, collidedDOM }) => {
         collidedDOM === "theme-toggle" ? "hover" : ""
       }`}
       id="theme-toggle"
-      aria-label="auto"
-      aria-live="polite"
       //@ts-ignore
-      credit="This switch was built by the web.dev team, and looks awesome! Find it here: https://web.dev/patterns/theming/theme-switch"
-      href="#"
+      // credit="This switch was built by the web.dev team, and looks awesome! Find it here: https://web.dev/patterns/theming/theme-switch"
     >
       <svg
         className="sun-and-moon"
@@ -77,6 +77,7 @@ const LightDarkToggle = ({ setIsDark, collidedDOM }) => {
         width="24"
         height="24"
         viewBox="0 0 24 24"
+        id="theme-toggle-two"
       >
         <mask className="moon" id="moon-mask">
           <rect x="0" y="0" width="100%" height="100%" fill="white" />

@@ -150,8 +150,7 @@ const Character = ({
     const handleScreenClick = (event) => {
       if (!visible || popup !== "") return;
 
-      if (event.clientX === 0 && event.clientY === 0 && event.layerY === 0)
-        return;
+      if (event.clientX === 0 && event.clientY === 0) return;
 
       // TODO: Fix character continue walking when switching screens
       // TODO: Fix character trying to walk into impossible area
