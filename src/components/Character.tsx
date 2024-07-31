@@ -50,7 +50,7 @@ const Character = ({
 
   const spriteRef = useRef(null);
 
-  const visible = window.innerWidth > 1300 && window.innerHeight > 700;
+  const visible = window.innerWidth > 1100 && window.innerHeight > 700;
 
   const clickRef = useRef(null);
   const positionRef = useRef(position);
