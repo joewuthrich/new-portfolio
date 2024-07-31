@@ -1,9 +1,30 @@
 [
   {
+    "title": "Guest Lecturer",
+    "desc": "I was asked to come back to university and give a guest lecture to the final-year computer science cohort. The lecture centered on my experiences in my capstone course, as well as information about the workplace.",
+    "skills": "Presenting, Communication, Public Speaking",
+    "images": [
+      "journey-guestlecture-gesture.jpg",
+      "journey-guestlecture-slide.jpg"
+    ],
+    "end": "Jul 2024"
+  },
+  {
+    "title": "Full Stack Developer",
+    "desc": "After leaving university I started a role as a Full Stack Developer at Dave Clark Designs, working on a variety of project across web and mobile applications.",
+    "skills": "Frontend Development, Backend Development, Full Stack Development, CI/CD Processes, Agile Methodology, Communication, JavaScript, React, Transact-SQL",
+    "images": ["journey-me-daveclark.jpg"],
+    "start": "Mar 2024"
+  },
+  {
     "title": "Computer Science & IT Management (BSc)",
     "desc": "After three years at the University of Auckland, I graduated with a BSc. I learnt a lot across my three years, improving my soft skills in particular.",
     "skills": "Project Management, Leadership, Teamwork, Conflict Resolution, UI/UX Design, Frontend Development, Client Interaction, Communication, Stakeholder Management",
-    "images": [],
+    "images": [
+      "journey-grad-smile.jpg",
+      "journey-grad-side.jpg",
+      "journey-grad-back.jpg"
+    ],
     "end": "Nov 2023"
   },
   {
@@ -34,9 +55,8 @@
     "title": "University of Auckland Course Coordinator",
     "desc": "In 2022, I was promoted to Course Coordinator for INFOMGMT192, adding both coordinating and managing the tutor team and serving as the primary point of contact for students to my previous responsibilities. ",
     "skills": "Leadership, Communication, Management, Problem Solving",
-    "images": ["journey-teaching.jpg"],
-    "start": "Aug 2022",
-    "end": "Nov 2023"
+    "images": [],
+    "start": "Aug 2022"
   },
   {
     "title": "Velocity Innovation Challenge",

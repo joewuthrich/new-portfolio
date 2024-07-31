@@ -67,7 +67,7 @@ const Journey = ({
       ref={journeyRef}
     >
       <text className={`journey-item-duration ${align}`}>
-        {(start ? start + " - " : "") + end}
+        {(start ? start + " - " : "") + (end ?? "now")}
       </text>
       <div className={`journey-item-duration-space`} />
       <div className={`vertical-divider ${align}`} />
