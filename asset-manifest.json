@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.5bf30c7e.css",
-    "main.js": "/static/js/main.3c6bf7b5.js",
+    "main.css": "/static/css/main.ff2d775f.css",
+    "main.js": "/static/js/main.e88d8665.js",
     "static/js/787.7da95b79.chunk.js": "/static/js/787.7da95b79.chunk.js",
     "static/media/RobotoSlab-Bold.ttf": "/static/media/RobotoSlab-Bold.37f7c30bbfc1ebae4939.ttf",
     "static/media/RobotoSlab-Light.ttf": "/static/media/RobotoSlab-Light.acad4001c48971a95eb3.ttf",
     "static/media/RobotoSlab-Regular.ttf": "/static/media/RobotoSlab-Regular.51fdb083efba0dd8a5ea.ttf",
     "static/media/RobotoSlab-Thin.ttf": "/static/media/RobotoSlab-Thin.5d7d07d7def37f069edc.ttf",
     "index.html": "/index.html",
-    "main.5bf30c7e.css.map": "/static/css/main.5bf30c7e.css.map",
-    "main.3c6bf7b5.js.map": "/static/js/main.3c6bf7b5.js.map",
+    "main.ff2d775f.css.map": "/static/css/main.ff2d775f.css.map",
+    "main.e88d8665.js.map": "/static/js/main.e88d8665.js.map",
     "787.7da95b79.chunk.js.map": "/static/js/787.7da95b79.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5bf30c7e.css",
-    "static/js/main.3c6bf7b5.js"
+    "static/css/main.ff2d775f.css",
+    "static/js/main.e88d8665.js"
   ]
 }
