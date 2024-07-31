@@ -56,8 +56,6 @@ const LightDarkToggle = ({ setIsDark, collidedDOM }) => {
         theme.value = isDark ? "dark" : "light";
         setPreference();
       });
-
-    console.log("rah");
   }, [setIsDark]);
 
   // sync with system changes

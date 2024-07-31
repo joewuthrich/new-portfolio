@@ -13,9 +13,9 @@ const Name = (props: HeaderProps) => {
       <Title title="JOE WUTHRICH" width="" size="" />
       <text className="job-subtitle">{props.subtitle}</text>
       <text className="description">
-        I'm a recent graduate, with a BSc in Computer Science and IT Management.
-        I'm interested in anything from recent software solutions, to
-        photography, to basketball.
+        I'm a Full Stack Developer, experienced in designing and building web
+        and mobile applications. I'm interested in anything from recent software
+        solutions, to photography, to basketball.
       </text>
       <div className="outer-link-container">
         <a

@@ -59,8 +59,6 @@ const Character = ({
   }, [position]);
 
   useEffect(() => {
-    console.log("Here");
-
     const sprites = [
       "E-0",
       "E-1",
@@ -158,8 +156,10 @@ const Character = ({
 
       if (event.target.classList.contains("prevent-click-move")) return;
 
-      const clickX = event.clientX || event.touches[0].clientX;
-      const clickY = event.clientY || event.touches[0].clientY;
+      const clickX =
+        event.clientX || (event.touches ? event.touches[0].clientX : 0);
+      const clickY =
+        event.clientY || (event.touches ? event.touches[0].clientX : 0);
 
       // Calculate the target position
       const targetX = clickX - charWidth / 2;
@@ -376,10 +376,6 @@ const Character = ({
           journeyScreenDOM.scrollTop <
           journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight - 10
         ) {
-          console.log(
-            journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight
-          );
-          console.log("top" + journeyScreenDOM.scrollTop);
           // !! SMOOTH DOESN'T WORK ON A LOT OF BROWERS
           journeyScreenDOM.scrollBy(0, moveSpeed * (scroll ? 2.4 : 1.7));
           movingDown = false;
@@ -389,7 +385,6 @@ const Character = ({
           // return;
         } else {
           // TODO: FIX THIS
-          console.log("hi");
           journeyScreenDOM.scrollTo(
             0,
             journeyScreenDOM.scrollHeight - journeyScreenDOM.clientHeight

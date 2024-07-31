@@ -1,17 +1,17 @@
 import { useState, useRef, useEffect } from "react";
 import "./App.css";
+import "./styles/loader.css";
 import Header from "./components/Header";
 import Character from "./components/Character";
 import Arrow from "./components/Arrow";
-import InterestsPage from "./components/pages/InterestsPage";
 import JourneyPage from "./components/pages/JourneyPage";
 import Footprint from "./components/Footprint";
 import { createGlobalStyle } from "styled-components";
 import LightDarkToggle from "./components/LightDarkToggle";
 import Instructions from "./components/Instructions";
-import AboutPage from "./components/pages/AboutPage";
 import smoothscroll from "smoothscroll-polyfill";
 import NotesPopup from "./components/NotesPopup";
+import { load } from "./scripts/load";
 
 smoothscroll.polyfill();
 
@@ -60,14 +60,17 @@ const App = () => {
   const [position, setPosition] = useState(startPos);
   const [horizontalTranslation, setHorizontalTranslation] = useState(0);
   const [verticalTranslation, setVerticalTranslation] = useState(0);
-  const [portfolioType, setPortfolioType] = useState("Technical Graduate");
+  const [portfolioType, setPortfolioType] = useState("Full Stack Developer");
   const [popup, setPopup] = useState("");
   const [stepCounter, setStepCounter] = useState(0);
 
   useEffect(() => {
+    load();
+
+    const defaultSubTitle = "Full Stack Developer";
+
     setPortfolioType(
-      new URL(window.location.href).searchParams.get("type") ??
-        "Technical Graduate"
+      new URL(window.location.href).searchParams.get("type") ?? defaultSubTitle
     );
 
     setPopup(new URL(window.location.href).searchParams.get("popup") ?? "");
@@ -107,29 +110,30 @@ const App = () => {
     let newPosition;
     let moved = false;
     switch (direction) {
-      case "left":
-        newPosition = {
-          x: window.innerWidth - slowThreshold - charWidth - 1,
-          y: position.y,
-        };
-        if (currentScreen === "interests") {
-          setCurrentScreen("home");
-          moved = true;
-        } else if (currentScreen === "home") {
-          setCurrentScreen("about");
-          moved = true;
-        }
-        break;
-      case "right":
-        newPosition = { x: slowThreshold + 1, y: position.y };
-        if (currentScreen === "home") {
-          setCurrentScreen("interests");
-          moved = true;
-        } else if (currentScreen === "about") {
-          setCurrentScreen("home");
-          moved = true;
-        }
-        break;
+      // TODO: Removed for now
+      // case "left":
+      //   newPosition = {
+      //     x: window.innerWidth - slowThreshold - charWidth - 1,
+      //     y: position.y,
+      //   };
+      //   if (currentScreen === "interests") {
+      //     setCurrentScreen("home");
+      //     moved = true;
+      //   } else if (currentScreen === "home") {
+      //     setCurrentScreen("about");
+      //     moved = true;
+      //   }
+      //   break;
+      // case "right":
+      //   newPosition = { x: slowThreshold + 1, y: position.y };
+      //   if (currentScreen === "home") {
+      //     setCurrentScreen("interests");
+      //     moved = true;
+      //   } else if (currentScreen === "about") {
+      //     setCurrentScreen("home");
+      //     moved = true;
+      //   }
+      //   break;
       case "up":
         newPosition = {
           x: position.x,
@@ -190,98 +194,103 @@ const App = () => {
 `;
 
   return (
-    <div className="frame">
-      <GlobalStyles />
-      <Character
-        moveScreenAction={moveScreenAction}
-        position={position}
-        setPosition={setPosition}
-        translateScreen={translateScreen}
-        screenInfo={screens[currentScreen]}
-        reactiveElements={[
-          headerRefs?.current?.emailRef,
-          headerRefs?.current?.linkedInRef,
-        ]}
-        updateCollision={updateCollision}
-        collidedDOM={collidedDOM}
-        setFootprints={setFootprints}
-        canMove={!switchingScreens}
-        setJourneyScroll={setJourneyScroll}
-        journeyScroll={journeyScroll}
-        charWidth={charWidth}
-        charHeight={charHeight}
-        restartPage={restartPage}
-        isDark={isDark}
-        interrupt={interrupt}
-        setInterrupt={setInterrupt}
-        slowThreshold={slowThreshold}
-        stepCounter={stepCounter}
-        setStepCounter={setStepCounter}
-        popup={popup}
-      />
+    <div className="outer-frame">
+      <div className="la-timer" id="page-loader" style={{ display: "block" }}>
+        <div></div>
+      </div>
 
-      {popup === "notes" && <NotesPopup setPopup={setPopup} />}
+      <div className="frame" id="container" style={{ display: "none" }}>
+        <GlobalStyles />
+        <Character
+          moveScreenAction={moveScreenAction}
+          position={position}
+          setPosition={setPosition}
+          translateScreen={translateScreen}
+          screenInfo={screens[currentScreen]}
+          reactiveElements={[
+            headerRefs?.current?.emailRef,
+            headerRefs?.current?.linkedInRef,
+          ]}
+          updateCollision={updateCollision}
+          collidedDOM={collidedDOM}
+          setFootprints={setFootprints}
+          canMove={!switchingScreens}
+          setJourneyScroll={setJourneyScroll}
+          journeyScroll={journeyScroll}
+          charWidth={charWidth}
+          charHeight={charHeight}
+          restartPage={restartPage}
+          isDark={isDark}
+          interrupt={interrupt}
+          setInterrupt={setInterrupt}
+          slowThreshold={slowThreshold}
+          stepCounter={stepCounter}
+          setStepCounter={setStepCounter}
+          popup={popup}
+        />
 
-      <div
-        className="background"
-        style={{
-          transform: `translateX(${
-            window.innerWidth > 1300 ? horizontalTranslation : 0
-          }px) translateY(${verticalTranslation}px)`,
-        }}
-      >
+        {popup === "notes" && <NotesPopup setPopup={setPopup} />}
+
         <div
-          className={`screen ${
-            currentScreen === "home"
-              ? ""
-              : currentScreen === "journey"
-              ? "top"
-              : currentScreen === "about"
-              ? "right"
-              : "left"
-          }`}
+          className="background"
+          style={{
+            transform: `translateX(${
+              window.innerWidth > 1300 ? horizontalTranslation : 0
+            }px) translateY(${verticalTranslation}px)`,
+          }}
         >
-          {currentScreen === "home"
-            ? footprints.map((fp, _) => (
-                <Footprint
-                  key={fp.key}
-                  position={{ x: fp.x, y: fp.y }}
-                  side={fp.side}
-                  facing={fp.facing}
-                />
-              ))
-            : null}
-          <LightDarkToggle setIsDark={setIsDark} collidedDOM={collidedDOM} />
+          <div
+            className={`screen ${
+              currentScreen === "home"
+                ? ""
+                : currentScreen === "journey"
+                ? "top"
+                : currentScreen === "about"
+                ? "right"
+                : "left"
+            }`}
+          >
+            {currentScreen === "home"
+              ? footprints.map((fp, _) => (
+                  <Footprint
+                    key={fp.key}
+                    position={{ x: fp.x, y: fp.y }}
+                    side={fp.side}
+                    facing={fp.facing}
+                  />
+                ))
+              : null}
+            <LightDarkToggle setIsDark={setIsDark} collidedDOM={collidedDOM} />
 
-          <div className="bordered-frame">
-            <Header
-              collidedDOM={collidedDOM}
-              subtitle={portfolioType.toUpperCase()}
-            />
-            <div className="content-container">
-              <Instructions stepsTaken={stepCounter} />
-              <Arrow
+            <div className="bordered-frame">
+              <Header
+                collidedDOM={collidedDOM}
+                subtitle={portfolioType.toUpperCase()}
+              />
+              <div className="content-container">
+                <Instructions stepsTaken={stepCounter} />
+                {/* <Arrow
                 title={"My Interests"}
                 align={"right"}
                 onClick={() => moveScreenAction("right")}
                 collidedDOM={collidedDOM}
-              />
-              <Arrow
-                title={"My Journey"}
-                align={"bottom"}
-                onClick={() => moveScreenAction("down")}
-                collidedDOM={collidedDOM}
-              />
-              <Arrow
+              /> */}
+                <Arrow
+                  title={"My Journey"}
+                  align={"bottom"}
+                  onClick={() => moveScreenAction("down")}
+                  collidedDOM={collidedDOM}
+                />
+                {/* <Arrow
                 title={"About Me"}
                 align={"left"}
                 onClick={() => moveScreenAction("left")}
                 collidedDOM={collidedDOM}
-              />
+              /> */}
+              </div>
             </div>
           </div>
-        </div>
-        <div
+          {/* <div
           className={`screen ${currentScreen === "interests" ? "" : "right"}`}
           id="interests-screen"
         >
@@ -301,32 +310,32 @@ const App = () => {
               moveScreenAction={moveScreenAction}
             />
           </div>
-        </div>
-        <div
-          className={`screen ${currentScreen === "journey" ? "" : "bottom"}`}
-        >
+        </div> */}
           <div
-            id="journey-screen"
-            className="bordered-frame"
-            style={{
-              margin: "0px",
-              padding: "71px",
-              overflowY: "scroll",
-              overflowX: "hidden",
-              // scrollBehavior: "smooth",
-            }}
+            className={`screen ${currentScreen === "journey" ? "" : "bottom"}`}
           >
-            <JourneyPage
-              collidedDOM={collidedDOM}
-              moveScreenAction={moveScreenAction}
-              type="software developer"
-              footprints={footprints}
-              currentScreen={currentScreen}
-              scroll={journeyScroll}
-            />
+            <div
+              id="journey-screen"
+              className="bordered-frame"
+              style={{
+                margin: "0px",
+                padding: "71px",
+                overflowY: "scroll",
+                overflowX: "hidden",
+                // scrollBehavior: "smooth",
+              }}
+            >
+              <JourneyPage
+                collidedDOM={collidedDOM}
+                moveScreenAction={moveScreenAction}
+                type="software developer"
+                footprints={footprints}
+                currentScreen={currentScreen}
+                scroll={journeyScroll}
+              />
+            </div>
           </div>
-        </div>
-        <div
+          {/* <div
           className={`screen ${currentScreen === "about" ? "" : "left"}`}
           id="about-screen"
         >
@@ -346,6 +355,7 @@ const App = () => {
               moveScreenAction={moveScreenAction}
             />
           </div>
+        </div> */}
         </div>
       </div>
     </div>
