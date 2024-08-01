@@ -4,7 +4,9 @@ export const load = () => {
   }, 2000);
 
   if (document.readyState === "complete") {
-    show();
+    setTimeout(() => {
+      show();
+    }, 1000);
   } else {
     window.addEventListener("load", () => {
       show();

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import "./App.css";
 import "./styles/loader.css";
 import Header from "./components/Header";
@@ -12,6 +12,7 @@ import Instructions from "./components/Instructions";
 import smoothscroll from "smoothscroll-polyfill";
 import NotesPopup from "./components/NotesPopup";
 import { load } from "./scripts/load";
+import { detectSwipe, Directions } from "./scripts/hooks/detectSwipe";
 
 smoothscroll.polyfill();
 
@@ -63,6 +64,13 @@ const App = () => {
   const [portfolioType, setPortfolioType] = useState("Full Stack Developer");
   const [popup, setPopup] = useState("");
   const [stepCounter, setStepCounter] = useState(0);
+  const [isSwiping, setIsSwiping] = useState(false);
+  const [swipeDelta, setSwipeDelta] = useState({
+    sX: 0,
+    sY: 0,
+    eX: 0,
+    eY: 0,
+  });
 
   useEffect(() => {
     load();
@@ -86,87 +94,101 @@ const App = () => {
     if (currentScreen === "home") {
       setInterrupt(true);
     } else if (currentScreen === "interests") {
-      moveScreenAction("left");
+      moveScreenAction(Directions.LEFT);
     } else if (currentScreen === "journey") {
-      moveScreenAction("up");
+      moveScreenAction(Directions.UP);
     } else if (currentScreen === "about") {
-      moveScreenAction("right");
+      moveScreenAction(Directions.RIGHT);
     }
 
     setJourneyScroll(0);
     document.getElementById("journey-screen").scrollTo(0, 0);
   };
 
-  const moveScreenAction = async (
-    direction: "left" | "right" | "up" | "down",
-    moveChar = true
-  ) => {
-    if (
-      !(window.innerWidth > 1300 && window.innerHeight > 700) &&
-      (direction === "left" || direction === "right")
-    )
-      return;
+  const moveScreenAction = useCallback(
+    async (direction: Directions, moveChar = true) => {
+      if (
+        !(window.innerWidth > 1300 && window.innerHeight > 700) &&
+        (direction === "left" || direction === "right")
+      )
+        return;
 
-    let newPosition;
-    let moved = false;
-    switch (direction) {
-      // TODO: Removed for now
-      // case "left":
-      //   newPosition = {
-      //     x: window.innerWidth - slowThreshold - charWidth - 1,
-      //     y: position.y,
-      //   };
-      //   if (currentScreen === "interests") {
-      //     setCurrentScreen("home");
-      //     moved = true;
-      //   } else if (currentScreen === "home") {
-      //     setCurrentScreen("about");
-      //     moved = true;
-      //   }
-      //   break;
-      // case "right":
-      //   newPosition = { x: slowThreshold + 1, y: position.y };
-      //   if (currentScreen === "home") {
-      //     setCurrentScreen("interests");
-      //     moved = true;
-      //   } else if (currentScreen === "about") {
-      //     setCurrentScreen("home");
-      //     moved = true;
-      //   }
-      //   break;
-      case "up":
-        newPosition = {
-          x: position.x,
-          y: window.innerHeight - slowThreshold - charHeight - 1,
-        };
-        if (currentScreen === "journey") {
-          setCurrentScreen("home");
-          moved = true;
-        }
-        break;
-      case "down":
-        newPosition = {
-          x: position.x,
-          y: slowThreshold + 1,
-        };
-        if (currentScreen === "home") {
-          setCurrentScreen("journey");
-          moved = true;
-        }
-        break;
-    }
+      let newPosition;
+      let moved = false;
+      switch (direction) {
+        case Directions.UP:
+          newPosition = {
+            x: position.x,
+            y: window.innerHeight - slowThreshold - charHeight - 1,
+          };
+          if (currentScreen === "journey") {
+            setCurrentScreen("home");
+            moved = true;
+          }
+          break;
+        case Directions.DOWN:
+          newPosition = {
+            x: position.x,
+            y: slowThreshold + 1,
+          };
+          if (currentScreen === "home") {
+            setCurrentScreen("journey");
+            moved = true;
+          }
+          break;
+        // TODO: Removed for now
+        // case "left":
+        //   newPosition = {
+        //     x: window.innerWidth - slowThreshold - charWidth - 1,
+        //     y: position.y,
+        //   };
+        //   if (currentScreen === "interests") {
+        //     setCurrentScreen("home");
+        //     moved = true;
+        //   } else if (currentScreen === "home") {
+        //     setCurrentScreen("about");
+        //     moved = true;
+        //   }
+        //   break;
+        // case "right":
+        //   newPosition = { x: slowThreshold + 1, y: position.y };
+        //   if (currentScreen === "home") {
+        //     setCurrentScreen("interests");
+        //     moved = true;
+        //   } else if (currentScreen === "about") {
+        //     setCurrentScreen("home");
+        //     moved = true;
+        //   }
+        //   break;
+      }
 
-    if (moved) {
-      setInterrupt(true);
-      setSwitchingScreens(true);
-      setTimeout(() => {
-        translateScreen(0, 0);
-        setSwitchingScreens(false);
-      }, 300);
-      if (moveChar) setPosition(newPosition);
-      setFootprints([]);
-    }
-  };
+      if (moved) {
+        setInterrupt(true);
+        setSwitchingScreens(true);
+        setTimeout(() => {
+          translateScreen(0, 0);
+          setSwitchingScreens(false);
+        }, 300);
+        if (moveChar) setPosition(newPosition);
+        setFootprints([]);
+      }
+    },
+    [currentScreen, position]
+  );
+
+  useEffect(() => {
+    const remover = detectSwipe({
+      swipeDelta,
+      setSwipeDelta,
+      isSwiping,
+      setIsSwiping,
+      moveScreenAction,
+    });
+
+    return () => {
+      remover();
+    };
+  }, [isSwiping, moveScreenAction, swipeDelta]);
 
   const translateScreen = (x, y) => {
     setHorizontalTranslation(x);
@@ -278,7 +300,7 @@ const App = () => {
                 <Arrow
                   title={"My Journey"}
                   align={"bottom"}
-                  onClick={() => moveScreenAction("down")}
+                  onClick={() => moveScreenAction(Directions.DOWN)}
                   collidedDOM={collidedDOM}
                 />
                 {/* <Arrow
