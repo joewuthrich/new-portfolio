@@ -48,10 +48,24 @@ const VideoComponent = ({ src }) => {
   }, []);
 
   return (
-    <video ref={videoRef} muted loop height="150" className={`interest-image`}>
-      <source src={src} type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+    <div className="interest-image-inner-container">
+      <div
+        className="la-timer interest-image-timer"
+        style={{ display: "block" }}
+      >
+        <div></div>
+      </div>
+      <video
+        ref={videoRef}
+        muted
+        loop
+        height="150"
+        className={`interest-image`}
+      >
+        <source src={src} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
   );
 };
 

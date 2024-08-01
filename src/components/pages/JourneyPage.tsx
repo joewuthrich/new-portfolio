@@ -40,13 +40,22 @@ const JourneyPage = ({
         src.includes(".mp4") ? (
           <VideoComponent src={process.env.PUBLIC_URL + src} />
         ) : (
-          <img
-            className={`interest-image`}
-            src={process.env.PUBLIC_URL + src}
-            alt=""
-            // width="150"
-            height="150"
-          />
+          <div className="interest-image-inner-container">
+            <div
+              className="la-timer interest-image-timer"
+              style={{ display: "block" }}
+            >
+              <div></div>
+            </div>
+            <img
+              className={`interest-image`}
+              src={process.env.PUBLIC_URL + src}
+              alt=""
+              // width="150"
+              height="150"
+              loading="lazy"
+            />
+          </div>
         )
       );
 
