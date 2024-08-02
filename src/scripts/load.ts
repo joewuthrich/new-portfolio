@@ -1,7 +1,7 @@
 export const load = () => {
   setTimeout(() => {
     show();
-  }, 2000);
+  }, 4000);
 
   if (document.readyState === "complete") {
     setTimeout(() => {
