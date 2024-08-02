@@ -346,7 +346,7 @@ const App = () => {
                 padding: "71px",
                 overflowY: "scroll",
                 overflowX: "hidden",
-                // scrollBehavior: "smooth",
+                display: "none",
               }}
             >
               <JourneyPage
