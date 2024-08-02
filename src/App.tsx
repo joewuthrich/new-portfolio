@@ -217,11 +217,13 @@ const App = () => {
 
   return (
     <div className="outer-frame">
-      <div className="la-timer" id="page-loader" style={{ display: "block" }}>
-        <div></div>
+      <div id="loader-container">
+        <div className="la-timer" id="page-loader" style={{ display: "block" }}>
+          <div></div>
+        </div>
       </div>
 
-      <div className="frame" id="container" style={{ display: "none" }}>
+      <div className="frame" id="container">
         <GlobalStyles />
         <Character
           moveScreenAction={moveScreenAction}

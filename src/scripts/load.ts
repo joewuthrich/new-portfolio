@@ -1,12 +1,12 @@
 export const load = () => {
   setTimeout(() => {
     show();
-  }, 4000);
+  }, 5000);
 
   if (document.readyState === "complete") {
-    setTimeout(() => {
+    window.addEventListener("load", () => {
       show();
-    }, 1000);
+    });
   } else {
     window.addEventListener("load", () => {
       show();
@@ -15,6 +15,5 @@ export const load = () => {
 };
 
 const show = () => {
-  document.getElementById("container").style.display = "";
-  document.getElementById("page-loader").style.display = "none";
+  document.getElementById("loader-container").style.display = "none";
 };
