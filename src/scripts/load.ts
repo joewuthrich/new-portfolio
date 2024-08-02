@@ -1,12 +1,10 @@
 export const load = () => {
   setTimeout(() => {
     show();
-  }, 5000);
+  }, 3000);
 
   if (document.readyState === "complete") {
-    window.addEventListener("load", () => {
-      show();
-    });
+    show();
   } else {
     window.addEventListener("load", () => {
       show();
